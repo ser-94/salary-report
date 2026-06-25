@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Звіт: Заборгованість за домовленістю ЗП — Олег / Ігор</title>
+<style>
+  :root {
+    --navy: #1a1f36;
+    --navy-light: #2d3452;
+    --red: #c0392b;
+    --red-bg: #fef2f2;
+    --red-border: #fecaca;
+    --green: #0e7a5e;
+    --green-bg: #ecfdf5;
+    --green-border: #a7f3d0;
+    --blue: #1e60a0;
+    --blue-bg: #eff6ff;
+    --amber: #92600e;
+    --amber-bg: #fffbeb;
+    --amber-border: #fde68a;
+    --bg: #f5f6fa;
+    --card: #ffffff;
+    --border: #dfe3ec;
+    --muted: #6b7280;
+    --text: #1f2937;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page-wrapper {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* ── Header ── */
+  .report-header {
+    text-align: center;
+    padding: 48px 32px;
+    background: var(--navy);
+    color: #fff;
+    border-radius: 16px;
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .report-header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .report-header .label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 16px;
+  }
+  .report-header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 8px;
+  }
+  .report-header .subtitle {
+    font-size: 15px;
+    color: rgba(255,255,255,0.65);
+    max-width: 540px;
+    margin: 0 auto;
+  }
+  .report-header .date-stamp {
+    display: inline-block;
+    margin-top: 20px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+    border: 1px solid rgba(255,255,255,0.15);
+    padding: 4px 14px;
+    border-radius: 20px;
+  }
+
+  /* ── Agreement box ── */
+  .agreement {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin-bottom: 28px;
+  }
+  .agreement h2 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .agreement h2::before {
+    content: '§';
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: var(--blue-bg);
+    color: var(--blue);
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 700;
+  }
+  .agreement p {
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+  .split-visual {
+    display: flex;
+    gap: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    height: 44px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .split-igor {
+    flex: 35;
+    background: var(--blue-bg);
+    color: var(--blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #bfdbfe;
+  }
+  .split-oleg {
+    flex: 65;
+    background: var(--green-bg);
+    color: var(--green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--green-border);
+  }
+  .formula-block {
+    margin-top: 14px;
+    padding: 12px 16px;
+    background: #f8f9fc;
+    border-radius: 8px;
+    font-size: 14px;
+    color: var(--navy);
+    font-family: 'SF Mono', 'Consolas', 'Monaco', monospace;
+    text-align: center;
+    letter-spacing: 0.3px;
+  }
+
+  /* ── Grand total stack ── */
+  .totals-stack {
+    margin-bottom: 32px;
+  }
+  .gross-total-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px 12px 0 0;
+    padding: 24px 32px;
+    text-align: center;
+  }
+  .gross-total-card .gt-label {
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .gross-total-card .gt-amount {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .correction-card {
+    background: var(--amber-bg);
+    border-left: 1px solid var(--amber-border);
+    border-right: 1px solid var(--amber-border);
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .correction-card .corr-text {
+    font-size: 13px;
+    color: var(--amber);
+    line-height: 1.5;
+  }
+  .correction-card .corr-amount {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--green);
+    white-space: nowrap;
+  }
+  .final-total-card {
+    background: var(--red);
+    color: #fff;
+    border-radius: 0 0 12px 12px;
+    padding: 28px 32px;
+    text-align: center;
+  }
+  .final-total-card .gt-label {
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.7;
+    margin-bottom: 6px;
+  }
+  .final-total-card .gt-amount {
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    line-height: 1.1;
+  }
+  .final-total-card .gt-note {
+    margin-top: 10px;
+    font-size: 13px;
+    opacity: 0.7;
+  }
+
+  /* ── Period sections ── */
+  .period-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+  .period-header {
+    padding: 20px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    user-select: none;
+  }
+  .period-header:hover { background: #fafbfd; }
+  .period-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--navy);
+  }
+  .period-title .year-badge {
+    display: inline-block;
+    background: var(--navy);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 10px;
+    border-radius: 4px;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+  .period-debt {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--red);
+    white-space: nowrap;
+  }
+  .period-body { padding: 20px 28px 24px; display: none; }
+  .period-section.open .period-body { display: block; }
+  .period-header .toggle-icon {
+    font-size: 18px;
+    color: var(--muted);
+    transition: transform 0.2s;
+    margin-left: 12px;
+    flex-shrink: 0;
+  }
+  .period-section.open .toggle-icon { transform: rotate(180deg); }
+
+  .calc-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+  .calc-table th {
+    text-align: left;
+    font-weight: 500;
+    color: var(--muted);
+    padding: 8px 0;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid var(--border);
+  }
+  .calc-table td {
+    padding: 10px 0;
+    border-bottom: 1px solid #f1f3f7;
+  }
+  .calc-table tr:last-child td { border-bottom: none; }
+  .calc-table .amount {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    font-weight: 500;
+  }
+  .calc-table .result-row td {
+    font-weight: 700;
+    border-top: 2px solid var(--navy);
+    border-bottom: none;
+    padding-top: 12px;
+  }
+  .calc-table .result-row .amount { color: var(--red); font-size: 16px; }
+  .calc-table .should-row .amount { color: var(--green); }
+  .calc-note {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 4px;
+    padding: 8px 12px;
+    background: #f8f9fc;
+    border-radius: 6px;
+    border-left: 3px solid var(--border);
+  }
+
+  .running-total {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 28px;
+    background: var(--red-bg);
+    border-top: 1px solid var(--red-border);
+    font-size: 13px;
+  }
+  .running-total .rt-label { color: #991b1b; font-weight: 500; }
+  .running-total .rt-value { color: var(--red); font-weight: 700; font-size: 15px; }
+
+  /* ── Summary table ── */
+  .summary-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px 28px 20px;
+    margin-bottom: 28px;
+  }
+  .summary-section h2 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+  .summary-table th {
+    text-align: left;
+    font-weight: 600;
+    color: var(--navy);
+    padding: 10px 12px;
+    border-bottom: 2px solid var(--navy);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .summary-table th:first-child { width: 40px; text-align: center; }
+  .summary-table th:last-child { text-align: right; }
+  .summary-table td {
+    padding: 12px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .summary-table td:first-child {
+    text-align: center;
+    font-weight: 700;
+    color: var(--red);
+  }
+  .summary-table td:last-child {
+    text-align: right;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+  .summary-table .sum-row td {
+    border-top: 2px solid var(--navy);
+    border-bottom: none;
+    font-weight: 700;
+    font-size: 15px;
+    padding-top: 14px;
+  }
+  .summary-table .sum-row td:last-child { color: var(--text); }
+  .summary-table .corr-row td {
+    color: var(--green);
+    border-bottom: none;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+  .summary-table .final-row td {
+    border-top: 3px double var(--red);
+    font-weight: 800;
+    font-size: 17px;
+    color: var(--red);
+    padding-top: 14px;
+  }
+
+  /* ── Timeline bars ── */
+  .timeline-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px 28px 20px;
+    margin-bottom: 28px;
+  }
+  .timeline-section h2 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 20px;
+  }
+  .timeline-bar-wrap { margin-bottom: 16px; }
+  .timeline-bar-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    margin-bottom: 4px;
+  }
+  .timeline-bar-label span:first-child { color: var(--muted); }
+  .timeline-bar-label span:last-child { font-weight: 600; color: var(--red); }
+  .timeline-bar-track {
+    height: 24px;
+    background: #f1f3f7;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .timeline-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #e74c3c, #c0392b);
+    border-radius: 6px;
+  }
+
+  /* ── Proposal ── */
+  .proposal {
+    background: var(--card);
+    border: 2px solid var(--navy);
+    border-radius: 12px;
+    padding: 32px;
+    margin-top: 32px;
+  }
+  .proposal h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 16px;
+  }
+  .proposal p {
+    font-size: 14px;
+    color: var(--text);
+    margin-bottom: 12px;
+    line-height: 1.7;
+  }
+  .proposal ol {
+    padding-left: 20px;
+    margin: 16px 0;
+  }
+  .proposal li {
+    font-size: 14px;
+    margin-bottom: 8px;
+    line-height: 1.6;
+  }
+  .proposal .signature-area {
+    margin-top: 32px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .signature-block {
+    border-top: 2px solid var(--border);
+    padding-top: 12px;
+  }
+  .signature-block .role {
+    font-size: 12px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .signature-block .name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-top: 4px;
+  }
+
+  .footer-note {
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 600px) {
+    .page-wrapper { padding: 16px 12px 60px; }
+    .report-header { padding: 32px 20px; border-radius: 12px; }
+    .report-header h1 { font-size: 22px; }
+    .final-total-card .gt-amount { font-size: 30px; }
+    .gross-total-card .gt-amount { font-size: 22px; }
+    .period-header { padding: 16px 18px; flex-wrap: wrap; gap: 8px; }
+    .period-body { padding: 16px 18px 20px; }
+    .running-total { padding: 10px 18px; }
+    .agreement { padding: 20px; }
+    .proposal { padding: 24px 20px; }
+    .proposal .signature-area { grid-template-columns: 1fr; gap: 16px; }
+    .timeline-section, .summary-section { padding: 20px 18px; }
+    .correction-card { flex-direction: column; text-align: center; }
+    .summary-table { font-size: 13px; }
+    .summary-table .final-row td { font-size: 15px; }
+    .calc-table { font-size: 13px; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .page-wrapper { padding: 0; max-width: 100%; }
+    .report-header { border-radius: 0; break-after: avoid; }
+    .period-body { display: block !important; }
+    .toggle-icon { display: none; }
+    .period-section { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-wrapper">
+
+  <!-- HEADER -->
+  <div class="report-header">
+    <div class="label">Фінансовий звіт</div>
+    <h1>Розрахунок боргу компанії<br>перед засновником</h1>
+    <div class="subtitle">Накопичена різниця між фактичними виплатами та домовленістю про розподіл чистого доходу</div>
+    <div class="date-stamp">Станом на квітень 2026&nbsp;р.</div>
+  </div>
+
+  <!-- AGREEMENT -->
+  <div class="agreement">
+    <h2>Домовленість про розподіл</h2>
+    <p>Між Олегом та Ігорем діє домовленість щодо розподілу чистого доходу підприємства на заробітну плату:</p>
+    <div class="split-visual">
+      <div class="split-igor">Ігор — 35%</div>
+      <div class="split-oleg">Олег — 65%</div>
+    </div>
+    <div class="formula-block">
+      Борг = (Сума, взята Ігорем × 65) ÷ 35 − Сума, виплачена Олегу
+    </div>
+    <p style="margin-top:14px; margin-bottom:0;">Фактичні виплати систематично відхиляються від цієї пропорції не на користь Олега. Нижче — детальний розрахунок по кожному періоду з посиланням на дані бухгалтерського обліку (грошовий потік, 1С).</p>
+  </div>
+
+  <!-- GRAND TOTAL STACK -->
+  <div class="totals-stack">
+    <div class="gross-total-card">
+      <div class="gt-label">Валовий борг перед Олегом (сума всіх періодів)</div>
+      <div class="gt-amount">2 536 721,00 грн</div>
+    </div>
+    <div class="correction-card">
+      <div class="corr-text">
+        <strong>Коригування на 2021–2022&nbsp;рр.:</strong> Олег зараховує 400&nbsp;000&nbsp;грн на користь Ігоря за його заяву про два роки без зарплати — без перевірки архівних документів, на довірі.
+      </div>
+      <div class="corr-amount">−400 000 грн</div>
+    </div>
+    <div class="final-total-card">
+      <div class="gt-label">Фінальна сума заборгованості Олегу</div>
+      <div class="gt-amount">2 136 721 грн</div>
+      <div class="gt-note">Період: травень 2022 — квітень 2026 (з урахуванням коригування)</div>
+    </div>
+  </div>
+
+  <!-- SUMMARY TABLE -->
+  <div class="summary-section">
+    <h2>Зведення загального балансу</h2>
+    <table class="summary-table">
+      <thead>
+        <tr><th>№</th><th>Період</th><th>Борг за період</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>2022–2024 роки</td><td>1 315 107,00 грн</td></tr>
+        <tr><td>2</td><td>Січень — жовтень 2025 року</td><td>882 904,00 грн</td></tr>
+        <tr><td>3</td><td>Листопад — грудень 2025 року</td><td>126 475,71 грн</td></tr>
+        <tr><td>4</td><td>Січень — квітень 2026 року</td><td>212 234,29 грн</td></tr>
+        <tr class="sum-row"><td></td><td>Валовий борг</td><td>2 536 721,00 грн</td></tr>
+        <tr class="corr-row"><td></td><td>Коригування (2021–2022)</td><td>−400 000,00 грн</td></tr>
+        <tr class="final-row"><td></td><td>Фінальна сума</td><td>2 136 721,00 грн</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- TIMELINE VISUALIZATION -->
+  <div class="timeline-section">
+    <h2>Динаміка наростання боргу</h2>
+
+    <div class="timeline-bar-wrap">
+      <div class="timeline-bar-label">
+        <span>2022 (трав.–груд.)</span><span>271 126 грн</span>
+      </div>
+      <div class="timeline-bar-track">
+        <div class="timeline-bar-fill" style="width: 10.7%"></div>
+      </div>
+    </div>
+
+    <div class="timeline-bar-wrap">
+      <div class="timeline-bar-label">
+        <span>Σ 2022 + 2023</span><span>704 981 грн</span>
+      </div>
+      <div class="timeline-bar-track">
+        <div class="timeline-bar-fill" style="width: 27.8%"></div>
+      </div>
+    </div>
+
+    <div class="timeline-bar-wrap">
+      <div class="timeline-bar-label">
+        <span>Σ до кінця 2024</span><span>1 315 107 грн</span>
+      </div>
+      <div class="timeline-bar-track">
+        <div class="timeline-bar-fill" style="width: 51.8%"></div>
+      </div>
+    </div>
+
+    <div class="timeline-bar-wrap">
+      <div class="timeline-bar-label">
+        <span>Σ до кінця жовтня 2025</span><span>2 198 011 грн</span>
+      </div>
+      <div class="timeline-bar-track">
+        <div class="timeline-bar-fill" style="width: 86.6%"></div>
+      </div>
+    </div>
+
+    <div class="timeline-bar-wrap">
+      <div class="timeline-bar-label">
+        <span>Σ до кінця грудня 2025</span><span>2 324 487 грн</span>
+      </div>
+      <div class="timeline-bar-track">
+        <div class="timeline-bar-fill" style="width: 91.6%"></div>
+      </div>
+    </div>
+
+    <div class="timeline-bar-wrap">
+      <div class="timeline-bar-label">
+        <span>Σ до кінця квітня 2026 (валовий)</span><span>2 536 721 грн</span>
+      </div>
+      <div class="timeline-bar-track">
+        <div class="timeline-bar-fill" style="width: 100%"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════ -->
+  <!--          PERIOD-BY-PERIOD               -->
+  <!-- ════════════════════════════════════════ -->
+
+  <!-- 2022 -->
+  <div class="period-section open">
+    <div class="period-header" onclick="this.parentElement.classList.toggle('open')">
+      <div class="period-title"><span class="year-badge">2022</span> Травень — Грудень</div>
+      <div style="display:flex; align-items:center;">
+        <div class="period-debt">+271 126 грн</div>
+        <div class="toggle-icon">▾</div>
+      </div>
+    </div>
+    <div class="period-body">
+      <table class="calc-table">
+        <thead><tr><th>Показник</th><th class="amount">Сума (грн)</th></tr></thead>
+        <tbody>
+          <tr><td>Ігор отримав (факт)</td><td class="amount">385 632,83</td></tr>
+          <tr><td>Олег отримав (факт): 466 224 + 98 825 (вилучення власн.)</td><td class="amount">565 049,00</td></tr>
+          <tr class="should-row"><td>Олег мав отримати (385 632,83 × 65 ÷ 35)</td><td class="amount">716 175,26</td></tr>
+          <tr><td>Недоплата</td><td class="amount" style="color:var(--red)">151 126,26</td></tr>
+          <tr><td>Додаткова корекція</td><td class="amount" style="color:var(--red)">+120 000,00</td></tr>
+          <tr class="result-row"><td>Борг за період</td><td class="amount">271 126,00</td></tr>
+        </tbody>
+      </table>
+      <div class="calc-note">Джерело: грошовий потік за 2022 рік (1С). Виплата зарплати: OleG — 466 224; Ігор — 385 632,83. Вилучення власником — 98 825.</div>
+    </div>
+    <div class="running-total">
+      <span class="rt-label">Наростаючий підсумок</span>
+      <span class="rt-value">271 126 грн</span>
+    </div>
+  </div>
+
+  <!-- 2023 -->
+  <div class="period-section">
+    <div class="period-header" onclick="this.parentElement.classList.toggle('open')">
+      <div class="period-title"><span class="year-badge">2023</span> Січень — Грудень</div>
+      <div style="display:flex; align-items:center;">
+        <div class="period-debt">+433 855 грн</div>
+        <div class="toggle-icon">▾</div>
+      </div>
+    </div>
+    <div class="period-body">
+      <table class="calc-table">
+        <thead><tr><th>Показник</th><th class="amount">Сума (грн)</th></tr></thead>
+        <tbody>
+          <tr><td>Ігор отримав (факт)</td><td class="amount">520 265,00</td></tr>
+          <tr><td>Олег отримав (факт)</td><td class="amount">532 351,00</td></tr>
+          <tr class="should-row"><td>Олег мав отримати (520 265 × 65 ÷ 35)</td><td class="amount">966 206,43</td></tr>
+          <tr class="result-row"><td>Борг за період</td><td class="amount">433 855,42</td></tr>
+        </tbody>
+      </table>
+      <div class="calc-note">Джерело: помісячна відомість ЗП за 2023 р. Олег — 532 351; Ігор — 520 265.</div>
+    </div>
+    <div class="running-total">
+      <span class="rt-label">Наростаючий підсумок</span>
+      <span class="rt-value">704 981 грн</span>
+    </div>
+  </div>
+
+  <!-- 2024 Q1 -->
+  <div class="period-section">
+    <div class="period-header" onclick="this.parentElement.classList.toggle('open')">
+      <div class="period-title"><span class="year-badge">2024</span> I квартал (січ.–бер.)</div>
+      <div style="display:flex; align-items:center;">
+        <div class="period-debt">+96 375 грн</div>
+        <div class="toggle-icon">▾</div>
+      </div>
+    </div>
+    <div class="period-body">
+      <table class="calc-table">
+        <thead><tr><th>Показник</th><th class="amount">Сума (грн)</th></tr></thead>
+        <tbody>
+          <tr><td>Ігор отримав (факт)</td><td class="amount">107 357,62</td></tr>
+          <tr><td>Олег отримав (факт)</td><td class="amount">103 002,00</td></tr>
+          <tr class="should-row"><td>Олег мав отримати (107 357,62 × 65 ÷ 35)</td><td class="amount">199 377,28</td></tr>
+          <tr class="result-row"><td>Борг за період</td><td class="amount">96 375,28</td></tr>
+        </tbody>
+      </table>
+      <div class="calc-note">Джерело: грошовий потік за 01.01.2024 – 31.03.2024 (1С).</div>
+    </div>
+    <div class="running-total">
+      <span class="rt-label">Наростаючий підсумок</span>
+      <span class="rt-value">801 357 грн</span>
+    </div>
+  </div>
+
+  <!-- 2024 Q2-Q3 -->
+  <div class="period-section">
+    <div class="period-header" onclick="this.parentElement.classList.toggle('open')">
+      <div class="period-title"><span class="year-badge">2024</span> II–III квартал (квіт.–верес.)</div>
+      <div style="display:flex; align-items:center;">
+        <div class="period-debt">+311 538 грн</div>
+        <div class="toggle-icon">▾</div>
+      </div>
+    </div>
+    <div class="period-body">
+      <table class="calc-table">
+        <thead><tr><th>Показник</th><th class="amount">Сума (грн)</th></tr></thead>
+        <tbody>
+          <tr><td>Ігор отримав (факт)</td><td class="amount">347 996,00</td></tr>
+          <tr><td>Олег отримав (факт)</td><td class="amount">334 740,00</td></tr>
+          <tr class="should-row"><td>Олег мав отримати (347 996 × 65 ÷ 35)</td><td class="amount">646 278,29</td></tr>
+          <tr class="result-row"><td>Борг за період</td><td class="amount">311 538,00</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="running-total">
+      <span class="rt-label">Наростаючий підсумок</span>
+      <span class="rt-value">1 112 894 грн</span>
+    </div>
+  </div>
+
+  <!-- 2024 correction -->
+  <div class="period-section">
+    <div class="period-header" onclick="this.parentElement.classList.toggle('open')">
+      <div class="period-title"><span class="year-badge">2024</span> Корекція: вилучення / внесок власника</div>
+      <div style="display:flex; align-items:center;">
+        <div class="period-debt">+4 120 грн</div>
+        <div class="toggle-icon">▾</div>
+      </div>
+    </div>
+    <div class="period-body">
+      <table class="calc-table">
+        <thead><tr><th>Показник</th><th class="amount">Сума (грн)</th></tr></thead>
+        <tbody>
+          <tr><td>Вилучення власником (OleG)</td><td class="amount">100 000,00</td></tr>
+          <tr><td>Внесок від власника (OleG)</td><td class="amount">104 120,00</td></tr>
+          <tr class="result-row"><td>Різниця (борг)</td><td class="amount">4 120,00</td></tr>
+        </tbody>
+      </table>
+      <div class="calc-note">Внесок перевищує вилучення на 4 120 грн — ця різниця збільшує заборгованість.</div>
+    </div>
+    <div class="running-total">
+      <span class="rt-label">Наростаючий підсумок</span>
+      <span class="rt-value">1 117 014 грн</span>
+    </div>
+  </div>
+
+  <!-- 2024 Q4 -->
+  <div class="period-section">
+    <div class="period-header" onclick="this.parentElement.classList.toggle('open')">
+      <div class="period-title"><span class="year-badge">2024</span> IV квартал (жовт.–груд.)</div>
+      <div style="display:flex; align-items:center;">
+        <div class="period-debt">+198 093 грн</div>
+        <div class="toggle-icon">▾</div>
+      </div>
+    </div>
+    <div class="period-body">
+      <table class="calc-table">
+        <thead><tr><th>Показник</th><th class="amount">Сума (грн)</th></tr></thead>
+        <tbody>
+          <tr><td>Ігор отримав (факт)</td><td class="amount">263 977,00</td></tr>
+          <tr><td>Олег отримав (факт)</td><td class="amount">292 150,00</td></tr>
+          <tr class="should-row"><td>Олег мав отримати (263 977 × 65 ÷ 35)</td><td class="amount">490 243,00</td></tr>
+          <tr class="result-row"><td>Борг за період</td><td class="amount">198 093,00</td></tr>
+        </tbody>
+      </table>
+      <div class="calc-note">Джерело: грошовий потік за 01.10.2024 – 31.12.2024 (1С).</div>
+    </div>
+    <div class="running-total">
+      <span class="rt-label">Наростаючий підсумок (= пункт №1 зведення)</span>
+      <span class="rt-value">1 315 107 грн</span>
+    </div>
+  </div>
+
+  <!-- 2025 Jan-Oct -->
+  <div class="period-section">
+    <div class="period-header" onclick="this.parentElement.classList.toggle('open')">
+      <div class="period-title"><span class="year-badge">2025</span> Січень — Жовтень</div>
+      <div style="display:flex; align-items:center;">
+        <div class="period-debt">+882 904 грн</div>
+        <div class="toggle-icon">▾</div>
+      </div>
+    </div>
+    <div class="period-body">
+      <table class="calc-table">
+        <thead><tr><th>Показник</th><th class="amount">Сума (грн)</th></tr></thead>
+        <tbody>
+          <tr><td>Ігор отримав (факт)</td><td class="amount">622 709,00</td></tr>
+          <tr><td>Олег отримав (факт)</td><td class="amount">357 555,00</td></tr>
+          <tr class="should-row"><td>Олег мав отримати (622 709 × 65 ÷ 35)</td><td class="amount">1 156 459,00</td></tr>
+          <tr><td>Недоплата</td><td class="amount" style="color:var(--red)">798 904,00</td></tr>
+          <tr><td>Внесок від власника OleG (додаткові власні кошти)</td><td class="amount" style="color:var(--red)">+84 000,00</td></tr>
+          <tr class="result-row"><td>Борг за період</td><td class="amount">882 904,00</td></tr>
+        </tbody>
+      </table>
+      <div class="calc-note">Джерело: грошовий потік за 01.01.2025 – 31.10.2025 (1С). Звіт складено 26.11.2025.</div>
+    </div>
+    <div class="running-total">
+      <span class="rt-label">Наростаючий підсумок (= пункти №1+2)</span>
+      <span class="rt-value">2 198 011 грн</span>
+    </div>
+  </div>
+
+  <!-- 2025 Nov-Dec -->
+  <div class="period-section">
+    <div class="period-header" onclick="this.parentElement.classList.toggle('open')">
+      <div class="period-title"><span class="year-badge">2025</span> Листопад — Грудень</div>
+      <div style="display:flex; align-items:center;">
+        <div class="period-debt">+126 476 грн</div>
+        <div class="toggle-icon">▾</div>
+      </div>
+    </div>
+    <div class="period-body">
+      <table class="calc-table">
+        <thead><tr><th>Показник</th><th class="amount">Сума (грн)</th></tr></thead>
+        <tbody>
+          <tr><td>Ігор отримав (факт)</td><td class="amount">142 410,00</td></tr>
+          <tr><td>Олег отримав (факт)</td><td class="amount">138 000,00</td></tr>
+          <tr class="should-row"><td>Олег мав отримати (142 410 × 65 ÷ 35)</td><td class="amount">264 475,71</td></tr>
+          <tr class="result-row"><td>Борг за період</td><td class="amount">126 475,71</td></tr>
+        </tbody>
+      </table>
+      <div class="calc-note">Джерело: грошовий потік за 01.11.2025 – 31.12.2025 (1С).</div>
+    </div>
+    <div class="running-total">
+      <span class="rt-label">Наростаючий підсумок (= пункти №1+2+3)</span>
+      <span class="rt-value">2 324 487 грн</span>
+    </div>
+  </div>
+
+  <!-- 2026 Jan-Apr -->
+  <div class="period-section">
+    <div class="period-header" onclick="this.parentElement.classList.toggle('open')">
+      <div class="period-title"><span class="year-badge">2026</span> Січень — Квітень</div>
+      <div style="display:flex; align-items:center;">
+        <div class="period-debt">+212 234 грн</div>
+        <div class="toggle-icon">▾</div>
+      </div>
+    </div>
+    <div class="period-body">
+      <table class="calc-table">
+        <thead><tr><th>Показник</th><th class="amount">Сума (грн)</th></tr></thead>
+        <tbody>
+          <tr><td>Ігор отримав (факт)</td><td class="amount">168 320,00</td></tr>
+          <tr><td>Олег отримав (факт)</td><td class="amount">100 360,00</td></tr>
+          <tr class="should-row"><td>Олег мав отримати (168 320 × 65 ÷ 35)</td><td class="amount">312 594,29</td></tr>
+          <tr class="result-row"><td>Борг за період</td><td class="amount">212 234,29</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="running-total">
+      <span class="rt-label">Валовий підсумок (= пункти №1+2+3+4)</span>
+      <span class="rt-value">2 536 721 грн</span>
+    </div>
+  </div>
+
+  <!-- CORRECTION standalone -->
+  <div class="period-section" style="border-color: var(--amber-border);">
+    <div class="period-header" onclick="this.parentElement.classList.toggle('open')" style="background: var(--amber-bg);">
+      <div class="period-title" style="color: var(--amber);">Коригування: зарахування 2021–2022 рр. на користь Ігоря</div>
+      <div style="display:flex; align-items:center;">
+        <div class="period-debt" style="color: var(--green);">−400 000 грн</div>
+        <div class="toggle-icon">▾</div>
+      </div>
+    </div>
+    <div class="period-body">
+      <p style="font-size:14px; line-height:1.7; color: var(--text);">
+        Ігор заявив, що протягом 2020–2021 років він не отримував зарплату, і за його оцінкою сума становить близько 400&nbsp;000&nbsp;грн. Олег прийняв цю заяву на довірі, без перевірки архівних бухгалтерських документів за ті роки, і зараховує цю суму на користь Ігоря як добровільне коригування.
+      </p>
+    </div>
+    <div class="running-total" style="background: var(--green-bg); border-color: var(--green-border);">
+      <span class="rt-label" style="color: var(--green);">Фінальна заборгованість</span>
+      <span class="rt-value" style="color: var(--red); font-size: 18px;">2 136 721 грн</span>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════ -->
+  <!--               PROPOSAL                  -->
+  <!-- ════════════════════════════════════════ -->
+  <div class="proposal">
+    <h2>Пропозиція щодо врегулювання</h2>
+    <p>Шановний Ігоре,</p>
+    <p>
+      Вище наведено детальний розрахунок заборгованості, що утворилася через систематичне відхилення фактичних виплат від нашої домовленості (35% / 65% від чистого доходу). Навіть із коригуванням 400&nbsp;000&nbsp;грн на твою користь — яке я зробив на довірі — загальна сума становить <strong>2&nbsp;136&nbsp;721&nbsp;грн</strong>.
+    </p>
+    <p>
+      Де-факто мій бізнес перетворився на безвідсоткову кредитну лінію. Цифри на папері — це одне, але ці гроші потрібно матеріалізувати. Я вважаю, що настав час зупинити подальше нарощування і знайти конкретне рішення.
+    </p>
+    <p>Пропоную обговорити:</p>
+    <ol>
+      <li><strong>Фіксація суми боргу</strong> — узгодити остаточну цифру на підставі цього звіту та бухгалтерських даних.</li>
+      <li><strong>Графік погашення</strong> — домовитися про реалістичний графік виплат із конкретними сумами та строками.</li>
+      <li><strong>Дотримання домовленості надалі</strong> — забезпечити, щоб починаючи з поточного місяця розподіл відповідав 35/65.</li>
+    </ol>
+    <p>Як ти бачиш вирішення цього питання? Чи маєш альтернативні пропозиції?</p>
+    <p>Очікую на відповідь.</p>
+
+    <div class="signature-area">
+      <div class="signature-block">
+        <div class="role">Підготував</div>
+        <div class="name">Олег</div>
+      </div>
+      <div class="signature-block">
+        <div class="role">Ознайомлений</div>
+        <div class="name">Ігор</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-note">
+    Цей звіт складено на підставі даних бухгалтерського обліку (1С) та власних записів.<br>
+    Усі розрахунки відкриті для перевірки та звірки з первинними документами.
+  </div>
+
+</div>
+
+<script>
+window.addEventListener('beforeprint', () => {
+  document.querySelectorAll('.period-section').forEach(el => el.classList.add('open'));
+});
+</script>
+
+</body>
+</html>
