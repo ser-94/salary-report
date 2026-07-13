@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="uk" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arc Search Cheat Sheet by Gemini</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        arc: {
+                            dark: '#0e0f12',
+                            card: '#16181d',
+                            border: '#2a2d35',
+                            neonOrange: '#ff5c00',
+                            neonPink: '#ff007a',
+                            neonPurple: '#9d00ff',
+                            neonCyan: '#00f0ff'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0e0f12;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(255, 92, 0, 0.08) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(157, 0, 255, 0.08) 0px, transparent 50%);
+        }
+        .glow-hover:hover {
+            box-shadow: 0 0 20px rgba(157, 0, 255, 0.15);
+            border-color: rgba(157, 0, 255, 0.3);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #0e0f12;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #2a2d35;
+            border-radius: 9999px;
+        }
+    </style>
+</head>
+<body class="text-gray-100 min-h-screen flex flex-col custom-scrollbar">
+
+    <div class="flex-grow flex flex-col lg:flex-row max-w-7xl w-full mx-auto p-4 md:p-6 lg:p-8 gap-6">
+        
+        <!-- Sidebar Navigation -->
+        <aside class="w-full lg:w-72 shrink-0 flex flex-col gap-4">
+            <!-- Brand Logotype resembling Arc's style -->
+            <div class="bg-arc-card border border-arc-border p-6 rounded-2xl flex flex-col items-center text-center gap-3 relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-arc-neonOrange via-arc-neonPink to-arc-neonPurple"></div>
+                <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-arc-neonOrange to-arc-neonPurple flex items-center justify-center text-white text-3xl font-extrabold shadow-lg shadow-arc-neonPurple/20">
+                    A
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold tracking-tight">Arc Search</h1>
+                    <p class="text-xs text-gray-400 mt-1">Шпаргалка користувача • ser</p>
+                </div>
+                <span class="px-2.5 py-0.5 bg-green-500/10 border border-green-500/20 text-green-400 text-xs rounded-full font-medium">Активно</span>
+            </div>
+
+            <!-- Quick Navigation Menu -->
+            <div class="bg-arc-card border border-arc-border p-4 rounded-2xl flex flex-col gap-1">
+                <p class="text-xs font-semibold text-gray-500 px-3 mb-2 uppercase tracking-wider">Навігація</p>
+                <button onclick="scrollToSection('archive-sec')" class="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/5 text-gray-300 hover:text-white text-sm font-medium transition text-left">
+                    <i data-lucide="archive" class="w-4 h-4 text-arc-neonOrange"></i>
+                    Архів вкладок (Archive)
+                </button>
+                <button onclick="scrollToSection('site-sec')" class="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/5 text-gray-300 hover:text-white text-sm font-medium transition text-left">
+                    <i data-lucide="sliders" class="w-4 h-4 text-arc-neonPink"></i>
+                    Налаштування сайтів
+                </button>
+                <button onclick="scrollToSection('system-sec')" class="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/5 text-gray-300 hover:text-white text-sm font-medium transition text-left">
+                    <i data-lucide="settings" class="w-4 h-4 text-arc-neonPurple"></i>
+                    Налаштування системи
+                </button>
+                <button onclick="scrollToSection('tips-sec')" class="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/5 text-gray-300 hover:text-white text-sm font-medium transition text-left">
+                    <i data-lucide="sparkles" class="w-4 h-4 text-arc-neonCyan"></i>
+                    Фірмові фічі від Джемі
+                </button>
+            </div>
+
+            <!-- Utility Buttons -->
+            <div class="bg-arc-card border border-arc-border p-4 rounded-2xl flex flex-col gap-2">
+                <button onclick="copyMarkdown()" class="flex items-center justify-center gap-2 w-full bg-gradient-to-r from-arc-neonOrange to-arc-neonPink text-white py-2.5 px-4 rounded-xl font-semibold text-sm hover:opacity-90 active:scale-[0.98] transition">
+                    <i data-lucide="copy" class="w-4 h-4"></i>
+                    Скопіювати Markdown для GitHub
+                </button>
+                <div id="copy-toast" class="hidden text-xs text-center text-green-400 font-medium py-1 animate-pulse">
+                    ✓ Текст скопійовано! Встав його в README.md
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-grow flex flex-col gap-6">
+            <!-- Hero banner card -->
+            <div class="bg-gradient-to-r from-arc-card to-arc-card/40 border border-arc-border p-6 md:p-8 rounded-3xl relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                <div class="space-y-2">
+                    <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">Документація та Шпаргалка</h2>
+                    <p class="text-sm text-gray-400 max-w-xl">Усі необхідні конфігурації, налаштування та корисні прийоми використання мобільного браузера Arc Search на iPhone 13 Pro в одному місці.</p>
+                </div>
+                <div class="flex items-center gap-2 px-3 py-1.5 bg-white/5 border border-white/10 rounded-xl text-xs text-gray-300">
+                    <i data-lucide="info" class="w-4 h-4 text-arc-neonCyan"></i>
+                    Версія Arc Search: 1.46.1
+                </div>
+            </div>
+
+            <!-- Section 1: Archive -->
+            <section id="archive-sec" class="bg-arc-card border border-arc-border rounded-2xl p-6 glow-hover transition duration-300">
+                <div class="flex items-center gap-3 border-b border-arc-border pb-4 mb-4">
+                    <div class="p-2 bg-arc-neonOrange/10 border border-arc-neonOrange/20 rounded-xl">
+                        <i data-lucide="archive" class="w-6 h-6 text-arc-neonOrange"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold">1. Архів вкладок (Archive)</h3>
+                        <p class="text-xs text-gray-400">Робота з історією та неактивними вкладками</p>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <p class="text-sm text-gray-300 leading-relaxed">
+                        На відміну від захаращених вкладок у Safari, Arc автоматично архівує сторінки, які ти давно не відкривав. Вони не зникають, а переміщуються у розділ <span class="text-arc-neonOrange font-medium">Archive</span>.
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                        <div class="bg-black/25 p-4 rounded-xl border border-arc-border">
+                            <h4 class="text-sm font-semibold text-white mb-1 flex items-center gap-2">
+                                <i data-lucide="search" class="w-4 h-4 text-arc-neonOrange"></i>
+                                Пошук по архіву
+                            </h4>
+                            <p class="text-xs text-gray-400">Поле пошуку <strong class="text-gray-300">"Search"</strong> вгорі дозволяє миттєво відшукати будь-яку відкриту колись сторінку.</p>
+                        </div>
+                        <div class="bg-black/25 p-4 rounded-xl border border-arc-border">
+                            <h4 class="text-sm font-semibold text-white mb-1 flex items-center gap-2">
+                                <i data-lucide="clock" class="w-4 h-4 text-arc-neonOrange"></i>
+                                Автоочищення
+                            </h4>
+                            <p class="text-xs text-gray-400">Вкладки закриваються автоматично за таймером (налаштовується в параметрах системи) та групуються за часом.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 2: Default Site Settings -->
+            <section id="site-sec" class="bg-arc-card border border-arc-border rounded-2xl p-6 glow-hover transition duration-300">
+                <div class="flex items-center gap-3 border-b border-arc-border pb-4 mb-4">
+                    <div class="p-2 bg-arc-neonPink/10 border border-arc-neonPink/20 rounded-xl">
+                        <i data-lucide="sliders" class="w-6 h-6 text-arc-neonPink"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold">2. Базові налаштування сайтів (Default Site Settings)</h3>
+                        <p class="text-xs text-gray-400">Блокування сміття та адаптація інтерфейсу</p>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <div class="space-y-3">
+                        <!-- Feature Row 1 -->
+                        <div class="flex items-start gap-3 bg-black/10 p-3 rounded-xl border border-arc-border/50">
+                            <div class="w-2 h-2 rounded-full bg-arc-neonPink mt-1.5 shrink-0"></div>
+                            <div>
+                                <span class="text-sm font-semibold text-white">Block Ads / Trackers</span>
+                                <p class="text-xs text-gray-400 mt-0.5">Вбудований щит блокує банери та стеження. Сторінки вантажаться до 3-х разів швидше.</p>
+                            </div>
+                        </div>
+                        <!-- Feature Row 2 -->
+                        <div class="flex items-start gap-3 bg-black/10 p-3 rounded-xl border border-arc-border/50">
+                            <div class="w-2 h-2 rounded-full bg-arc-neonPink mt-1.5 shrink-0"></div>
+                            <div>
+                                <span class="text-sm font-semibold text-white">Block Cookie Banners</span>
+                                <p class="text-xs text-gray-400 mt-0.5">Автоматично приховує занудні спливаючі вікна з проханням прийняти Cookies.</p>
+                            </div>
+                        </div>
+                        <!-- Feature Row 3 -->
+                        <div class="flex items-start gap-3 bg-black/10 p-3 rounded-xl border border-arc-border/50">
+                            <div class="w-2 h-2 rounded-full bg-arc-neonPink mt-1.5 shrink-0"></div>
+                            <div>
+                                <span class="text-sm font-semibold text-white">Pinch to Summarize (Революційна AI фіча)</span>
+                                <p class="text-xs text-gray-400 mt-0.5">Зроби "щіпку" двома пальцями (zoom-out) на будь-якій статті, щоб штучний інтелект згенерував короткий зміст за секунди.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 3: System Settings -->
+            <section id="system-sec" class="bg-arc-card border border-arc-border rounded-2xl p-6 glow-hover transition duration-300">
+                <div class="flex items-center gap-3 border-b border-arc-border pb-4 mb-4">
+                    <div class="p-2 bg-arc-neonPurple/10 border border-arc-neonPurple/20 rounded-xl">
+                        <i data-lucide="settings" class="w-6 h-6 text-arc-neonPurple"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold">3. Системні налаштування (System Settings)</h3>
+                        <p class="text-xs text-gray-400">Глибока інтеграція з системою iOS</p>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-black/25 p-4 rounded-xl border border-arc-border space-y-1">
+                            <span class="text-xs text-arc-neonPurple font-bold uppercase tracking-wider">Raise to Call Arc</span>
+                            <p class="text-xs text-gray-400">Піднеси iPhone до вуха, щоб миттєво активувати розумний голосовий пошук.</p>
+                        </div>
+                        <div class="bg-black/25 p-4 rounded-xl border border-arc-border space-y-1">
+                            <span class="text-xs text-arc-neonPurple font-bold uppercase tracking-wider">Auto-Open Keyboard</span>
+                            <p class="text-xs text-gray-400">Під час кожного відкриття додатка клавіатура автоматично вистрибує — пиши без зайвих кліків.</p>
+                        </div>
+                        <div class="bg-black/25 p-4 rounded-xl border border-arc-border space-y-1">
+                            <span class="text-xs text-arc-neonPurple font-bold uppercase tracking-wider">Archive Inactive Tabs</span>
+                            <p class="text-xs text-gray-400">Оптимально налаштувати термін збереження неактивних вкладок: <strong class="text-white">After 1 day / After 7 days</strong>.</p>
+                        </div>
+                        <div class="bg-black/25 p-4 rounded-xl border border-arc-border space-y-1">
+                            <span class="text-xs text-arc-neonPurple font-bold uppercase tracking-wider">Sync with Arc Desktop</span>
+                            <p class="text-xs text-gray-400">Синхронізація хмари з Mac акаунтом. Вкладки та простір завжди дзеркально переносяться.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 4: Pro Tips by Gemini -->
+            <section id="tips-sec" class="bg-gradient-to-br from-arc-card to-arc-neonPurple/10 border border-arc-border rounded-2xl p-6 glow-hover transition duration-300">
+                <div class="flex items-center gap-3 border-b border-arc-border pb-4 mb-4">
+                    <div class="p-2 bg-arc-neonCyan/10 border border-arc-neonCyan/20 rounded-xl">
+                        <i data-lucide="sparkles" class="w-6 h-6 text-arc-neonCyan"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold">4. Фірмові фічі від Джемі (Pro Tips)</h3>
+                        <p class="text-xs text-gray-400">Дрібниці, які роблять користування божественним</p>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <!-- Tip Card 1 -->
+                    <div class="flex gap-4 bg-black/30 p-4 rounded-xl border border-white/5">
+                        <div class="text-2xl">🔍</div>
+                        <div class="space-y-1">
+                            <h4 class="text-sm font-semibold text-white">Функція "Browse for me" (Пошук штучним інтелектом)</h4>
+                            <p class="text-xs text-gray-400 leading-relaxed">
+                                Замість звичайного Google введи свій запит та натисни <strong class="text-arc-neonCyan">Browse for me</strong>. Браузер самостійно вивчить перші джерела та збере для тебе ідеальну персональну сторінку з картинками, тезами та висновками — без жодної реклами.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Tip Card 2 -->
+                    <div class="flex gap-4 bg-black/30 p-4 rounded-xl border border-white/5">
+                        <div class="text-2xl">👉</div>
+                        <div class="space-y-1">
+                            <h4 class="text-sm font-semibold text-white">Швидке перемикання між вкладками (Жести)</h4>
+                            <p class="text-xs text-gray-400 leading-relaxed">
+                                Не обов'язково щоразу заходити у меню керування вкладками. Просто роби горизонтальний свайп по нижній панелі інструментів вліво або вправо, щоб миттєво переходити до наступної або попередньої вкладки.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Hidden Textarea for Markdown Copying -->
+    <textarea id="markdown-content" class="hidden"># 📱 Шпаргалка Arc Search (iOS) • ser
+
+## 1. 🗄️ Архів вкладок (Archive)
+*   **Автоматичне архівування:** Arc закриває та ховає неактивні вкладки за таймером (налаштовується від 1 до 30 днів), щоб зберегти пам'ять вашого iPhone.
+*   **Пошук по архіву:** Швидкий пошук `Search` вгорі розділу Archive дозволяє за секунду знайти будь-яку відкриту вкладку з минулих днів.
+
+## 2. ⚙️ Базові налаштування сайтів (Default Site Settings)
+*   **Block Ads & Trackers:** Вбудований блокувальник реклами та трекерів стеження для максимальної швидкодії.
+*   **Block Cookie Banners:** Забудьте про постійні погодження правил використання файлів Cookie.
+*   **Pinch to Summarize (AI):** Жест "щіпка" на екрані статті дозволяє ШІ миттєво стиснути та вивести головну інформацію.
+
+## 3. 🛠️ Системні налаштування (System Settings)
+*   **Raise to Call Arc:** Голосовий розумний пошук активується від піднесення телефона до вуха.
+*   **Auto-Open Keyboard:** Автоматичний фокус та підняття клавіатури при кожному відкритті додатку.
+*   **Sync with Arc Desktop:** Ваша мобільна версія ідеально синхронізується з акаунтом macOS.
+
+## 4. ✨ Фірмові фічі (Pro Tips)
+*   **Browse for me:** Запитуйте ШІ замість звичайного пошуку. Натискайте кнопку "Browse for me", і Arc самостійно зробить дайджест із 5-6 сайтів без банерів та води.
+*   **Свайпи по панелі вкладки:** Роби свайпи вліво чи вправо по нижній плашці, щоб переходити на сусідні вкладки без виходу в загальне меню.</textarea>
+
+    <!-- Footer -->
+    <footer class="mt-auto border-t border-arc-border bg-arc-card py-6 text-center text-xs text-gray-500">
+        <p>Згенеровано з ❤️ для ser. Насолоджуйся користуванням Arc Search!</p>
+    </footer>
+
+    <script>
+        // Smooth Scroll helper
+        function scrollToSection(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        // Copy Markdown To Clipboard Using Fallback Method (document.execCommand)
+        function copyMarkdown() {
+            const textarea = document.getElementById('markdown-content');
+            textarea.classList.remove('hidden');
+            textarea.select();
+            textarea.setSelectionRange(0, 99999); // For mobile devices
+
+            try {
+                document.execCommand('copy');
+                const toast = document.getElementById('copy-toast');
+                toast.classList.remove('hidden');
+                setTimeout(() => {
+                    toast.classList.add('hidden');
+                }, 3000);
+            } catch (err) {
+                console.error('Не вдалося скопіювати текст', err);
+            }
+            textarea.classList.add('hidden');
+        }
+
+        // Initialize Lucide Icons
+        window.onload = function() {
+            lucide.createIcons();
+        }
+    </script>
+</body>
+</html>
