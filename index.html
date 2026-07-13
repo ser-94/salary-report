@@ -1,697 +1,688 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
+<!-- STREAMING_CHUNK:Setting up document and fonts -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Фінансовий Звіт | Баланс Розподілу Доходу</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
 <style>
-/* STONE BRIGHT Corporate Style */
+/* STREAMING_CHUNK:CSS variables for Green/White/Black theme */
 :root {
-  --bg: #f8f9fa;
-  --surface: #ffffff;
-  --surface-alt: #f1f3f5;
-  --border: #dee2e6;
-  --border-alt: #e9ecef;
+  /* Color Palette: Black, White, Green */
+  --bg-color: #f3f4f6; /* Very light gray for contrast with white cards */
+  --white: #ffffff;
+  --black: #0f172a; /* Deep slate black */
+  --black-muted: #334155;
+  --gray-light: #e2e8f0;
   
-  --text-main: #212529;
-  --text-muted: #6c757d;
-  --text-light: #adb5bd;
-  
-  --brand-primary: #0d6efd;
-  --brand-primary-dim: rgba(13, 110, 253, 0.08);
-  
-  --danger: #dc3545;
-  --danger-dim: rgba(220, 53, 69, 0.08);
-  --success: #198754;
-  --success-dim: rgba(25, 135, 84, 0.08);
-  --warning: #fd7e14;
-  --warning-dim: rgba(253, 126, 20, 0.08);
+  --green-primary: #059669; /* Rich Emerald Green */
+  --green-dark: #064e3b;
+  --green-light: #d1fae5;
+  --green-accent: #10b981;
 
-  --mono: 'JetBrains Mono', monospace;
-  --sans: 'Inter', -apple-system, sans-serif;
+  --font-sans: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
   
-  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+  --shadow-card: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
+  --shadow-heavy: 0 20px 25px -5px rgba(5, 150, 105, 0.1), 0 10px 10px -5px rgba(5, 150, 105, 0.04);
 }
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-
+* { box-sizing: border-box; margin: 0; padding: 0; }
 body {
-  font-family: var(--sans);
-  background: var(--bg);
-  color: var(--text-main);
-  line-height: 1.6;
+  font-family: var(--font-sans);
+  background-color: var(--bg-color);
+  color: var(--black);
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  font-size: 15px;
 }
 
+/* STREAMING_CHUNK:Styling layout, typography, and headers */
 .container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 40px 20px 80px;
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 0 20px;
 }
 
-/* ── HEADER ── */
-.header {
-  border-bottom: 2px solid var(--text-main);
-  padding-bottom: 24px;
+.report-header {
+  background: var(--white);
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: var(--shadow-card);
+  margin-bottom: 24px;
+  border-top: 8px solid var(--green-primary);
+}
+
+.meta-info {
+  display: flex;
+  justify-content: space-between;
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: var(--green-primary);
+  margin-bottom: 16px;
+}
+
+h1 {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: var(--black);
+  line-height: 1.1;
+  margin-bottom: 8px;
+  letter-spacing: -0.5px;
+}
+
+.subtitle {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: var(--black-muted);
+}
+
+/* STREAMING_CHUNK:Styling dashboard widgets (Parameters & Total) */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
   margin-bottom: 32px;
 }
-.header-meta {
+
+.widget {
+  background: var(--white);
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: var(--shadow-card);
+  border-left: 6px solid var(--black);
+}
+.widget.green-accent {
+  border-left-color: var(--green-primary);
+  background: var(--green-dark);
+  color: var(--white);
+}
+
+.widget-title {
+  font-size: 13px;
+  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+  color: var(--black-muted);
+}
+.widget.green-accent .widget-title {
+  color: var(--green-light);
+}
+
+.quota-split {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.quota-item {
+  flex: 1;
+  background: var(--bg-color);
+  padding: 12px;
+  border-radius: 8px;
+  text-align: center;
+}
+.quota-item.main {
+  background: var(--green-light);
+  color: var(--green-dark);
+}
+.quota-pct {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 24px;
+  font-weight: 800;
+}
+.quota-name {
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.formula {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 700;
+  background: var(--bg-color);
+  padding: 16px;
+  border-radius: 8px;
+  color: var(--black);
+}
+
+/* STREAMING_CHUNK:Big total section */
+.grand-total-card {
+  background: var(--white);
+  padding: 40px;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: var(--shadow-heavy);
+  margin-bottom: 40px;
+  border: 2px solid var(--green-primary);
+  position: relative;
+  overflow: hidden;
+}
+.grand-total-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 100%;
+  background: linear-gradient(180deg, rgba(16, 185, 129, 0.05) 0%, rgba(255,255,255,0) 100%);
+  pointer-events: none;
+}
+.grand-title {
+  font-size: 14px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--green-dark);
+  margin-bottom: 16px;
+}
+.grand-amount {
+  font-family: var(--font-mono);
+  font-size: 4rem;
+  font-weight: 900;
+  color: var(--black);
+  line-height: 1;
+  letter-spacing: -2px;
+}
+.grand-currency {
+  font-size: 1.5rem;
+  color: var(--green-primary);
+  vertical-align: super;
+}
+
+/* STREAMING_CHUNK:Tables and Accordions */
+.section-heading {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--black);
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 3px solid var(--black);
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  margin-bottom: 16px;
-}
-.doc-type {
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--text-muted);
-}
-.doc-date {
-  font-family: var(--mono);
-  font-size: 13px;
-  color: var(--text-muted);
-}
-.header h1 {
-  font-size: 28px;
-  font-weight: 700;
-  line-height: 1.2;
-  color: var(--text-main);
-  margin-bottom: 8px;
-}
-.header p {
-  color: var(--text-muted);
-  font-size: 15px;
 }
 
-/* ── PARAMS (Split & Formula) ── */
-.params-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  margin-bottom: 32px;
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--white);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  margin-bottom: 40px;
 }
-.param-box {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  padding: 16px;
-  border-radius: 6px;
-  box-shadow: var(--shadow-sm);
+.data-table th, .data-table td {
+  padding: 16px 24px;
+  text-align: left;
+  border-bottom: 1px solid var(--gray-light);
 }
-.param-label {
-  font-size: 11px;
+.data-table th {
+  background: var(--black);
+  color: var(--white);
+  font-weight: 700;
   text-transform: uppercase;
+  font-size: 13px;
   letter-spacing: 1px;
-  color: var(--text-muted);
-  margin-bottom: 8px;
-  font-weight: 600;
 }
-.split-flex {
-  display: flex;
-  gap: 12px;
+.data-table td.money {
+  text-align: right;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 16px;
 }
-.split-item {
-  flex: 1;
-  padding: 8px;
-  text-align: center;
-  border-radius: 4px;
-  font-weight: 600;
-  font-size: 14px;
-}
-.split-item.oleg { background: var(--brand-primary-dim); color: var(--brand-primary); }
-.split-item.igor { background: var(--surface-alt); color: var(--text-muted); }
-.split-item .pct { font-family: var(--mono); font-size: 18px; display: block; margin-bottom: 2px; }
-
-.formula-text {
-  font-family: var(--mono);
-  font-size: 13px;
-  color: var(--text-main);
-  background: var(--surface-alt);
-  padding: 12px;
-  border-radius: 4px;
-  text-align: center;
-  border: 1px dashed var(--border);
-}
-
-/* ── SUMMARY SECTION ── */
-.section-title {
+.data-table tr.total-row td {
+  background: var(--green-light);
+  font-weight: 800;
+  color: var(--green-dark);
   font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 16px;
-  color: var(--text-main);
-  display: flex;
-  align-items: center;
-  gap: 8px;
 }
-.section-title::before {
-  content: '';
-  display: block;
-  width: 4px;
-  height: 18px;
-  background: var(--brand-primary);
-  border-radius: 2px;
+.data-table tr.correction-row td {
+  background: #fef2f2;
+  color: #991b1b;
+  font-weight: 600;
 }
 
-.summary-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  margin-bottom: 32px;
-  box-shadow: var(--shadow-sm);
+/* Accordions for Details */
+.period-card {
+  background: var(--white);
+  border-radius: 12px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--gray-light);
   overflow: hidden;
 }
-.sum-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-.sum-table td, .sum-table th {
-  padding: 14px 20px;
-  border-bottom: 1px solid var(--border-alt);
-  text-align: left;
-}
-.sum-table th {
-  background: var(--surface-alt);
-  font-size: 12px;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  font-weight: 600;
-  letter-spacing: 0.5px;
-}
-.sum-table td.amount {
-  text-align: right;
-  font-family: var(--mono);
-  font-weight: 500;
-}
-.sum-table .row-total td {
-  background: var(--surface-alt);
-  font-weight: 700;
-  font-size: 16px;
-  border-bottom: 2px solid var(--border);
-}
-.sum-table .row-corr td {
-  background: var(--warning-dim);
-  color: #a85900;
-  font-size: 14px;
-}
-.sum-table .row-corr td.amount { color: var(--success); }
-
-/* ── FINAL AMOUNT ── */
-.final-block {
-  background: var(--surface);
-  border: 2px solid var(--danger);
-  border-radius: 8px;
-  padding: 32px 24px;
-  text-align: center;
-  margin-bottom: 40px;
-  box-shadow: var(--shadow-md);
-}
-.final-block .f-label {
-  font-size: 13px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: var(--danger);
-  margin-bottom: 12px;
-}
-.final-block .f-amount {
-  font-size: 42px;
-  font-weight: 700;
-  font-family: var(--mono);
-  color: var(--text-main);
-  line-height: 1;
-}
-.final-block .f-note {
-  margin-top: 12px;
-  font-size: 13px;
-  color: var(--text-muted);
-}
-
-/* ── DETAIL CARDS (Accordion) ── */
-.detail-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  margin-bottom: 12px;
-}
-.detail-header {
-  padding: 16px 20px;
+.period-header {
+  padding: 20px 24px;
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   cursor: pointer;
-  user-select: none;
-  background: var(--surface);
-  border-radius: 6px;
+  background: var(--white);
   transition: background 0.2s;
 }
-.detail-header:hover { background: var(--surface-alt); }
-.detail-title {
+.period-header:hover { background: #f8fafc; }
+.period-title {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
 }
-.year-badge {
-  background: var(--text-main);
-  color: var(--surface);
-  font-family: var(--mono);
-  font-size: 12px;
-  font-weight: 600;
-  padding: 4px 8px;
-  border-radius: 4px;
+.year-tag {
+  background: var(--black);
+  color: var(--white);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-weight: 800;
+  font-size: 14px;
 }
-.period-name { font-weight: 600; color: var(--text-main); }
-.period-amount {
-  font-family: var(--mono);
-  font-weight: 600;
-  color: var(--danger);
+.period-name { font-weight: 800; font-size: 16px; color: var(--black); }
+.period-result {
+  font-family: var(--font-mono);
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--green-primary);
 }
-.detail-body {
-  display: none;
-  padding: 0 20px 20px;
-  border-top: 1px solid var(--border-alt);
-}
-.detail-card.open .detail-body { display: block; }
 
-.calc-table {
+.period-body {
+  display: none;
+  padding: 0 24px 24px;
+  border-top: 1px solid var(--gray-light);
+}
+.period-card.open .period-body { display: block; }
+
+.calc-grid {
   width: 100%;
   border-collapse: collapse;
-  font-size: 14px;
   margin-top: 16px;
 }
-.calc-table td {
-  padding: 10px 0;
-  border-bottom: 1px dashed var(--border-alt);
-  color: var(--text-main);
+.calc-grid td {
+  padding: 12px 0;
+  border-bottom: 1px dashed var(--gray-light);
+  font-size: 15px;
+  font-weight: 500;
 }
-.calc-table td.amount {
+.calc-grid td.money {
   text-align: right;
-  font-family: var(--mono);
+  font-family: var(--font-mono);
+  font-weight: 700;
 }
-.calc-table tr.result td {
-  font-weight: 600;
+.calc-grid tr.final td {
   border-bottom: none;
   padding-top: 16px;
+  font-weight: 800;
+  font-size: 16px;
 }
-.calc-table tr.result td.amount { color: var(--danger); }
-.calc-note {
-  margin-top: 16px;
-  font-size: 12px;
-  color: var(--text-muted);
-  background: var(--surface-alt);
-  padding: 10px 12px;
-  border-radius: 4px;
-  border-left: 3px solid var(--border);
-}
-.running-total {
-  background: var(--danger-dim);
-  padding: 12px 20px;
-  display: flex;
-  justify-content: space-between;
-  font-size: 13px;
-  border-top: 1px solid rgba(220, 53, 69, 0.2);
-  border-radius: 0 0 6px 6px;
-}
-.running-total .rt-val {
-  font-family: var(--mono);
-  font-weight: 600;
-  color: var(--danger);
+.calc-grid tr.final td.money {
+  color: var(--green-primary);
+  font-size: 18px;
 }
 
-/* ── APPROVAL BLOCK (Replaces Proposal) ── */
-.approval-block {
-  margin-top: 48px;
-  border-top: 2px solid var(--border);
-  padding-top: 32px;
+.acc-total {
+  margin-top: 16px;
+  background: var(--black);
+  color: var(--white);
+  padding: 12px 16px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  font-weight: 700;
+  font-size: 14px;
+  text-transform: uppercase;
 }
-.approval-block h3 {
-  font-size: 16px;
-  margin-bottom: 24px;
-  color: var(--text-main);
+.acc-total span:last-child {
+  font-family: var(--font-mono);
+  color: var(--green-accent);
 }
+
+/* STREAMING_CHUNK:Signatures & Mobile */
 .signatures {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 40px;
+  margin-top: 60px;
 }
-.sig-line {
-  border-bottom: 1px solid var(--text-main);
-  padding-bottom: 8px;
-  margin-bottom: 8px;
-  height: 40px;
+.sig-box {
+  border-top: 2px solid var(--black);
+  padding-top: 12px;
 }
-.sig-meta {
-  font-size: 12px;
-  color: var(--text-muted);
-  display: flex;
-  justify-content: space-between;
+.sig-name {
+  font-weight: 900;
+  font-size: 16px;
+  text-transform: uppercase;
 }
-.sig-meta strong { color: var(--text-main); }
-
-/* ── FOOTER ── */
-.footer {
-  margin-top: 48px;
-  text-align: center;
-  font-size: 12px;
-  color: var(--text-light);
+.sig-role {
+  color: var(--black-muted);
+  font-size: 13px;
+  font-weight: 500;
 }
 
-@media (max-width: 600px) {
-  .params-grid { grid-template-columns: 1fr; }
-  .final-block .f-amount { font-size: 32px; }
-  .signatures { grid-template-columns: 1fr; gap: 24px; }
-}
-@media print {
-  body { background: #fff; }
-  .detail-body { display: block !important; }
-  .final-block { border: 1px solid #000; box-shadow: none; }
+@media (max-width: 768px) {
+  .dashboard-grid { grid-template-columns: 1fr; }
+  h1 { font-size: 2rem; }
+  .grand-amount { font-size: 2.5rem; }
+  .signatures { grid-template-columns: 1fr; gap: 40px; }
+  .data-table th, .data-table td { padding: 12px 16px; }
 }
 </style>
 </head>
 <body>
 
 <div class="container">
-
-  <!-- HEADER -->
-  <header class="header">
-    <div class="header-meta">
-      <span class="doc-type">Внутрішній фінансовий звіт</span>
-      <span class="doc-date">Станом на: Квітень 2026</span>
+  
+  <!-- STREAMING_CHUNK:Header Section -->
+  <header class="report-header">
+    <div class="meta-info">
+      <span>Внутрішній Фінансовий Звіт</span>
+      <span>Сформовано: Квітень 2026</span>
     </div>
-    <h1>Баланс розподілу чистого доходу</h1>
-    <p>Звірка фактичних виплат із затвердженими квотами розподілу</p>
+    <h1>БАЛАНС РОЗПОДІЛУ ДОХОДУ</h1>
+    <p class="subtitle">Звірка фактичних виплат із затвердженими квотами (2022-2026)</p>
   </header>
 
-  <!-- PARAMS -->
-  <div class="params-grid">
-    <div class="param-box">
-      <div class="param-label">Квоти розподілу</div>
-      <div class="split-flex">
-        <div class="split-item oleg"><span class="pct">65%</span>Олег</div>
-        <div class="split-item igor"><span class="pct">35%</span>Ігор</div>
+  <!-- STREAMING_CHUNK:Parameters Dashboard -->
+  <div class="dashboard-grid">
+    <div class="widget">
+      <div class="widget-title">Затверджені квоти</div>
+      <div class="quota-split">
+        <div class="quota-item main">
+          <span class="quota-pct">65%</span>
+          <span class="quota-name">Олег</span>
+        </div>
+        <div class="quota-item">
+          <span class="quota-pct">35%</span>
+          <span class="quota-name">Ігор</span>
+        </div>
       </div>
     </div>
-    <div class="param-box">
-      <div class="param-label">Алгоритм розрахунку дельти</div>
-      <div class="formula-text">
-        ( Сума Ігора × 65 ) ÷ 35<br>
-        − Сума Олега = Заборгованість
+    <div class="widget green-accent">
+      <div class="widget-title">Формула розрахунку дельти</div>
+      <div class="formula">
+        ( Факт Ігор × 65 ) ÷ 35<br>
+        − Факт Олег = Сальдо
       </div>
     </div>
   </div>
 
-  <!-- SUMMARY -->
-  <h2 class="section-title">Зведення балансу</h2>
-  <div class="summary-card">
-    <table class="sum-table">
-      <thead>
-        <tr>
-          <th>Період</th>
-          <th style="text-align: right;">Нараховано (грн)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Травень 2022 – Грудень 2024</td>
-          <td class="amount">1 315 107,00</td>
-        </tr>
-        <tr>
-          <td>Січень — Жовтень 2025</td>
-          <td class="amount">882 904,00</td>
-        </tr>
-        <tr>
-          <td>Листопад — Грудень 2025</td>
-          <td class="amount">126 475,71</td>
-        </tr>
-        <tr>
-          <td>Січень — Квітень 2026</td>
-          <td class="amount">212 234,29</td>
-        </tr>
-        <tr class="row-total">
-          <td>Валовий баланс</td>
-          <td class="amount">2 536 721,00</td>
-        </tr>
-        <tr class="row-corr">
-          <td>Коригування: Зараховано на користь партнера (Ігор) за 2021-2022 рр.</td>
-          <td class="amount">−400 000,00</td>
-        </tr>
-      </tbody>
-    </table>
+  <!-- STREAMING_CHUNK:Grand Total -->
+  <div class="grand-total-card">
+    <div class="grand-title">Поточне сальдо заборгованості (на користь Олега)</div>
+    <div class="grand-amount">2 136 721<span class="grand-currency">₴</span></div>
   </div>
 
-  <!-- FINAL AMOUNT -->
-  <div class="final-block">
-    <div class="f-label">Поточне сальдо заборгованості (на користь Олега)</div>
-    <div class="f-amount">2 136 721 грн</div>
-    <div class="f-note">Включає всі періоди з травня 2022 по квітень 2026 та враховує ручні коригування</div>
+  <!-- STREAMING_CHUNK:Summary Table -->
+  <div class="section-heading">
+    <span>Зведена таблиця</span>
+  </div>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Період</th>
+        <th style="text-align: right;">Нараховано сальдо (ГРН)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Травень 2022 – Грудень 2024</td>
+        <td class="money">1 315 107.00</td>
+      </tr>
+      <tr>
+        <td>Січень — Жовтень 2025</td>
+        <td class="money">882 904.00</td>
+      </tr>
+      <tr>
+        <td>Листопад — Грудень 2025</td>
+        <td class="money">126 475.71</td>
+      </tr>
+      <tr>
+        <td>Січень — Квітень 2026</td>
+        <td class="money">212 234.29</td>
+      </tr>
+      <tr class="total-row">
+        <td>Валовий баланс</td>
+        <td class="money">2 536 721.00</td>
+      </tr>
+      <tr class="correction-row">
+        <td>Коригування (Зараховано Ігорю за 2021-2022)</td>
+        <td class="money">− 400 000.00</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- STREAMING_CHUNK:Detailed Periods Header -->
+  <div class="section-heading">
+    <span>Фактичні дані за періодами</span>
   </div>
 
-  <!-- DETAILS -->
-  <h2 class="section-title">Деталізація за періодами</h2>
-
-  <!-- 2022 -->
-  <div class="detail-card open">
-    <div class="detail-header" onclick="this.parentElement.classList.toggle('open')">
-      <div class="detail-title">
-        <span class="year-badge">2022</span>
+  <!-- STREAMING_CHUNK:Period 2022 -->
+  <div class="period-card open">
+    <div class="period-header" onclick="this.parentElement.classList.toggle('open')">
+      <div class="period-title">
+        <span class="year-tag">2022</span>
         <span class="period-name">Травень — Грудень</span>
       </div>
-      <span class="period-amount">+271 126 грн</span>
+      <span class="period-result">+ 271 126 ₴</span>
     </div>
-    <div class="detail-body">
-      <table class="calc-table">
+    <div class="period-body">
+      <table class="calc-grid">
         <tbody>
-          <tr><td>Отримано (Ігор)</td><td class="amount">385 632,83</td></tr>
-          <tr><td>Отримано (Олег) [вкл. вилучення]</td><td class="amount">565 049,00</td></tr>
-          <tr><td>Належить Олегу за квотою</td><td class="amount">716 175,26</td></tr>
-          <tr><td>Додаткова корекція</td><td class="amount">+120 000,00</td></tr>
-          <tr class="result"><td>Сальдо періоду</td><td class="amount">271 126,00</td></tr>
+          <tr><td>Фактично отримано (Ігор)</td><td class="money">385 632.83</td></tr>
+          <tr><td>Фактично отримано (Олег)</td><td class="money">565 049.00</td></tr>
+          <tr><td>Належить Олегу за квотою (65%)</td><td class="money">716 175.26</td></tr>
+          <tr><td>Додаткова корекція</td><td class="money">+ 120 000.00</td></tr>
+          <tr class="final"><td>Сальдо періоду</td><td class="money">271 126.00</td></tr>
         </tbody>
       </table>
-      <div class="calc-note">Джерело: Дані 1С (2022).</div>
-    </div>
-    <div class="running-total">
-      <span>Наростаючий підсумок:</span>
-      <span class="rt-val">271 126 грн</span>
+      <div class="acc-total">
+        <span>Наростаючий підсумок</span>
+        <span>271 126 ₴</span>
+      </div>
     </div>
   </div>
 
-  <!-- 2023 -->
-  <div class="detail-card">
-    <div class="detail-header" onclick="this.parentElement.classList.toggle('open')">
-      <div class="detail-title">
-        <span class="year-badge">2023</span>
+  <!-- STREAMING_CHUNK:Period 2023 -->
+  <div class="period-card">
+    <div class="period-header" onclick="this.parentElement.classList.toggle('open')">
+      <div class="period-title">
+        <span class="year-tag">2023</span>
         <span class="period-name">Січень — Грудень</span>
       </div>
-      <span class="period-amount">+433 855 грн</span>
+      <span class="period-result">+ 433 855 ₴</span>
     </div>
-    <div class="detail-body">
-      <table class="calc-table">
+    <div class="period-body">
+      <table class="calc-grid">
         <tbody>
-          <tr><td>Отримано (Ігор)</td><td class="amount">520 265,00</td></tr>
-          <tr><td>Отримано (Олег)</td><td class="amount">532 351,00</td></tr>
-          <tr><td>Належить Олегу за квотою</td><td class="amount">966 206,43</td></tr>
-          <tr class="result"><td>Сальдо періоду</td><td class="amount">433 855,42</td></tr>
+          <tr><td>Фактично отримано (Ігор)</td><td class="money">520 265.00</td></tr>
+          <tr><td>Фактично отримано (Олег)</td><td class="money">532 351.00</td></tr>
+          <tr><td>Належить Олегу за квотою</td><td class="money">966 206.43</td></tr>
+          <tr class="final"><td>Сальдо періоду</td><td class="money">433 855.42</td></tr>
         </tbody>
       </table>
-      <div class="calc-note">Джерело: Відомість 2023 р.</div>
-    </div>
-    <div class="running-total">
-      <span>Наростаючий підсумок:</span>
-      <span class="rt-val">704 981 грн</span>
-    </div>
-  </div>
-
-  <!-- 2024 Q1 -->
-  <div class="detail-card">
-    <div class="detail-header" onclick="this.parentElement.classList.toggle('open')">
-      <div class="detail-title">
-        <span class="year-badge">2024</span>
-        <span class="period-name">I квартал (січ.–бер.)</span>
+      <div class="acc-total">
+        <span>Наростаючий підсумок</span>
+        <span>704 981 ₴</span>
       </div>
-      <span class="period-amount">+96 375 грн</span>
-    </div>
-    <div class="detail-body">
-      <table class="calc-table">
-        <tbody>
-          <tr><td>Отримано (Ігор)</td><td class="amount">107 357,62</td></tr>
-          <tr><td>Отримано (Олег)</td><td class="amount">103 002,00</td></tr>
-          <tr><td>Належить Олегу за квотою</td><td class="amount">199 377,28</td></tr>
-          <tr class="result"><td>Сальдо періоду</td><td class="amount">96 375,28</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="running-total">
-      <span>Наростаючий підсумок:</span>
-      <span class="rt-val">801 357 грн</span>
     </div>
   </div>
 
-  <!-- 2024 Q2-Q3 -->
-  <div class="detail-card">
-    <div class="detail-header" onclick="this.parentElement.classList.toggle('open')">
-      <div class="detail-title">
-        <span class="year-badge">2024</span>
-        <span class="period-name">II–III квартал (квіт.–верес.)</span>
+  <!-- STREAMING_CHUNK:Period 2024 Q1 -->
+  <div class="period-card">
+    <div class="period-header" onclick="this.parentElement.classList.toggle('open')">
+      <div class="period-title">
+        <span class="year-tag">2024</span>
+        <span class="period-name">I квартал</span>
       </div>
-      <span class="period-amount">+311 538 грн</span>
+      <span class="period-result">+ 96 375 ₴</span>
     </div>
-    <div class="detail-body">
-      <table class="calc-table">
+    <div class="period-body">
+      <table class="calc-grid">
         <tbody>
-          <tr><td>Отримано (Ігор)</td><td class="amount">347 996,00</td></tr>
-          <tr><td>Отримано (Олег)</td><td class="amount">334 740,00</td></tr>
-          <tr><td>Належить Олегу за квотою</td><td class="amount">646 278,29</td></tr>
-          <tr class="result"><td>Сальдо періоду</td><td class="amount">311 538,00</td></tr>
+          <tr><td>Фактично отримано (Ігор)</td><td class="money">107 357.62</td></tr>
+          <tr><td>Фактично отримано (Олег)</td><td class="money">103 002.00</td></tr>
+          <tr><td>Належить Олегу за квотою</td><td class="money">199 377.28</td></tr>
+          <tr class="final"><td>Сальдо періоду</td><td class="money">96 375.28</td></tr>
         </tbody>
       </table>
-    </div>
-    <div class="running-total">
-      <span>Наростаючий підсумок:</span>
-      <span class="rt-val">1 112 894 грн</span>
-    </div>
-  </div>
-
-  <!-- 2024 Q4 -->
-  <div class="detail-card">
-    <div class="detail-header" onclick="this.parentElement.classList.toggle('open')">
-      <div class="detail-title">
-        <span class="year-badge">2024</span>
-        <span class="period-name">IV квартал (жовт.–груд.) та корекції</span>
+      <div class="acc-total">
+        <span>Наростаючий підсумок</span>
+        <span>801 357 ₴</span>
       </div>
-      <span class="period-amount">+202 213 грн</span>
-    </div>
-    <div class="detail-body">
-      <table class="calc-table">
-        <tbody>
-          <tr><td>Отримано (Ігор)</td><td class="amount">263 977,00</td></tr>
-          <tr><td>Отримано (Олег)</td><td class="amount">292 150,00</td></tr>
-          <tr><td>Належить Олегу за квотою</td><td class="amount">490 243,00</td></tr>
-          <tr><td>Корекція (внесок/вилучення власника)</td><td class="amount">+4 120,00</td></tr>
-          <tr class="result"><td>Сальдо періоду</td><td class="amount">202 213,00</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="running-total">
-      <span>Наростаючий підсумок (Кінець 2024):</span>
-      <span class="rt-val">1 315 107 грн</span>
     </div>
   </div>
 
-  <!-- 2025 Jan-Oct -->
-  <div class="detail-card">
-    <div class="detail-header" onclick="this.parentElement.classList.toggle('open')">
-      <div class="detail-title">
-        <span class="year-badge">2025</span>
+  <!-- STREAMING_CHUNK:Period 2024 Q2-Q3 -->
+  <div class="period-card">
+    <div class="period-header" onclick="this.parentElement.classList.toggle('open')">
+      <div class="period-title">
+        <span class="year-tag">2024</span>
+        <span class="period-name">II–III квартал</span>
+      </div>
+      <span class="period-result">+ 311 538 ₴</span>
+    </div>
+    <div class="period-body">
+      <table class="calc-grid">
+        <tbody>
+          <tr><td>Фактично отримано (Ігор)</td><td class="money">347 996.00</td></tr>
+          <tr><td>Фактично отримано (Олег)</td><td class="money">334 740.00</td></tr>
+          <tr><td>Належить Олегу за квотою</td><td class="money">646 278.29</td></tr>
+          <tr class="final"><td>Сальдо періоду</td><td class="money">311 538.00</td></tr>
+        </tbody>
+      </table>
+      <div class="acc-total">
+        <span>Наростаючий підсумок</span>
+        <span>1 112 894 ₴</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- STREAMING_CHUNK:Period 2024 Q4 -->
+  <div class="period-card">
+    <div class="period-header" onclick="this.parentElement.classList.toggle('open')">
+      <div class="period-title">
+        <span class="year-tag">2024</span>
+        <span class="period-name">IV квартал та корекції</span>
+      </div>
+      <span class="period-result">+ 202 213 ₴</span>
+    </div>
+    <div class="period-body">
+      <table class="calc-grid">
+        <tbody>
+          <tr><td>Фактично отримано (Ігор)</td><td class="money">263 977.00</td></tr>
+          <tr><td>Фактично отримано (Олег)</td><td class="money">292 150.00</td></tr>
+          <tr><td>Належить Олегу за квотою</td><td class="money">490 243.00</td></tr>
+          <tr><td>Корекція</td><td class="money">+ 4 120.00</td></tr>
+          <tr class="final"><td>Сальдо періоду</td><td class="money">202 213.00</td></tr>
+        </tbody>
+      </table>
+      <div class="acc-total">
+        <span>Наростаючий підсумок (Кінець 2024)</span>
+        <span>1 315 107 ₴</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- STREAMING_CHUNK:Period 2025 Jan-Oct -->
+  <div class="period-card">
+    <div class="period-header" onclick="this.parentElement.classList.toggle('open')">
+      <div class="period-title">
+        <span class="year-tag">2025</span>
         <span class="period-name">Січень — Жовтень</span>
       </div>
-      <span class="period-amount">+882 904 грн</span>
+      <span class="period-result">+ 882 904 ₴</span>
     </div>
-    <div class="detail-body">
-      <table class="calc-table">
+    <div class="period-body">
+      <table class="calc-grid">
         <tbody>
-          <tr><td>Отримано (Ігор)</td><td class="amount">622 709,00</td></tr>
-          <tr><td>Отримано (Олег)</td><td class="amount">357 555,00</td></tr>
-          <tr><td>Належить Олегу за квотою</td><td class="amount">1 156 459,00</td></tr>
-          <tr><td>Внесок від власника (Олег)</td><td class="amount">+84 000,00</td></tr>
-          <tr class="result"><td>Сальдо періоду</td><td class="amount">882 904,00</td></tr>
+          <tr><td>Фактично отримано (Ігор)</td><td class="money">622 709.00</td></tr>
+          <tr><td>Фактично отримано (Олег)</td><td class="money">357 555.00</td></tr>
+          <tr><td>Належить Олегу за квотою</td><td class="money">1 156 459.00</td></tr>
+          <tr><td>Внесок (Олег)</td><td class="money">+ 84 000.00</td></tr>
+          <tr class="final"><td>Сальдо періоду</td><td class="money">882 904.00</td></tr>
         </tbody>
       </table>
-    </div>
-    <div class="running-total">
-      <span>Наростаючий підсумок:</span>
-      <span class="rt-val">2 198 011 грн</span>
+      <div class="acc-total">
+        <span>Наростаючий підсумок</span>
+        <span>2 198 011 ₴</span>
+      </div>
     </div>
   </div>
   
-  <!-- 2025 Nov-Dec -->
-  <div class="detail-card">
-    <div class="detail-header" onclick="this.parentElement.classList.toggle('open')">
-      <div class="detail-title">
-        <span class="year-badge">2025</span>
+  <!-- STREAMING_CHUNK:Period 2025 Nov-Dec -->
+  <div class="period-card">
+    <div class="period-header" onclick="this.parentElement.classList.toggle('open')">
+      <div class="period-title">
+        <span class="year-tag">2025</span>
         <span class="period-name">Листопад — Грудень</span>
       </div>
-      <span class="period-amount">+126 476 грн</span>
+      <span class="period-result">+ 126 476 ₴</span>
     </div>
-    <div class="detail-body">
-      <table class="calc-table">
+    <div class="period-body">
+      <table class="calc-grid">
         <tbody>
-          <tr><td>Отримано (Ігор)</td><td class="amount">142 410,00</td></tr>
-          <tr><td>Отримано (Олег)</td><td class="amount">138 000,00</td></tr>
-          <tr><td>Належить Олегу за квотою</td><td class="amount">264 475,71</td></tr>
-          <tr class="result"><td>Сальдо періоду</td><td class="amount">126 475,71</td></tr>
+          <tr><td>Фактично отримано (Ігор)</td><td class="money">142 410.00</td></tr>
+          <tr><td>Фактично отримано (Олег)</td><td class="money">138 000.00</td></tr>
+          <tr><td>Належить Олегу за квотою</td><td class="money">264 475.71</td></tr>
+          <tr class="final"><td>Сальдо періоду</td><td class="money">126 475.71</td></tr>
         </tbody>
       </table>
-    </div>
-    <div class="running-total">
-      <span>Наростаючий підсумок:</span>
-      <span class="rt-val">2 324 487 грн</span>
+      <div class="acc-total">
+        <span>Наростаючий підсумок</span>
+        <span>2 324 487 ₴</span>
+      </div>
     </div>
   </div>
 
-  <!-- 2026 Jan-Apr -->
-  <div class="detail-card">
-    <div class="detail-header" onclick="this.parentElement.classList.toggle('open')">
-      <div class="detail-title">
-        <span class="year-badge">2026</span>
+  <!-- STREAMING_CHUNK:Period 2026 -->
+  <div class="period-card">
+    <div class="period-header" onclick="this.parentElement.classList.toggle('open')">
+      <div class="period-title">
+        <span class="year-tag">2026</span>
         <span class="period-name">Січень — Квітень</span>
       </div>
-      <span class="period-amount">+212 234 грн</span>
+      <span class="period-result">+ 212 234 ₴</span>
     </div>
-    <div class="detail-body">
-      <table class="calc-table">
+    <div class="period-body">
+      <table class="calc-grid">
         <tbody>
-          <tr><td>Отримано (Ігор)</td><td class="amount">168 320,00</td></tr>
-          <tr><td>Отримано (Олег)</td><td class="amount">100 360,00</td></tr>
-          <tr><td>Належить Олегу за квотою</td><td class="amount">312 594,29</td></tr>
-          <tr class="result"><td>Сальдо періоду</td><td class="amount">212 234,29</td></tr>
+          <tr><td>Фактично отримано (Ігор)</td><td class="money">168 320.00</td></tr>
+          <tr><td>Фактично отримано (Олег)</td><td class="money">100 360.00</td></tr>
+          <tr><td>Належить Олегу за квотою</td><td class="money">312 594.29</td></tr>
+          <tr class="final"><td>Сальдо періоду</td><td class="money">212 234.29</td></tr>
         </tbody>
       </table>
-    </div>
-    <div class="running-total">
-      <span>Валовий підсумок:</span>
-      <span class="rt-val">2 536 721 грн</span>
-    </div>
-  </div>
-
-  <!-- APPROVAL -->
-  <div class="approval-block">
-    <h3>Підтвердження та узгодження сальдо</h3>
-    <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 32px;">Підписанням цього документа сторони погоджуються з наведеними розрахунками та фіксують фінальну суму сальдо станом на квітень 2026 року у розмірі <strong>2 136 721 грн</strong>.</p>
-    
-    <div class="signatures">
-      <div>
-        <div class="sig-line"></div>
-        <div class="sig-meta">
-          <span>Підготував:</span>
-          <strong>Олег</strong>
-        </div>
-      </div>
-      <div>
-        <div class="sig-line"></div>
-        <div class="sig-meta">
-          <span>Ознайомлений та погоджуюсь:</span>
-          <strong>Ігор</strong>
-        </div>
+      <div class="acc-total">
+        <span>Валовий підсумок перед коригуванням</span>
+        <span>2 536 721 ₴</span>
       </div>
     </div>
   </div>
 
-  <div class="footer">
-    Сформовано автоматично на базі даних 1С Підприємство.<br>Документ має конфіденційний характер.
+  <!-- STREAMING_CHUNK:Signatures & Confirmation -->
+  <div class="signatures">
+    <div class="sig-box">
+      <div class="sig-name">Олег</div>
+      <div class="sig-role">Сторона 1 (Підготував)</div>
+    </div>
+    <div class="sig-box">
+      <div class="sig-name">Ігор</div>
+      <div class="sig-role">Сторона 2 (Погоджено)</div>
+    </div>
+  </div>
+  
+  <div style="text-align: center; margin-top: 40px; font-size: 12px; color: var(--black-muted); font-weight: 500;">
+    Документ містить виключно розрахункові дані та підтверджує фінальне сальдо на рівні 2 136 721 ГРН.
   </div>
 
 </div>
 
+<!-- STREAMING_CHUNK:Print Script -->
 <script>
+// Розгортати всі панелі при друці документа
 window.addEventListener('beforeprint', () => {
-  document.querySelectorAll('.detail-card').forEach(el => el.classList.add('open'));
+  document.querySelectorAll('.period-card').forEach(el => el.classList.add('open'));
 });
 </script>
 </body>
