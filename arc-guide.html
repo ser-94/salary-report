@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Гід по Arc — налаштування браузера</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink: #0b0c10;
+    --panel: #12131a;
+    --panel-2: #17181f;
+    --line: rgba(255,255,255,0.08);
+    --text: #f1f1f4;
+    --text-dim: #a3a4b3;
+
+    --green: #17e88f;
+    --green-2: #0bb9e8;
+    --violet: #9b5cff;
+    --pink: #ff5ec4;
+    --orange: #ff9d3d;
+    --yellow: #ffd93d;
+    --cyan: #37d0ff;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background: var(--ink);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+    position: relative;
+    min-height: 100vh;
+  }
+
+  /* ---------- Aurora background ---------- */
+  .aurora{
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    background: var(--ink);
+  }
+  .blob{
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(70px);
+    opacity: 0.55;
+    mix-blend-mode: screen;
+    will-change: transform;
+  }
+  .blob-1{
+    width: 60vw; height: 60vw;
+    background: radial-gradient(circle at 30% 30%, var(--green), transparent 70%);
+    top: -15%; left: -15%;
+    animation: float1 22s ease-in-out infinite;
+  }
+  .blob-2{
+    width: 55vw; height: 55vw;
+    background: radial-gradient(circle at 60% 40%, var(--violet), transparent 70%);
+    top: 10%; right: -20%;
+    animation: float2 26s ease-in-out infinite;
+  }
+  .blob-3{
+    width: 50vw; height: 50vw;
+    background: radial-gradient(circle at 50% 50%, var(--orange), transparent 70%);
+    bottom: -10%; left: 10%;
+    animation: float3 20s ease-in-out infinite;
+  }
+  .blob-4{
+    width: 45vw; height: 45vw;
+    background: radial-gradient(circle at 50% 50%, var(--cyan), transparent 70%);
+    bottom: -15%; right: 5%;
+    animation: float4 28s ease-in-out infinite;
+  }
+  .blob-5{
+    width: 35vw; height: 35vw;
+    background: radial-gradient(circle at 50% 50%, var(--pink), transparent 70%);
+    top: 40%; left: 40%;
+    animation: float2 24s ease-in-out infinite reverse;
+    opacity: 0.35;
+  }
+  .grain{
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+    opacity: 0.4;
+  }
+  .vignette{
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 40%, transparent 30%, var(--ink) 92%);
+  }
+
+  @keyframes float1{
+    0%,100%{ transform: translate(0,0) scale(1); }
+    50%{ transform: translate(5%, 8%) scale(1.12); }
+  }
+  @keyframes float2{
+    0%,100%{ transform: translate(0,0) scale(1); }
+    50%{ transform: translate(-8%, 6%) scale(0.9); }
+  }
+  @keyframes float3{
+    0%,100%{ transform: translate(0,0) scale(1); }
+    50%{ transform: translate(6%, -10%) scale(1.15); }
+  }
+  @keyframes float4{
+    0%,100%{ transform: translate(0,0) scale(1); }
+    50%{ transform: translate(-6%, -6%) scale(0.92); }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .blob{ animation: none !important; }
+  }
+
+  /* ---------- Layout ---------- */
+  .wrap{
+    position: relative;
+    z-index: 1;
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 28px 120px;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding: 110px 0 70px;
+    text-align: center;
+  }
+  .hero-eyebrow{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--line);
+    padding: 7px 16px;
+    border-radius: 100px;
+    backdrop-filter: blur(8px);
+  }
+  .hero-eyebrow .dot{
+    width: 7px; height: 7px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--green), var(--cyan));
+    box-shadow: 0 0 12px var(--green);
+  }
+  .hero h1{
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: clamp(44px, 8vw, 84px);
+    line-height: 1.02;
+    margin-top: 26px;
+    letter-spacing: -0.02em;
+    background: linear-gradient(100deg, var(--green) 0%, var(--cyan) 22%, var(--violet) 48%, var(--pink) 68%, var(--orange) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    background-size: 200% auto;
+    animation: shine 8s linear infinite;
+  }
+  @keyframes shine{
+    0%{ background-position: 0% 50%; }
+    100%{ background-position: 200% 50%; }
+  }
+  .hero p{
+    max-width: 620px;
+    margin: 26px auto 0;
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--text-dim);
+  }
+  .hero .platform-tag{
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 32px;
+    padding: 10px 20px;
+    border-radius: 100px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--line);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  /* ---------- Section headers ---------- */
+  .section{
+    margin-top: 90px;
+  }
+  .section-head{
+    display: flex;
+    align-items: baseline;
+    gap: 18px;
+    margin-bottom: 34px;
+    flex-wrap: wrap;
+  }
+  .section-head .tag{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .section-head h2{
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(26px, 4vw, 38px);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .section-head .sub{
+    width: 100%;
+    color: var(--text-dim);
+    font-size: 15px;
+    margin-top: -6px;
+  }
+
+  .tag-links{ background: linear-gradient(135deg, rgba(23,232,143,0.18), rgba(11,185,232,0.18)); color: #7CFFC4; border:1px solid rgba(23,232,143,0.35); }
+  .tag-advanced{ background: linear-gradient(135deg, rgba(155,92,255,0.18), rgba(255,94,196,0.18)); color: #C9A8FF; border:1px solid rgba(155,92,255,0.35); }
+  .tag-max{ background: linear-gradient(135deg, rgba(255,157,61,0.18), rgba(255,217,61,0.18)); color: #FFC873; border:1px solid rgba(255,157,61,0.35); }
+  .tag-nav{ background: linear-gradient(135deg, rgba(55,208,255,0.18), rgba(23,232,143,0.18)); color: #7FE0FF; border:1px solid rgba(55,208,255,0.35); }
+
+  /* ---------- Cards ---------- */
+  .grid{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  @media (max-width: 720px){
+    .grid{ grid-template-columns: 1fr; }
+  }
+
+  .card{
+    background: linear-gradient(160deg, var(--panel), var(--panel-2));
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 26px 26px 24px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.25s ease, border-color 0.25s ease;
+  }
+  .card::before{
+    content:"";
+    position: absolute;
+    top:0; left:0; right:0;
+    height: 3px;
+    background: var(--accent);
+    opacity: 0.9;
+  }
+  .card:hover{
+    transform: translateY(-4px);
+    border-color: rgba(255,255,255,0.18);
+  }
+  .card .icon{
+    width: 52px; height: 52px;
+    border-radius: 14px;
+    display:flex; align-items:center; justify-content:center;
+    font-size: 24px;
+    background: var(--accent-soft);
+    margin-bottom: 18px;
+  }
+  .card h3{
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 19px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+  }
+  .card .what{
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--text-dim);
+    margin-bottom: 14px;
+  }
+  .card .how{
+    font-size: 13.5px;
+    line-height: 1.55;
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.035);
+    border: 1px solid var(--line);
+    color: #d7d8e2;
+  }
+  .card .how b{
+    color: var(--text);
+    font-weight: 600;
+  }
+  .card .how .lbl{
+    display:block;
+    font-family:'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent-text);
+    margin-bottom: 5px;
+    opacity: 0.9;
+  }
+  .card .status{
+    position: absolute;
+    top: 24px; right: 24px;
+    font-family:'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 100px;
+  }
+  .status-on{
+    background: rgba(23,232,143,0.15);
+    color: #6FFFC0;
+    border: 1px solid rgba(23,232,143,0.4);
+  }
+  .status-off{
+    background: rgba(255,255,255,0.06);
+    color: var(--text-dim);
+    border: 1px solid var(--line);
+  }
+
+  /* Accent variables per section via inline style on .grid wrapper */
+  .sec-links .card{ --accent: linear-gradient(90deg, var(--green), var(--cyan)); --accent-soft: rgba(23,232,143,0.14); --accent-text: #7CFFC4; }
+  .sec-advanced .card{ --accent: linear-gradient(90deg, var(--violet), var(--pink)); --accent-soft: rgba(155,92,255,0.14); --accent-text: #C9A8FF; }
+  .sec-max .card{ --accent: linear-gradient(90deg, var(--orange), var(--yellow)); --accent-soft: rgba(255,157,61,0.14); --accent-text: #FFC873; }
+  .sec-nav .card{ --accent: linear-gradient(90deg, var(--cyan), var(--green)); --accent-soft: rgba(55,208,255,0.14); --accent-text: #7FE0FF; }
+
+  /* ---------- Kicker note ---------- */
+  .kicker-note{
+    margin-top: 24px;
+    padding: 18px 22px;
+    border-radius: 16px;
+    background: rgba(255,255,255,0.03);
+    border: 1px dashed var(--line);
+    font-size: 14px;
+    color: var(--text-dim);
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .kicker-note .em{ font-size: 18px; }
+
+  /* ---------- Footer ---------- */
+  footer{
+    margin-top: 110px;
+    text-align: center;
+    padding-top: 40px;
+    border-top: 1px solid var(--line);
+  }
+  footer h3{
+    font-family:'Space Grotesk', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  footer p{
+    color: var(--text-dim);
+    font-size: 14.5px;
+    max-width: 520px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+  footer .heart{
+    margin-top: 22px;
+    font-family:'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text-dim);
+    opacity: 0.6;
+  }
+</style>
+</head>
+<body>
+
+<div class="aurora">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <div class="blob blob-4"></div>
+  <div class="blob blob-5"></div>
+  <div class="grain"></div>
+  <div class="vignette"></div>
+</div>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <span class="hero-eyebrow"><span class="dot"></span> НАЛАШТУВАННЯ ARC · MACOS</span>
+    <h1>Гід по Arc<br>для MacBook</h1>
+    <p>Розбір усіх перемикачів із вкладок <b style="color:#fff">Links</b>, <b style="color:#fff">Advanced</b> і <b style="color:#fff">Max</b> — що вони роблять і як ними користуватись, без зайвої термінології.</p>
+    <div class="platform-tag">🖥️ Зроблено під macOS · Arc Browser</div>
+  </div>
+
+  <!-- LINKS SECTION -->
+  <div class="section sec-links-head">
+    <div class="section-head">
+      <span class="tag tag-links">01 · LINKS</span>
+      <h2>Як відкриваються посилання</h2>
+      <div class="sub">Little Arc — маленьке швидке вікно. Peek — перегляд лінка без нової вкладки.</div>
+    </div>
+
+    <div class="grid sec-links">
+
+      <div class="card">
+        <span class="status status-on">Увімкнено</span>
+        <div class="icon">🪟</div>
+        <h3>Little Arc за гарячою клавішею</h3>
+        <p class="what">Маленьке компактне вікно Arc для швидкого погляду — перевірити щось або прочитати посилання від друга, не відкриваючи повноцінну вкладку в основному вікні.</p>
+        <div class="how">
+          <span class="lbl">Як користуватись</span>
+          Натисни <b>⌥ ⌘ N</b> у будь-якому застосунку на Mac — виринає маленьке вікно Arc поверх усього.
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="status status-on">Увімкнено</span>
+        <div class="icon">🖱️</div>
+        <h3>Little Arc через клік</h3>
+        <p class="what">Те саме маленьке вікно, але відкривається прямо з посилання, по якому клікаєш — зручно, коли не хочеш переривати основну роботу в браузері.</p>
+        <div class="how">
+          <span class="lbl">Як користуватись</span>
+          Тримай <b>⌥ ⌘</b> і клікни на будь-яке посилання — воно відкриється в Little Arc.
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="status status-on">Увімкнено</span>
+        <div class="icon">📤</div>
+        <h3>Лінки з інших застосунків</h3>
+        <p class="what">Коли клікаєш на посилання в Пошті, Slack чи будь-якому іншому застосунку на Mac — воно теж відкриється в компактному Little Arc, а не в повному вікні браузера.</p>
+        <div class="how">
+          <span class="lbl">Як користуватись</span>
+          Нічого робити не треба — це працює автоматично для всіх зовнішніх застосунків.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="icon">🗄️</div>
+        <h3>Автоархівація Little Arc</h3>
+        <p class="what">Ці маленькі вікна не висять вічно — Arc сам їх прибирає в архів через певний час, щоб не накопичувалось сміття.</p>
+        <div class="how">
+          <span class="lbl">Поточне значення</span>
+          Стоїть <b>6 годин (за замовчуванням)</b> — можна змінити на інший інтервал у налаштуваннях.
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="status status-on">Увімкнено</span>
+        <div class="icon">👀</div>
+        <h3>Peek через Shift</h3>
+        <p class="what">Швидкий перегляд посилання (з листа, статті, твіту) у спливаючому вікні — без відкриття нової вкладки і без втрати місця, де ти був.</p>
+        <div class="how">
+          <span class="lbl">Як користуватись</span>
+          Тримай <b>Shift</b> і клікни на посилання — з'явиться вікно попереднього перегляду.
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="status status-on">Увімкнено</span>
+        <div class="icon">📌</div>
+        <h3>Peek для закріплених сайтів</h3>
+        <p class="what">Аналогічний перегляд, але спеціально для посилань, що ведуть на інші сайти з твоїх обраних (Favorites) чи закріплених (Pinned) вкладок.</p>
+        <div class="how">
+          <span class="lbl">Важливо</span>
+          Діє тільки на вкладки з розділів <b>Favorites</b> і <b>Pinned</b>, не на звичайні відкриті вкладки.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ADVANCED SECTION -->
+  <div class="section">
+    <div class="section-head">
+      <span class="tag tag-advanced">02 · ADVANCED</span>
+      <h2>Поведінка і відчуття браузера</h2>
+      <div class="sub">Звук, тактильний відгук, вкладки, приватність — дрібні деталі, які формують досвід користування.</div>
+    </div>
+
+    <div class="grid sec-advanced">
+
+      <div class="card">
+        <span class="status status-on">Увімкнено</span>
+        <div class="icon">🔊</div>
+        <h3>Звукові ефекти Arc</h3>
+        <p class="what">Легкі звуки при діях у браузері — наприклад, при закритті вкладки чи певних жестах. Додає відчуття "живого" інтерфейсу.</p>
+        <div class="how"><span class="lbl">Як керувати</span>Просто перемикач у налаштуваннях — вимкни, якщо звуки заважають.</div>
+      </div>
+
+      <div class="card">
+        <span class="status status-on">Увімкнено</span>
+        <div class="icon">🫳</div>
+        <h3>Тактильний відгук на трекпаді</h3>
+        <p class="what">Легка вібрація трекпада MacBook, коли перетягуєш і переставляєш вкладки місцями в бічній панелі.</p>
+        <div class="how"><span class="lbl">Де відчутно</span>Тільки на MacBook із трекпадом, що підтримує Force Touch / Haptic.</div>
+      </div>
+
+      <div class="card">
+        <span class="status status-off">Вимкнено</span>
+        <div class="icon">🔁</div>
+        <h3>Відновлення вкладок при запуску</h3>
+        <p class="what">Якщо увімкнути — при відкритті Arc всі вікна й вкладки з минулої сесії з'являться знову, як ти їх залишив.</p>
+        <div class="how"><span class="lbl">Зараз</span>Вимкнено — Arc стартує "чисто", без старих вкладок.</div>
+      </div>
+
+      <div class="card">
+        <span class="status status-on">Увімкнено</span>
+        <div class="icon">✋</div>
+        <h3>Перетягування вікна з верху сторінки</h3>
+        <p class="what">Дозволяє рухати саме вікно Arc, затиснувши й тягнучи за порожню зону у верхній частині відкритого сайту — не тільки за смужку заголовка.</p>
+        <div class="how"><span class="lbl">Як користуватись</span>Клікни й потягни за вільне місце в самому верху сторінки сайту.</div>
+      </div>
+
+      <div class="card">
+        <span class="status status-off">Вимкнено</span>
+        <div class="icon">🔗</div>
+        <h3>Показ повного URL</h3>
+        <p class="what">Коли увімкнено (і активна панель Toolbar) — в адресному рядку видно повну адресу сайту, а не скорочену назву.</p>
+        <div class="how"><span class="lbl">Кому корисно</span>Розробникам і тим, хто хоче точно бачити, на якому домені він перебуває.</div>
+      </div>
+
+      <div class="card">
+        <span class="status status-on">Увімкнено</span>
+        <div class="icon">💬</div>
+        <h3>Shared Quotes при виділенні тексту</h3>
+        <p class="what">Виділяєш текст на сторінці — Arc пропонує оформити його як цитату-картку з посиланням на джерело, щоб поширити.</p>
+        <div class="how"><span class="lbl">Альтернатива</span>Навіть без цієї функції можна скопіювати URL як цитату через <b>⌃ ⇧ ⌘ C</b>.</div>
+      </div>
+
+      <div class="card">
+        <span class="status status-on">Увімкнено</span>
+        <div class="icon">📺</div>
+        <h3>Picture in Picture для відео</h3>
+        <p class="what">Коли переходиш з вкладки, де грає відео, воно автоматично виринає маленьким плаваючим вікном поверх інших застосунків.</p>
+        <div class="how"><span class="lbl">Як користуватись</span>Просто перейди на іншу вкладку під час відео — плаваюче вікно з'явиться самостійно.</div>
+      </div>
+
+      <div class="card">
+        <span class="status status-on">Увімкнено</span>
+        <div class="icon">🎨</div>
+        <h3>Доступ сайтів до кольорів теми</h3>
+        <p class="what">Дозволяє сайтам "бачити" тему оформлення Arc (світла/темна, кольори) і підлаштовувати свій вигляд під неї.</p>
+        <div class="how"><span class="lbl">Навіщо це</span>Щоб сайти виглядали гармонійно з темою браузера, а не контрастували з нею.</div>
+      </div>
+
+      <div class="card">
+        <span class="status status-on">Увімкнено</span>
+        <div class="icon">✨</div>
+        <h3>Boosts на сайтах</h3>
+        <p class="what">Boosts — це твої власні косметичні правки вигляду сайтів (кольори, шрифти, елементи), які Arc дозволяє зберігати й застосовувати автоматично при кожному відвідуванні.</p>
+        <div class="how"><span class="lbl">Як користуватись</span>Створюються окремо через інструмент Boosts у самому браузері, тут лише перемикач "чи застосовувати їх".</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MAX SECTION -->
+  <div class="section">
+    <div class="section-head">
+      <span class="tag tag-max">03 · MAX</span>
+      <h2>ШІ-функції Arc Max</h2>
+      <div class="sub">Пакет функцій на основі AI, що бере на себе рутину: організацію вкладок, назви файлів і швидкі відповіді.</div>
+    </div>
+
+    <div class="kicker-note">
+      <span class="em">⚠️</span>
+      <span>Функції Max надсилають частину даних (наприклад, заголовки вкладок чи текст запиту) ШІ-партнерам Arc для обробки. Якщо це критично — вимикай Max повністю через кнопку <b style="color:#fff">Turn Off Max</b> вгорі розділу.</span>
+    </div>
+
+    <div class="grid sec-max" style="margin-top:24px;">
+
+      <div class="card">
+        <span class="status status-on">Увімкнено</span>
+        <div class="icon">🧹</div>
+        <h3>Tidy Tabs</h3>
+        <p class="what">Коли в сьогоднішніх вкладках накопичується більше шести, Arc пропонує сам розкласти їх по групах — щоб не шукати потрібну серед купи інших.</p>
+        <div class="how"><span class="lbl">Як користуватись</span>Натисни на іконку 🧹 у бічній панелі, коли вона з'явиться — вкладки самі організуються.</div>
+      </div>
+
+      <div class="card">
+        <span class="status status-on">Увімкнено</span>
+        <div class="icon">⚡</div>
+        <h3>Instant Links</h3>
+        <p class="what">Пропускає сторінку результатів пошуку і веде прямо на перший найрелевантніший сайт — економить один клік і кілька секунд.</p>
+        <div class="how"><span class="lbl">Як користуватись</span>Введи запит у пошуку й натисни <b>Shift + Enter</b> — відкриється топ-результат. Можна вводити навіть кілька запитів одразу.</div>
+      </div>
+
+      <div class="card">
+        <span class="status status-on">Увімкнено</span>
+        <div class="icon">🔍</div>
+        <h3>5-Second Previews</h3>
+        <p class="what">Коротке короткий стислий підсумок вмісту сторінки з'являється просто при наведенні на посилання — не потрібно переходити, щоб зрозуміти, про що там.</p>
+        <div class="how"><span class="lbl">Як користуватись</span>На підтримуваних сайтах — просто наведи курсор. На будь-якому іншому лінку — тримай <b>Shift</b> при наведенні.</div>
+      </div>
+
+      <div class="card">
+        <span class="status status-on">Увімкнено</span>
+        <div class="icon">🏷️</div>
+        <h3>Tidy Tab Titles</h3>
+        <p class="what">Коли закріплюєш вкладку (Pin), її назва часто занадто довга й непонятна. Ця функція автоматично скорочує й спрощує назву, щоб її було легше впізнати в бічній панелі.</p>
+        <div class="how"><span class="lbl">Як користуватись</span>Спрацьовує сама при закріпленні вкладки; назву завжди можна підправити вручну подвійним кліком.</div>
+      </div>
+
+      <div class="card">
+        <span class="status status-on">Увімкнено</span>
+        <div class="icon">📁</div>
+        <h3>Tidy Downloads</h3>
+        <p class="what">Файли з інтернету часто мають незрозумілі назви типу "file_3894.pdf". Arc перейменовує завантажені файли на щось зрозуміле, щоб потім легше знайти потрібне.</p>
+        <div class="how"><span class="lbl">Приклад</span>Замість беззмістовного імені файл підпишеться змістовно — наприклад, назвою маршруту чи документа.</div>
+      </div>
+
+      <div class="card">
+        <span class="status status-on">Увімкнено</span>
+        <div class="icon">🤖</div>
+        <h3>ChatGPT у командному рядку</h3>
+        <p class="what">Дозволяє ставити питання ChatGPT прямо з адресного рядка Arc — без відкриття окремого сайту чи застосунку.</p>
+        <div class="how"><span class="lbl">Як користуватись</span>Почни вводити <b>«ChatGPT»</b> в адресному рядку, натисни <b>Tab</b>, і одразу пиши своє питання.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- NAVIGATION / STRUCTURE SECTION -->
+  <div class="section">
+    <div class="section-head">
+      <span class="tag tag-nav">04 · SPACES · PROFILES · SPLIT VIEW</span>
+      <h2>Структура браузера</h2>
+      <div class="sub">Це вже не перемикачі з налаштувань, а окремі великі можливості Arc — те, що робить його не схожим на звичний Chrome чи Safari.</div>
+    </div>
+
+    <div class="grid sec-nav">
+
+      <div class="card">
+        <div class="icon">🌌</div>
+        <h3>Spaces (Простори)</h3>
+        <p class="what">Окремі "кімнати" всередині одного браузера — наприклад, окремий простір для роботи, окремий для особистого, окремий для якогось проєкту. У кожному просторі свої вкладки, свій колір і навіть свій фон, тож при перемиканні ти візуально одразу розумієш, де перебуваєш.</p>
+        <div class="how">
+          <span class="lbl">Як користуватись</span>
+          Створити новий — кнопка <b>+</b> в самому низу бічної панелі. Перемикатись між просторами — клікай на іконку внизу або проведи двома пальцями по трекпаду вліво-вправо.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="icon">🪪</div>
+        <h3>Profiles (Профілі)</h3>
+        <p class="what">Окремий набір логінів, паролів, історії й кукі, повністю ізольований від інших профілів — як кілька різних людей у одному браузері. Зручно, якщо в тебе особистий і робочий Google-акаунт, і ти не хочеш, щоб вони плуталися чи бачили одне одного.</p>
+        <div class="how">
+          <span class="lbl">Як користуватись</span>
+          Наведи курсор на назву простору (Space) в бічній панелі → відкриється меню → обери <b>Profile → New Profile</b> або підв'яжи вже існуючий.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="icon">🪟</div>
+        <h3>Split View (розділений екран)</h3>
+        <p class="what">Це і є та "прикольна штука", яка дозволяє бачити два (а то й чотири) сайти одночасно в одному вікні — half-screen по горизонталі чи вертикалі. Дуже зручно, коли треба порівняти два товари, звірити документ з таблицею, чи стежити за перекладом поруч з оригіналом.</p>
+        <div class="how">
+          <span class="lbl">Як користуватись</span>
+          Перетягни вкладку з бічної панелі прямо в центр екрана — вона стане другою половинкою. Або натисни <b>⌘ ⇧ +</b>, або через <b>⌘ T</b> введи «Add Right Split» чи «Add Top Split».
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="icon">⌨️</div>
+        <h3>Shortcuts (гарячі клавіші)</h3>
+        <p class="what">Ціла вкладка в налаштуваннях, де зібрані всі клавіатурні комбінації Arc — від створення нової вкладки до перемикання просторів. Їх можна переглянути, а деякі навіть перепризначити на свій смак.</p>
+        <div class="how">
+          <span class="lbl">Найкорисніші</span>
+          <b>⌘ T</b> — нова вкладка / командний рядок · <b>⌘ ⇧ C</b> — новий простір · <b>⌘ 1–9</b> — перейти до вкладки за номером · <b>⌘ ⇧ +</b> — розділити екран.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="icon">📁</div>
+        <h3>Folders (Папки)</h3>
+        <p class="what">Простіша версія Spaces — просто спосіб зібрати купу пов'язаних вкладок в одну групу всередині простору (наприклад, усі вкладки для одного проєкту чи поїздки), без окремої теми чи кольору. Вкладки в папках не архівуються автоматично.</p>
+        <div class="how">
+          <span class="lbl">Навіщо</span>
+          Коли Spaces — це "різні кімнати", то Folder — це просто "коробка" всередині кімнати для тимчасового зберігання пов'язаних сторінок.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="icon">🎨</div>
+        <h3>Easels (Дошки)</h3>
+        <p class="what">Вбудовані віртуальні "дошки" всередині Arc — можна закидати туди скріншоти, картинки, писати текст, малювати. Зручно для брейнштормінгу, накидання ідей чи збирання референсів в одному місці, без стороннього застосунку.</p>
+        <div class="how">
+          <span class="lbl">Бонус</span>
+          Якщо закинути на дошку скріншот сайту — картинка залишається "живою" посилкою: клікнеш і потрапиш на актуальну версію сторінки.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="icon">🚦</div>
+        <h3>Air Traffic Control</h3>
+        <p class="what">Автоматичний "диспетчер" посилань. Налаштовуєш правило один раз — і, наприклад, усі лінки Google Docs завжди відкриватимуться саме в твоєму робочому просторі, хоч би де ти на них клацнув.</p>
+        <div class="how">
+          <span class="lbl">Де знайти</span>
+          У розділі <b>Links</b> в налаштуваннях — кнопка <b>Air Traffic Control…</b>, там і додаються правила маршрутизації.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <h3>🌈 Готово</h3>
+    <p>Це повний гід по Arc — перемикачі з твоїх скріншотів (Links, Advanced, Max) плюс великі фішки браузера (Spaces, Profiles, Split View, Shortcuts, Folders, Easels, Air Traffic Control). Якщо захочеш ще щось додати чи щось прибрати — просто скажи словами.</p>
+    <div class="heart">Arc Browser · macOS · Гід складено вручну</div>
+  </footer>
+
+</div>
+
+</body>
+</html>
