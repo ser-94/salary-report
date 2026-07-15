@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<title>Налаштування TP-Link Deco — дві будівлі</title>
+<style>
+  :root{
+    --bg:#0f1117;
+    --panel:#161925;
+    --panel-2:#1b1f2e;
+    --border:#262b3d;
+    --text:#e6e8ef;
+    --muted:#8b91a7;
+    --accent:#3b82f6;
+    --accent-2:#1e3a8a;
+    --ok:#22c55e;
+    --warn:#f59e0b;
+    --danger:#ef4444;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:-apple-system, "Inter", "Segoe UI", Arial, sans-serif;
+    line-height:1.6;
+    padding:0;
+  }
+  .wrap{
+    max-width:820px;
+    margin:0 auto;
+    padding:40px 24px 80px;
+  }
+  .header{
+    border-bottom:2px solid var(--accent-2);
+    padding-bottom:20px;
+    margin-bottom:32px;
+  }
+  .badge{
+    display:inline-block;
+    background:var(--accent-2);
+    color:#bfdbfe;
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+    padding:4px 10px;
+    border-radius:6px;
+    margin-bottom:12px;
+  }
+  h1{
+    font-size:28px;
+    margin:0 0 6px;
+    color:#fff;
+  }
+  .subtitle{
+    color:var(--muted);
+    font-size:15px;
+  }
+  h2{
+    font-size:19px;
+    color:#fff;
+    margin:36px 0 12px;
+    padding-left:12px;
+    border-left:4px solid var(--accent);
+  }
+  h3{
+    font-size:15px;
+    color:var(--accent);
+    margin:20px 0 8px;
+  }
+  p{margin:10px 0; color:var(--text);}
+  .panel{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:18px 20px;
+    margin:14px 0;
+  }
+  .flow{
+    background:var(--panel-2);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:16px 18px;
+    font-family:"JetBrains Mono", "SF Mono", Consolas, monospace;
+    font-size:13.5px;
+    color:#93c5fd;
+    white-space:pre-wrap;
+    margin:14px 0;
+    overflow-x:auto;
+  }
+  ol, ul{
+    margin:10px 0;
+    padding-left:22px;
+  }
+  li{margin:6px 0;}
+  .steps{
+    counter-reset: step;
+    list-style:none;
+    padding-left:0;
+  }
+  .steps li{
+    position:relative;
+    padding-left:40px;
+    margin:14px 0;
+  }
+  .steps li::before{
+    counter-increment: step;
+    content: counter(step);
+    position:absolute;
+    left:0;
+    top:0;
+    width:26px;
+    height:26px;
+    background:var(--accent-2);
+    color:#bfdbfe;
+    border-radius:50%;
+    font-size:13px;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .warn-box{
+    background: rgba(245,158,11,0.08);
+    border:1px solid rgba(245,158,11,0.35);
+    border-left:4px solid var(--warn);
+    border-radius:8px;
+    padding:14px 16px;
+    margin:16px 0;
+  }
+  .warn-box .label{
+    color:var(--warn);
+    font-weight:700;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:.04em;
+    margin-bottom:6px;
+    display:block;
+  }
+  .ok-box{
+    background: rgba(34,197,94,0.08);
+    border:1px solid rgba(34,197,94,0.35);
+    border-left:4px solid var(--ok);
+    border-radius:8px;
+    padding:14px 16px;
+    margin:16px 0;
+  }
+  .ok-box .label{
+    color:var(--ok);
+    font-weight:700;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:.04em;
+    margin-bottom:6px;
+    display:block;
+  }
+  code{
+    background:var(--panel-2);
+    padding:2px 6px;
+    border-radius:4px;
+    font-family:"JetBrains Mono", "SF Mono", Consolas, monospace;
+    font-size:0.92em;
+    color:#93c5fd;
+  }
+  table{
+    width:100%;
+    border-collapse:collapse;
+    margin:14px 0;
+    font-size:14px;
+  }
+  th, td{
+    text-align:left;
+    padding:10px 12px;
+    border-bottom:1px solid var(--border);
+  }
+  th{
+    color:var(--muted);
+    font-weight:600;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:.03em;
+  }
+  .footer{
+    margin-top:48px;
+    padding-top:20px;
+    border-top:1px solid var(--border);
+    color:var(--muted);
+    font-size:12.5px;
+  }
+  @media print{
+    body{background:#fff; color:#111;}
+    .panel, .flow, .warn-box, .ok-box{
+      border-color:#ccc !important;
+      background:#f7f7f9 !important;
+      color:#111 !important;
+    }
+    .flow{color:#1e3a8a !important;}
+    h1,h2,h3{color:#111 !important;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="header">
+    <span class="badge">Мережа · Дача</span>
+    <h1>Налаштування TP-Link Deco — дві будівлі</h1>
+    <div class="subtitle">Модем «Копійка» + два вузли Deco через прокладений кабель</div>
+  </div>
+
+  <h2>Термінологія</h2>
+  <table>
+    <tr><th>Пристрій</th><th>Роль</th><th>Що робити</th></tr>
+    <tr><td>Коробочка від Копійки</td><td>Модем</td><td>Залишається, не чіпаємо і не викидаємо</td></tr>
+    <tr><td>Два циліндричні Deco</td><td>Роутер + Wi-Fi mesh</td><td>Deco #1 — головний, Deco #2 — сателіт</td></tr>
+  </table>
+
+  <h2>Додаток</h2>
+  <p>Встановити <strong>TP-Link Deco</strong> (App Store, розробник TP-Link Systems Inc.) — обов'язковий крок, без нього налаштування неможливе: прив'язка до акаунту, топологія мережі, оновлення прошивки — все через нього. Встановлюється і налаштовується через тезер із телефону.</p>
+
+  <h2>Схема підключення</h2>
+  <div class="flow">Будівля 1:
+  Модем Копійки ──(кабель)──> WAN-порт Deco #1
+  Deco #1, LAN-порт ──(прокладений кабель, 25-30м)──> Будівля 2
+
+Будівля 2:
+  Прокладений кабель ──> LAN-порт Deco #2
+  (WAN-порт Deco #2 не використовується)</div>
+
+  <div class="warn-box">
+    <span class="label">Важливо</span>
+    Deco #1 приймає інтернет у WAN-порт, роздає в другу будівлю через LAN-порт. Deco #2 отримує сигнал тільки в LAN-порт — його власний WAN-порт лишається пустим.
+  </div>
+
+  <h2>Порядок дій</h2>
+  <ol class="steps">
+    <li>Підключити <strong>тільки Deco #1</strong> до модема Копійки, увімкнути живлення.</li>
+    <li>Через тезер відкрити додаток TP-Link Deco → створити акаунт TP-Link → «Set Up New Network» → обрати модель → пройти майстер налаштування (назва мережі, пароль Wi-Fi).</li>
+    <li>Дочекатись, поки Deco #1 повністю запрацює і роздає інтернет.</li>
+    <li>Тільки після цього фізично прокласти кабель у другу будівлю і увімкнути Deco #2.</li>
+    <li>У додатку з'явиться пропозиція «Add Deco» — підтвердити. Система сама розпізнає дротове з'єднання (Ethernet backhaul) і додасть Deco #2 як дротовий сателіт.</li>
+  </ol>
+
+  <div class="warn-box">
+    <span class="label">Чому саме такий порядок</span>
+    Якщо ввімкнути обидва Deco одночасно до підключення кабелю, вони можуть з'єднатись по Wi-Fi як mesh. Послідовне підключення (спочатку #1 сам, потім #2 через кабель) одразу задає дротовий бекхол без переналаштувань.
+  </div>
+
+  <h2>Перевірка якості кабелю</h2>
+  <p>У додатку: <strong>More → Network Diagnostics</strong> (або топологія мережі на головному екрані) — там видно тип з'єднання між вузлами.</p>
+  <div class="ok-box">
+    <span class="label">Wired</span>
+    Кабель розпізнано і використовується як дротовий бекхол — все гаразд.
+  </div>
+  <div class="warn-box">
+    <span class="label">Wireless</span>
+    Кабель не розпізнався (обрив, погана обтиска, не той порт) — mesh перейшов на Wi-Fi замість дроту. Перевірити обтиски й порти.
+  </div>
+
+  <h2>Модем Копійки — на що звернути увагу</h2>
+  <p>Якщо це не проста прохідна коробочка (медіаконвертер/ONT), а повноцінний роутер із власним Wi-Fi та DHCP — варто зайти в його налаштування і:</p>
+  <ul>
+    <li>увімкнути режим <strong>Bridge</strong>, якщо є така опція, або</li>
+    <li>як мінімум вимкнути його власний Wi-Fi, щоб не було двох окремих мереж і подвійного NAT.</li>
+  </ul>
+  <p style="color:var(--muted); font-size:14px;">Якщо невідомо, чи модем «розумний» — краще уточнити модель окремо перед тим, як щось вимикати в його налаштуваннях.</p>
+
+  <div class="footer">
+    Складено Клавдієм для СЕРа · Lviv · липень 2026
+  </div>
+
+</div>
+</body>
+</html>
