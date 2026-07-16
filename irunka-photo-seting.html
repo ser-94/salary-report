@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Спільна фототека — налаштування</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap');
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    padding: 24px 16px 60px;
+    background: #f4f9f2;
+    font-family: 'Inter', sans-serif;
+    color: #1c1c1c;
+  }
+
+  .wrap {
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 26px;
+    line-height: 1.25;
+    margin: 0 0 6px;
+    color: #111;
+  }
+
+  .subtitle {
+    color: #5a6b57;
+    font-size: 15px;
+    margin-bottom: 28px;
+  }
+
+  .warn {
+    background: #ffffff;
+    border: 1px solid #d8e6d3;
+    border-left: 4px solid #8bc34a;
+    border-radius: 12px;
+    padding: 14px 16px;
+    font-size: 14.5px;
+    margin-bottom: 30px;
+    color: #33402f;
+  }
+
+  .step {
+    background: #ffffff;
+    border: 1px solid #e3ece0;
+    border-radius: 16px;
+    padding: 18px 18px 16px;
+    margin-bottom: 14px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+  }
+
+  .step-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+
+  .num {
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #8bc34a;
+    color: #fff;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .step-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 16.5px;
+  }
+
+  .step-body {
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: #333;
+    padding-left: 42px;
+  }
+
+  .path {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    background: #f1f7ee;
+    border-radius: 10px;
+    padding: 8px 12px;
+    margin: 8px 0 8px 42px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #2e3d2b;
+  }
+
+  .path span {
+    background: #ffffff;
+    border: 1px solid #d8e6d3;
+    border-radius: 7px;
+    padding: 3px 9px;
+  }
+
+  .arrow { color: #8bc34a; font-weight: 700; }
+
+  .toggle-off {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #1c1c1c;
+    color: #fff;
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin: 10px 0 4px 42px;
+    font-size: 14.5px;
+  }
+
+  .switch {
+    width: 44px;
+    height: 26px;
+    border-radius: 13px;
+    background: #4a4a4a;
+    position: relative;
+    flex-shrink: 0;
+    margin-left: 14px;
+  }
+
+  .switch::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #fff;
+  }
+
+  .toggle-on {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #ffffff;
+    border: 1.5px solid #8bc34a;
+    color: #1c1c1c;
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin: 10px 0 4px 42px;
+    font-size: 14.5px;
+    font-weight: 600;
+  }
+
+  .switch-on {
+    width: 44px;
+    height: 26px;
+    border-radius: 13px;
+    background: #8bc34a;
+    position: relative;
+    flex-shrink: 0;
+    margin-left: 14px;
+  }
+
+  .switch-on::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #fff;
+  }
+
+  .result {
+    margin-top: 32px;
+    background: #1c1c1c;
+    color: #fff;
+    border-radius: 16px;
+    padding: 20px 20px;
+  }
+
+  .result-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: #b6e388;
+    margin-bottom: 8px;
+  }
+
+  .result p {
+    font-size: 14.5px;
+    line-height: 1.55;
+    margin: 0;
+    color: #e8e8e8;
+  }
+
+  .tip {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 13px;
+    color: #7a8a76;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>Як вимкнути автоматичне додавання всіх фото у спільний альбом</h1>
+  <div class="subtitle">На iPhone, 4 кроки, 2 хвилини</div>
+
+  <div class="warn">
+    Зараз кожне фото і відео, яке ти знімаєш камерою, автоматично летить у спільну фототеку. Після цих кроків ти сама вирішуватимеш, що туди додавати.
+  </div>
+
+  <div class="step">
+    <div class="step-head">
+      <div class="num">1</div>
+      <div class="step-title">Відкрий Налаштування</div>
+    </div>
+    <div class="step-body">Знайди на екрані іконку "Налаштування" (сіра шестерінка) і натисни.</div>
+  </div>
+
+  <div class="step">
+    <div class="step-head">
+      <div class="num">2</div>
+      <div class="step-title">Зайди у свій профіль, тоді у Фото</div>
+    </div>
+    <div class="step-body">
+      Пройди цим шляхом:
+      <div class="path">
+        <span>Твоє імʼя вгорі</span><span class="arrow">→</span><span>iCloud</span><span class="arrow">→</span><span>Фото</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-head">
+      <div class="num">3</div>
+      <div class="step-title">Знайди "Спільна фототека"</div>
+    </div>
+    <div class="step-body">
+      Натисни на пункт "Спільна фототека" — відкриється окремий екран з налаштуваннями.
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-head">
+      <div class="num">4</div>
+      <div class="step-title">Вимкни автоматичне додавання</div>
+    </div>
+    <div class="step-body">
+      Знайди пункт <b>"Загальний доступ до камери"</b> (або "Автоматичне додавання"). Він має виглядати так:
+    </div>
+    <div class="toggle-on">
+      Загальний доступ до камери — увімкнено
+      <div class="switch-on"></div>
+    </div>
+    <div class="step-body" style="padding-left:42px; margin-top:6px;">Натисни на тумблер, щоб стало так:</div>
+    <div class="toggle-off">
+      Загальний доступ до камери — вимкнено
+      <div class="switch"></div>
+    </div>
+  </div>
+
+  <div class="result">
+    <div class="result-title">Готово, що це дає</div>
+    <p>Тепер фото з камери більше не будуть автоматично потрапляти у спільний альбом. Коли захочеш додати конкретне фото — відкриваєш його в "Фото", тиснеш "Поділитися" і вибираєш спільну фототеку вручну.</p>
+  </div>
+
+  <div class="tip">Якщо пункту "Спільна фототека" немає — значить, вона у тебе ще не налаштована, і проблеми з автозаливкою немає.</div>
+
+</div>
+</body>
+</html>
