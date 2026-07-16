@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LG GC-B509SMSM — перше налаштування</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+  :root{
+    --ice-0:#eef6fa;
+    --ice-1:#dcedf5;
+    --frost:#c7e3ef;
+    --steel-line:#c4dbe6;
+    --steel-900:#12262f;
+    --steel-700:#274552;
+    --steel-500:#4d6c78;
+    --blue-500:#1f8fc4;
+    --blue-600:#0e75a8;
+    --blue-glow:#7fd3ef;
+    --mint:#3bb3a0;
+    --amber:#e0a53c;
+    --white:#ffffff;
+    --radius-lg:22px;
+    --radius-md:16px;
+    --radius-sm:11px;
+  }
+
+  *{box-sizing:border-box;}
+
+  body{
+    margin:0;
+    padding:0 0 70px;
+    background:
+      radial-gradient(120% 60% at 15% 0%, #f6fbfd 0%, transparent 55%),
+      radial-gradient(120% 70% at 100% 10%, #e4f2f8 0%, transparent 60%),
+      linear-gradient(180deg,var(--ice-0) 0%, var(--ice-1) 100%);
+    font-family:'Inter',sans-serif;
+    color:var(--steel-900);
+  }
+
+  .wrap{max-width:560px;margin:0 auto;padding:0 18px;}
+
+  /* ===== HERO ===== */
+  .hero{
+    position:relative;
+    padding:38px 18px 30px;
+    overflow:hidden;
+    background:
+      linear-gradient(160deg, #ffffff 0%, #eaf5fa 55%, #dcedf5 100%);
+    border-bottom:1px solid var(--steel-line);
+  }
+  .hero::before{
+    content:'';
+    position:absolute;
+    top:-60px; right:-60px;
+    width:220px;height:220px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(127,211,239,.55) 0%, rgba(127,211,239,0) 70%);
+  }
+  .hero::after{
+    content:'';
+    position:absolute;
+    bottom:-80px; left:-40px;
+    width:200px;height:200px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(59,179,160,.25) 0%, rgba(59,179,160,0) 70%);
+  }
+  .hero-inner{max-width:560px;margin:0 auto;position:relative;}
+
+  .eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-size:12.5px;
+    font-weight:600;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--blue-600);
+    background:rgba(255,255,255,.7);
+    border:1px solid var(--steel-line);
+    padding:6px 12px;
+    border-radius:20px;
+    margin-bottom:16px;
+  }
+  .eyebrow svg{width:14px;height:14px;}
+
+  h1{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:30px;
+    line-height:1.18;
+    margin:0 0 8px;
+    color:var(--steel-900);
+    letter-spacing:-.01em;
+  }
+  h1 span{color:var(--blue-600);}
+
+  .model-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-top:14px;
+    font-size:13.5px;
+    color:var(--steel-500);
+  }
+  .model-badge{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    font-size:13px;
+    color:var(--steel-900);
+    background:#fff;
+    border:1px solid var(--steel-line);
+    padding:5px 10px;
+    border-radius:8px;
+  }
+
+  /* ===== SECTION LABELS ===== */
+  .section{margin:34px 0;}
+  .section-label{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:14px;
+    padding:0 2px;
+  }
+  .section-label .dot{
+    width:8px;height:8px;border-radius:50%;
+    background:var(--blue-500);
+    box-shadow:0 0 0 4px rgba(31,143,196,.15);
+    flex-shrink:0;
+  }
+  .section-label h2{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:12.5px;
+    font-weight:700;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--steel-500);
+    margin:0;
+  }
+
+  /* ===== ALERT / WARN CARDS ===== */
+  .card{
+    background:#fff;
+    border:1px solid var(--steel-line);
+    border-radius:var(--radius-lg);
+    padding:18px 18px 16px;
+    box-shadow:0 1px 2px rgba(18,38,47,.03), 0 8px 24px -18px rgba(18,38,47,.25);
+  }
+
+  .warn{
+    background:linear-gradient(135deg,#fff 0%,#fbf6ea 100%);
+    border:1px solid #ecdca8;
+    border-left:4px solid var(--amber);
+    border-radius:var(--radius-md);
+    padding:16px 16px 16px 14px;
+    display:flex;
+    gap:12px;
+    align-items:flex-start;
+    margin-bottom:16px;
+  }
+  .warn svg{width:22px;height:22px;flex-shrink:0;margin-top:1px;}
+  .warn b{color:var(--steel-900);}
+  .warn p{margin:0;font-size:14.5px;line-height:1.55;color:var(--steel-700);}
+
+  /* ===== STEP LIST ===== */
+  .step{
+    display:flex;
+    gap:14px;
+    padding:16px 4px;
+    border-bottom:1px solid var(--steel-line);
+  }
+  .step:last-child{border-bottom:none;}
+  .step-num{
+    flex-shrink:0;
+    width:32px;height:32px;
+    border-radius:50%;
+    background:linear-gradient(160deg,var(--blue-500),var(--blue-600));
+    color:#fff;
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    font-size:14px;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 4px 10px -3px rgba(14,117,168,.5);
+  }
+  .step-body{flex:1;}
+  .step-title{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    font-size:15.5px;
+    color:var(--steel-900);
+    margin-bottom:4px;
+  }
+  .step-text{
+    font-size:14.2px;
+    line-height:1.55;
+    color:var(--steel-700);
+  }
+  .step-text b{color:var(--steel-900);}
+
+  /* ===== ICON BUTTON CHIP (панель дисплея) ===== */
+  .panel-mock{
+    background:linear-gradient(160deg,#fbfdfe 0%, #eef6fa 100%);
+    border:1px solid var(--steel-line);
+    border-radius:var(--radius-md);
+    padding:16px;
+    margin:14px 0 6px;
+  }
+  .panel-title{
+    font-size:11.5px;
+    font-weight:600;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    color:var(--steel-500);
+    margin-bottom:12px;
+  }
+  .panel-buttons{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+  }
+  .panel-btn{
+    background:#fff;
+    border:1px solid var(--steel-line);
+    border-radius:var(--radius-sm);
+    padding:10px 6px 8px;
+    text-align:center;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:6px;
+  }
+  .panel-btn.active{
+    border-color:var(--blue-500);
+    background:linear-gradient(160deg,#fff 0%,#e9f6fc 100%);
+    box-shadow:0 0 0 3px rgba(31,143,196,.12);
+  }
+  .panel-btn svg{width:22px;height:22px;}
+  .panel-btn span{
+    font-size:10.5px;
+    font-weight:600;
+    color:var(--steel-700);
+    line-height:1.2;
+  }
+  .panel-btn.active span{color:var(--blue-600);}
+
+  /* ===== TEMP DIAL ROW ===== */
+  .temp-row{
+    display:flex;
+    gap:12px;
+    margin:16px 0 4px;
+  }
+  .temp-card{
+    flex:1;
+    background:#fff;
+    border:1px solid var(--steel-line);
+    border-radius:var(--radius-md);
+    padding:16px 14px;
+    text-align:center;
+  }
+  .temp-card svg{width:26px;height:26px;margin-bottom:8px;}
+  .temp-label{
+    font-size:11.5px;
+    font-weight:600;
+    color:var(--steel-500);
+    text-transform:uppercase;
+    letter-spacing:.04em;
+    margin-bottom:4px;
+  }
+  .temp-value{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:24px;
+    font-weight:700;
+    color:var(--blue-600);
+  }
+  .temp-card.freezer .temp-value{color:var(--steel-700);}
+
+  /* ===== CHECKLIST ===== */
+  .checklist{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    margin-top:6px;
+  }
+  .check-item{
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+    background:#fff;
+    border:1px solid var(--steel-line);
+    border-radius:var(--radius-md);
+    padding:13px 14px;
+  }
+  .check-icon{
+    flex-shrink:0;
+    width:26px;height:26px;
+    border-radius:50%;
+    background:linear-gradient(160deg,var(--mint),#2a9184);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .check-icon svg{width:14px;height:14px;stroke:#fff;}
+  .check-text{font-size:14px;line-height:1.5;color:var(--steel-700);}
+  .check-text b{color:var(--steel-900);}
+
+  /* ===== TIMELINE ===== */
+  .timeline{position:relative;padding-left:26px;margin-top:8px;}
+  .timeline::before{
+    content:'';
+    position:absolute;left:8px;top:6px;bottom:6px;
+    width:2px;
+    background:linear-gradient(180deg,var(--blue-500),var(--mint));
+    border-radius:2px;
+  }
+  .tl-item{position:relative;padding-bottom:22px;}
+  .tl-item:last-child{padding-bottom:0;}
+  .tl-dot{
+    position:absolute;left:-26px;top:2px;
+    width:18px;height:18px;
+    border-radius:50%;
+    background:#fff;
+    border:3px solid var(--blue-500);
+  }
+  .tl-time{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    font-size:13.5px;
+    color:var(--blue-600);
+    margin-bottom:2px;
+  }
+  .tl-text{font-size:14px;line-height:1.5;color:var(--steel-700);}
+
+  /* ===== SUMMARY STRIP ===== */
+  .summary{
+    margin-top:36px;
+    background:linear-gradient(155deg,var(--steel-900) 0%, #1a3a47 100%);
+    border-radius:var(--radius-lg);
+    padding:22px 20px;
+    color:#fff;
+    position:relative;
+    overflow:hidden;
+  }
+  .summary::after{
+    content:'';
+    position:absolute;
+    top:-40px;right:-40px;
+    width:160px;height:160px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(127,211,239,.35), transparent 70%);
+  }
+  .summary-title{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    font-size:14px;
+    color:var(--blue-glow);
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    margin-bottom:10px;
+    position:relative;
+  }
+  .summary-flow{
+    font-size:14.5px;
+    line-height:1.9;
+    color:#eaf6fb;
+    position:relative;
+  }
+  .summary-flow b{color:#fff;}
+
+  .tip{
+    margin-top:18px;
+    text-align:center;
+    font-size:12.5px;
+    color:var(--steel-500);
+  }
+
+  @media (max-width:380px){
+    .panel-buttons{grid-template-columns:repeat(2,1fr);}
+    h1{font-size:26px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M4.5 6l15 12M19.5 6l-15 12" stroke-linecap="round"/></svg>
+      Перше налаштування
+    </div>
+    <h1>Холодильник <span>LG GC-B509SMSM</span><br>з нуля до робочої температури</h1>
+    <div class="model-row">
+      <span class="model-badge">Side-by-side · 419 л</span>
+      <span>DoorCooling⁺ · Total No Frost</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- ===== БЛОК 1: ПЕРШЕ ВМИКАННЯ ===== -->
+  <div class="section">
+    <div class="section-label">
+      <div class="dot"></div>
+      <h2>Перш ніж вмикати в розетку</h2>
+    </div>
+
+    <div class="warn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#c98a1f" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v5" stroke-linecap="round"/><circle cx="12" cy="16" r="0.6" fill="#c98a1f"/></svg>
+      <p><b>Дати постояти 4–6 годин</b> без розетки, якщо холодильник щойно привезли чи заносили в квартиру — компресорне масло має стекти на місце. Якщо увімкнути раніше, компресор може вийти з ладу в перші дні.</p>
+    </div>
+
+    <div class="card">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">Зняти транспортувальні фіксатори</div>
+          <div class="step-text">Всередині — стрічки та фіксатори на полицях і лотку для яєць. Двері при цьому мають бути зачинені.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title">Вирівняти по горизонту</div>
+          <div class="step-text">Спереду є регулювальні ніжки. Холодильник має стояти рівно — інакше двері самі відчиняються або нещільно зачиняються.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title">Залишити відстань від стіни</div>
+          <div class="step-text"><b>5–10 см</b> ззаду і збоку для вентиляції компресора — інакше він перегрівається і швидше зношується.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="step-title">Тепер можна в розетку</div>
+          <div class="step-text">Тільки після 4–6 годин очікування.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== БЛОК 2: ПАНЕЛЬ КЕРУВАННЯ ===== -->
+  <div class="section">
+    <div class="section-label">
+      <div class="dot"></div>
+      <h2>Панель керування на дверцятах</h2>
+    </div>
+
+    <div class="card">
+      <div class="step-text" style="margin-bottom:6px;">Дисплей за замовчуванням заблокований. Щоб змінити температуру:</div>
+
+      <div class="panel-mock">
+        <div class="panel-title">Кнопки на дисплеї</div>
+        <div class="panel-buttons">
+
+          <div class="panel-btn active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue-600)" stroke-width="2"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3" stroke-linecap="round"/></svg>
+            <span>Lock<br>3 сек</span>
+          </div>
+
+          <div class="panel-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--steel-700)" stroke-width="2"><path d="M12 3v18M6 8l6-5 6 5M6 16l6 5 6-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>Холодильник</span>
+          </div>
+
+          <div class="panel-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--steel-700)" stroke-width="2"><path d="M12 2v20M4.5 6l15 12M19.5 6l-15 12" stroke-linecap="round"/></svg>
+            <span>Морозильник</span>
+          </div>
+
+          <div class="panel-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--steel-700)" stroke-width="2"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z" stroke-linejoin="round" stroke-linecap="round"/></svg>
+            <span>Express<br>Freeze</span>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="step-text" style="margin-top:14px;">
+        Натиснути й утримати <b>[Lock]</b> щонайменше 3 секунди → дисплей розблокується → кнопками <b>[Холодильник]</b> або <b>[Морозильник]</b> виставити температуру → знову натиснути <b>[Lock]</b>, щоб заблокувати (щоб діти чи випадковий дотик не збили налаштування).
+      </div>
+    </div>
+
+    <div class="temp-row">
+      <div class="temp-card">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue-600)" stroke-width="2"><path d="M12 3v18M6 8l6-5 6 5M6 16l6 5 6-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div class="temp-label">Холодильна камера</div>
+        <div class="temp-value">+3…+4°C</div>
+      </div>
+      <div class="temp-card freezer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--steel-700)" stroke-width="2"><path d="M12 2v20M4.5 6l15 12M19.5 6l-15 12" stroke-linecap="round"/></svg>
+        <div class="temp-label">Морозильна камера</div>
+        <div class="temp-value">−18°C</div>
+      </div>
+    </div>
+    <div class="step-text" style="padding:0 2px;">Це рекомендовані значення LG. Міняти без потреби не варто.</div>
+  </div>
+
+  <!-- ===== БЛОК 3: ПЕРШІ 24 ГОДИНИ ===== -->
+  <div class="section">
+    <div class="section-label">
+      <div class="dot"></div>
+      <h2>Перші 24 години</h2>
+    </div>
+
+    <div class="card">
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-time">0–2 год після ввімкнення</div>
+          <div class="tl-text">Нічого не класти всередину — камери виходять на робочу температуру.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-time">Перше завантаження продуктів</div>
+          <div class="tl-text">Не забивати камери під зав'язку одразу. Компресор інверторний — краще «вчиться» навантаженню при поступовому заповненні.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-time">Далі — постійно</div>
+          <div class="tl-text">Розморожувати вручну ніколи не треба. Це Total No Frost — обидві камери не заморожуються самі.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== БЛОК 4: DOORCOOLING + ПОМИЛКИ ===== -->
+  <div class="section">
+    <div class="section-label">
+      <div class="dot"></div>
+      <h2>Що ще варто знати</h2>
+    </div>
+
+    <div class="checklist">
+      <div class="check-item">
+        <div class="check-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg>
+        </div>
+        <div class="check-text"><b>DoorCooling⁺</b> — це вентилятор, що жене холод рівномірніше по дверцятах при відкритті. Ніяких додаткових налаштувань не потребує.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg>
+        </div>
+        <div class="check-text"><b>Код помилки на дисплеї</b> (Er, dh тощо) — це діагностичне повідомлення LG. Якщо з'явиться — просто скинь код, розберемось разом.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SUMMARY ===== -->
+  <div class="summary">
+    <div class="summary-title">Коротко, весь порядок дій</div>
+    <div class="summary-flow">
+      <b>Поставити рівно</b> → зачекати <b>4–6 год</b> → увімкнути в розетку → <b>Lock 3 сек</b> → виставити <b>+3…+4°C</b> і <b>−18°C</b> → зачекати пару годин перед завантаженням продуктів.
+    </div>
+  </div>
+
+  <div class="tip">Режими Holiday, Hygiene Fresh та інші опції — не критичні, розпишу окремо, якщо знадобиться.</div>
+
+</div>
+
+</body>
+</html>
