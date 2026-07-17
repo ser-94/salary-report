@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notes не синкаються — інструкція</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap');
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    padding: 24px 16px 60px;
+    background: #f4f7fb;
+    font-family: 'Inter', sans-serif;
+    color: #1c1c1c;
+  }
+
+  .wrap {
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 25px;
+    line-height: 1.28;
+    margin: 0 0 6px;
+    color: #111;
+  }
+
+  .subtitle {
+    color: #5a6779;
+    font-size: 15px;
+    margin-bottom: 24px;
+  }
+
+  .warn {
+    background: #ffffff;
+    border: 1px solid #d6e0f0;
+    border-left: 4px solid #4a7cff;
+    border-radius: 12px;
+    padding: 14px 16px;
+    font-size: 14.5px;
+    margin-bottom: 20px;
+    color: #2b3648;
+    line-height: 1.5;
+  }
+
+  .quickpath {
+    display: flex;
+    gap: 10px;
+    background: #eaf0ff;
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 30px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #24365e;
+  }
+
+  .quickpath b {
+    color: #1c3d8f;
+  }
+
+  .stage-label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #4a7cff;
+    margin: 30px 0 10px 4px;
+  }
+
+  .stage-label.risky {
+    color: #d9822b;
+  }
+
+  .stage-label.last {
+    color: #d64545;
+  }
+
+  .step {
+    background: #ffffff;
+    border: 1px solid #e3e8f2;
+    border-radius: 16px;
+    padding: 18px 18px 16px;
+    margin-bottom: 14px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+  }
+
+  .step-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+
+  .num {
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #4a7cff;
+    color: #fff;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .step.risky .num { background: #d9822b; }
+  .step.last .num { background: #d64545; }
+
+  .step-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 16.5px;
+  }
+
+  .step-body {
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: #333;
+    padding-left: 42px;
+  }
+
+  .step-body + .step-body {
+    margin-top: 8px;
+  }
+
+  .path {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    background: #f1f5fc;
+    border-radius: 10px;
+    padding: 8px 12px;
+    margin: 8px 0 8px 42px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #24365e;
+  }
+
+  .path span {
+    background: #ffffff;
+    border: 1px solid #d6e0f0;
+    border-radius: 7px;
+    padding: 3px 9px;
+  }
+
+  .arrow { color: #4a7cff; font-weight: 700; }
+
+  .note {
+    margin: 10px 0 4px 42px;
+    background: #fff8ea;
+    border: 1px solid #f0dfae;
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: #6b5217;
+  }
+
+  .note b { color: #4a3a0f; }
+
+  .result {
+    margin-top: 30px;
+    background: #1c1c1c;
+    color: #fff;
+    border-radius: 16px;
+    padding: 20px 20px;
+  }
+
+  .result-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: #8fb2ff;
+    margin-bottom: 8px;
+  }
+
+  .result p {
+    font-size: 14.5px;
+    line-height: 1.55;
+    margin: 0 0 10px;
+    color: #e8e8e8;
+  }
+
+  .result p:last-child { margin-bottom: 0; }
+
+  .tip {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 13px;
+    color: #7a879a;
+    line-height: 1.5;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>Notes не синкаються через iCloud на iPad</h1>
+  <div class="subtitle">Йди по порядку зверху вниз, зупинись там, де спрацювало</div>
+
+  <div class="warn">
+    Кружечок синку крутиться, а нотатки не з'являються на інших пристроях. Нижче — перевірені кроки, від найпростіших до радикальних.
+  </div>
+
+  <div class="quickpath">
+    <div>⚡</div>
+    <div><b>Якщо лінь читати все:</b> спробуй одразу крок 4 (форс-рестарт через дату) — швидко і без ризику. Не спрацювало — переходь одразу до кроку 5.</div>
+  </div>
+
+  <div class="stage-label">Крок 1 · Базовий рестарт синку</div>
+
+  <div class="step">
+    <div class="step-head">
+      <div class="num">1</div>
+      <div class="step-title">Вимкни й увімкни Notes в iCloud</div>
+    </div>
+    <div class="step-body">Пройди цим шляхом і вимкни перемикач навпроти Notes:</div>
+    <div class="path">
+      <span>Налаштування</span><span class="arrow">→</span><span>[твоє ім'я]</span><span class="arrow">→</span><span>iCloud</span><span class="arrow">→</span><span>Notes</span>
+    </div>
+    <div class="step-body">Далі повністю перезавантаж iPad — саме вимкни й увімкни, а не просто заблокуй екран.</div>
+    <div class="step-body">Увімкни назад і дай 15–20 хвилин, не відкриваючи додаток Notes.</div>
+  </div>
+
+  <div class="stage-label">Крок 2 · Мережа й акаунт</div>
+
+  <div class="step">
+    <div class="step-head">
+      <div class="num">2</div>
+      <div class="step-title">Перевір Wi-Fi та Apple ID</div>
+    </div>
+    <div class="step-body">Wi-Fi має бути звичайний стабільний — не капітальний портал готелю чи офісу, де доступ обмежений, доки не введеш дані на сторінці входу.</div>
+    <div class="step-body">Зверху в Налаштуваннях перевір, чи немає жовтого попередження біля твого імені — це означає, що Apple ID просить повторно ввести пароль.</div>
+    <div class="path">
+      <span>Налаштування</span><span class="arrow">→</span><span>Загальні</span><span class="arrow">→</span><span>Дата і час</span>
+    </div>
+    <div class="step-body">Переконайся, що "Автоматично" увімкнено — розсинхрон часу ламає iCloud sync.</div>
+  </div>
+
+  <div class="stage-label">Крок 3 · Місце в сховищі</div>
+
+  <div class="step">
+    <div class="step-head">
+      <div class="num">3</div>
+      <div class="step-title">Перевір, чи не переповнений iCloud</div>
+    </div>
+    <div class="step-body">Зайди сюди і подивись, скільки вільно:</div>
+    <div class="path">
+      <span>Налаштування</span><span class="arrow">→</span><span>[твоє ім'я]</span><span class="arrow">→</span><span>iCloud</span>
+    </div>
+    <div class="note">Безкоштовно дають лише <b>5 ГБ</b> (якщо на цьому Apple ID немає підписки iCloud+). Якщо сховище повне — Notes просто не синкатимуться, а кружечок буде крутитись нескінченно.</div>
+  </div>
+
+  <div class="stage-label risky">Крок 4 · Форс-рестарт через дату (спробуй першим)</div>
+
+  <div class="step risky">
+    <div class="step-head">
+      <div class="num">4</div>
+      <div class="step-title">Класичний трюк з датою</div>
+    </div>
+    <div class="step-body">Йди сюди:</div>
+    <div class="path">
+      <span>Налаштування</span><span class="arrow">→</span><span>Загальні</span><span class="arrow">→</span><span>Дата і час</span>
+    </div>
+    <div class="step-body">1. Вимкни "Автоматично"<br>2. Постав дату на рік вперед<br>3. Зачекай хвилину<br>4. Поверни "Автоматично" назад</div>
+    <div class="note">Це змушує систему заново перевірити сертифікати й часто "розморожує" завислий синк. Швидко і без ризику для даних.</div>
+  </div>
+
+  <div class="stage-label last">Крок 5 · Якщо нічого не допомогло</div>
+
+  <div class="step last">
+    <div class="step-head">
+      <div class="num">5</div>
+      <div class="step-title">Повний вихід і вхід в акаунт</div>
+    </div>
+    <div class="step-body">Йди сюди й натисни "Вийти" (Sign Out) внизу профілю:</div>
+    <div class="path">
+      <span>Налаштування</span><span class="arrow">→</span><span>[твоє ім'я]</span><span class="arrow">→</span><span>Sign Out</span>
+    </div>
+    <div class="note"><b>Важливо:</b> коли спитає, що робити з даними на пристрої — вибирай "Keep on My iPad" тільки якщо там є щось не синхронізоване. Якщо все вже мало бути в хмарі — просто видаляй локальні дані.</div>
+    <div class="step-body">Перезавантаж iPad → увійди в Apple ID знову → дочекайся повного синку всього (Photos, Notes тощо).</div>
+    <div class="note">На ~12 ГБ даних це може зайняти <b>годину і більше</b> — не чіпай і не переривай процес.</div>
+  </div>
+
+  <div class="result">
+    <div class="result-title">Чому це має спрацювати</div>
+    <p>Sign out / sign in найчастіше вирішує саме такі завислі синки — коли на пристрої все виглядає налаштованим правильно, але сервер просто не віддає дані.</p>
+    <p>Це, скоріш за все, той самий метод, яким свого часу вдалося "домучити" попередній iPad.</p>
+  </div>
+
+  <div class="tip">Порядок дій: спочатку крок 4 (швидко, без ризику) → не спрацювало → одразу крок 5.</div>
+
+</div>
+</body>
+</html>
