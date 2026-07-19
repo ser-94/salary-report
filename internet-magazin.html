@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ShopUA — Інтернет-магазин</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --red: #E63946;
+  --blue: #2563EB;
+  --dark: #1A1A2E;
+  --gray: #6B7280;
+  --light-gray: #F1F3F5;
+  --bg: #F8F9FB;
+  --white: #FFFFFF;
+  --shadow: 0 2px 12px rgba(26,26,46,0.07);
+  --shadow-hover: 0 8px 28px rgba(26,26,46,0.12);
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--dark);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===== HEADER ===== */
+.header {
+  background: var(--white);
+  border-bottom: 1px solid #E5E7EB;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 26px;
+  letter-spacing: -0.5px;
+  color: var(--dark);
+  text-decoration: none;
+}
+
+.logo span { color: var(--red); }
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.header-search {
+  display: flex;
+  align-items: center;
+  background: var(--light-gray);
+  border-radius: 10px;
+  padding: 0 14px;
+  height: 40px;
+  width: 280px;
+  transition: box-shadow 0.2s;
+}
+
+.header-search:focus-within {
+  box-shadow: 0 0 0 2px var(--blue);
+}
+
+.header-search input {
+  border: none;
+  background: none;
+  outline: none;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  width: 100%;
+  color: var(--dark);
+}
+
+.header-search input::placeholder { color: #9CA3AF; }
+
+.search-icon {
+  color: #9CA3AF;
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+
+.cart-btn {
+  position: relative;
+  background: var(--blue);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 9px 18px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.2s;
+}
+
+.cart-btn:hover { background: #1D4ED8; }
+
+.cart-badge {
+  background: var(--red);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: -6px;
+  right: -6px;
+}
+
+.phone-link {
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--dark);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.phone-link:hover { color: var(--red); }
+
+/* ===== HERO BANNER ===== */
+.hero {
+  background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 50%, #1E40AF 100%);
+  color: white;
+  padding: 48px 24px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -60%;
+  right: -10%;
+  width: 500px;
+  height: 500px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 50%;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -40%;
+  left: -5%;
+  width: 350px;
+  height: 350px;
+  background: rgba(255,255,255,0.04);
+  border-radius: 50%;
+}
+
+.hero h1 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: clamp(24px, 4vw, 40px);
+  margin-bottom: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.hero p {
+  font-size: 17px;
+  opacity: 0.85;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== CATEGORY NAV ===== */
+.cat-nav {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 28px 24px 0;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.cat-btn {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 10px 22px;
+  border-radius: 50px;
+  border: 2px solid #E5E7EB;
+  background: var(--white);
+  color: var(--dark);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cat-btn:hover,
+.cat-btn.active {
+  background: var(--red);
+  color: white;
+  border-color: var(--red);
+}
+
+.cat-btn.active { pointer-events: none; }
+
+/* ===== SECTION ===== */
+.section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 36px 24px 12px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.section-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.section-icon.tv { background: #DBEAFE; }
+.section-icon.toy { background: #FCE7F3; }
+.section-icon.sun { background: #FEF3C7; }
+
+.section-title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--dark);
+}
+
+/* ===== PRODUCT GRID ===== */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 18px;
+  margin-bottom: 16px;
+}
+
+/* ===== PRODUCT CARD ===== */
+.card {
+  background: var(--white);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+}
+
+.card-img {
+  height: 170px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 64px;
+  position: relative;
+}
+
+.card-img.tv-bg { background: linear-gradient(135deg, #EFF6FF, #DBEAFE); }
+.card-img.toy-bg { background: linear-gradient(135deg, #FDF2F8, #FCE7F3); }
+.card-img.sun-bg { background: linear-gradient(135deg, #FFFBEB, #FEF3C7); }
+
+.card-body {
+  padding: 16px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-name {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--dark);
+  margin-bottom: 4px;
+  line-height: 1.35;
+}
+
+.card-desc {
+  font-size: 12px;
+  color: var(--gray);
+  margin-bottom: 12px;
+  flex: 1;
+}
+
+.card-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.card-price {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 18px;
+  color: var(--red);
+  white-space: nowrap;
+}
+
+.card-price small {
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--gray);
+}
+
+.buy-btn {
+  background: var(--blue);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 16px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+
+.buy-btn:hover { background: #1D4ED8; }
+
+/* ===== FOOTER ===== */
+.footer {
+  background: var(--dark);
+  color: #9CA3AF;
+  margin-top: 48px;
+  padding: 36px 24px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.footer a {
+  color: #D1D5DB;
+  text-decoration: none;
+}
+
+.footer-brand {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  color: white;
+  margin-bottom: 8px;
+}
+
+.footer-brand span { color: var(--red); }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .header-search { display: none; }
+  .phone-link { display: none; }
+  .grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .card-img { height: 130px; font-size: 48px; }
+  .card-body { padding: 12px; }
+  .card-price { font-size: 16px; }
+  .buy-btn { padding: 7px 12px; font-size: 12px; }
+  .hero { padding: 32px 20px; }
+}
+
+@media (max-width: 420px) {
+  .grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <a href="#" class="logo">Shop<span>UA</span></a>
+    <div class="header-actions">
+      <div class="header-search">
+        <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" placeholder="Пошук товарів...">
+      </div>
+      <a href="tel:+380501234567" class="phone-link">📞 (050) 123-45-67</a>
+      <button class="cart-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        Кошик
+        <span class="cart-badge">0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <h1>Все для дому, стилю та настрою</h1>
+  <p>Техніка · Іграшки · Аксесуари — доставка по Україні</p>
+</section>
+
+<!-- CATEGORY NAV -->
+<nav class="cat-nav">
+  <button class="cat-btn active" onclick="scrollToSection('tv')">📺 Телевізори</button>
+  <button class="cat-btn" onclick="scrollToSection('toys')">🧸 М'які іграшки</button>
+  <button class="cat-btn" onclick="scrollToSection('glasses')">🕶️ Сонячні окуляри</button>
+</nav>
+
+<!-- ======================== ТЕЛЕВІЗОРИ ======================== -->
+<section class="section" id="tv">
+  <div class="section-header">
+    <div class="section-icon tv">📺</div>
+    <h2 class="section-title">Телевізори</h2>
+  </div>
+  <div class="grid">
+
+    <div class="card">
+      <div class="card-img tv-bg">📺</div>
+      <div class="card-body">
+        <div class="card-name">Xiaomi Mi TV A2 55"</div>
+        <div class="card-desc">55 дюймів, 4K UHD, Smart TV, Android</div>
+        <div class="card-bottom">
+          <div class="card-price">15 000 <small>грн</small></div>
+          <button class="buy-btn">Купити</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img tv-bg">📺</div>
+      <div class="card-body">
+        <div class="card-name">Xiaomi Mi TV P1E 43"</div>
+        <div class="card-desc">43 дюйми, Full HD, Smart TV, Android</div>
+        <div class="card-bottom">
+          <div class="card-price">10 000 <small>грн</small></div>
+          <button class="buy-btn">Купити</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img tv-bg">📺</div>
+      <div class="card-body">
+        <div class="card-name">Xiaomi Mi TV A2 32"</div>
+        <div class="card-desc">32 дюйми, HD, Smart TV, Android</div>
+        <div class="card-bottom">
+          <div class="card-price">6 500 <small>грн</small></div>
+          <button class="buy-btn">Купити</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img tv-bg">📺</div>
+      <div class="card-body">
+        <div class="card-name">Xiaomi Redmi Smart TV 50"</div>
+        <div class="card-desc">50 дюймів, 4K UHD, Smart TV, Bluetooth</div>
+        <div class="card-bottom">
+          <div class="card-price">13 000 <small>грн</small></div>
+          <button class="buy-btn">Купити</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img tv-bg">📺</div>
+      <div class="card-body">
+        <div class="card-name">Xiaomi Mi TV Q2 65"</div>
+        <div class="card-desc">65 дюймів, QLED 4K, Dolby Vision, 120 Гц</div>
+        <div class="card-bottom">
+          <div class="card-price">25 000 <small>грн</small></div>
+          <button class="buy-btn">Купити</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ======================== М'ЯКІ ІГРАШКИ ======================== -->
+<section class="section" id="toys">
+  <div class="section-header">
+    <div class="section-icon toy">🧸</div>
+    <h2 class="section-title">М'які іграшки</h2>
+  </div>
+  <div class="grid">
+
+    <div class="card">
+      <div class="card-img toy-bg">🧸</div>
+      <div class="card-body">
+        <div class="card-name">Ведмедик плюшевий 60 см</div>
+        <div class="card-desc">М'який, коричневий, з бантиком</div>
+        <div class="card-bottom">
+          <div class="card-price">450 <small>грн</small></div>
+          <button class="buy-btn">Купити</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img toy-bg">🐰</div>
+      <div class="card-body">
+        <div class="card-name">Зайчик з довгими вухами</div>
+        <div class="card-desc">40 см, сірий, плюш</div>
+        <div class="card-bottom">
+          <div class="card-price">330 <small>грн</small></div>
+          <button class="buy-btn">Купити</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img toy-bg">🐶</div>
+      <div class="card-body">
+        <div class="card-name">Собачка Хаскі 45 см</div>
+        <div class="card-desc">Реалістичний, м'який хутро</div>
+        <div class="card-bottom">
+          <div class="card-price">400 <small>грн</small></div>
+          <button class="buy-btn">Купити</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img toy-bg">🐱</div>
+      <div class="card-body">
+        <div class="card-name">Котик Басік 30 см</div>
+        <div class="card-desc">Сидячий, в шарфику, плюшевий</div>
+        <div class="card-bottom">
+          <div class="card-price">520 <small>грн</small></div>
+          <button class="buy-btn">Купити</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img toy-bg">🦄</div>
+      <div class="card-body">
+        <div class="card-name">Єдиноріг райдужний 50 см</div>
+        <div class="card-desc">Рожевий, з блискучим рогом</div>
+        <div class="card-bottom">
+          <div class="card-price">450 <small>грн</small></div>
+          <button class="buy-btn">Купити</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ======================== СОНЯЧНІ ОКУЛЯРИ ======================== -->
+<section class="section" id="glasses">
+  <div class="section-header">
+    <div class="section-icon sun">🕶️</div>
+    <h2 class="section-title">Сонячні окуляри</h2>
+  </div>
+  <div class="grid">
+
+    <div class="card">
+      <div class="card-img sun-bg">🕶️</div>
+      <div class="card-body">
+        <div class="card-name">Ray-Ban Aviator Classic</div>
+        <div class="card-desc">Метал, зелені лінзи, UV400</div>
+        <div class="card-bottom">
+          <div class="card-price">3 300 <small>грн</small></div>
+          <button class="buy-btn">Купити</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img sun-bg">😎</div>
+      <div class="card-body">
+        <div class="card-name">Polaroid PLD 2098</div>
+        <div class="card-desc">Поляризація, пластик, чорні</div>
+        <div class="card-bottom">
+          <div class="card-price">1 600 <small>грн</small></div>
+          <button class="buy-btn">Купити</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img sun-bg">🕶️</div>
+      <div class="card-body">
+        <div class="card-name">Oakley Holbrook</div>
+        <div class="card-desc">Спортивні, Prizm лінзи, матові</div>
+        <div class="card-bottom">
+          <div class="card-price">4 200 <small>грн</small></div>
+          <button class="buy-btn">Купити</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img sun-bg">😎</div>
+      <div class="card-body">
+        <div class="card-name">Guess GU7725</div>
+        <div class="card-desc">Жіночі, кошаче око, золота оправа</div>
+        <div class="card-bottom">
+          <div class="card-price">2 500 <small>грн</small></div>
+          <button class="buy-btn">Купити</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img sun-bg">🕶️</div>
+      <div class="card-body">
+        <div class="card-name">Calvin Klein CK20541S</div>
+        <div class="card-desc">Унісекс, круглі, коричневі лінзи</div>
+        <div class="card-bottom">
+          <div class="card-price">2 900 <small>грн</small></div>
+          <button class="buy-btn">Купити</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-brand">Shop<span>UA</span></div>
+  <p>📞 (050) 123-45-67 · 📍 Україна · 📧 info@shopua.com.ua</p>
+  <p style="margin-top:8px; font-size:13px; opacity:0.6;">© 2026 ShopUA — Усі права захищено</p>
+</footer>
+
+<script>
+function scrollToSection(id) {
+  document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+</script>
+
+</body>
+</html>
