@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="uk" style="color-scheme: light;">
+<head>
+<meta charset="UTF-8">
+<title>Розрахунок щебеню — об'єм, вага, вартість</title>
+<style>
+  html, body {
+    background: #ffffff;
+    color-scheme: light only;
+  }
+  body {
+    font-family: -apple-system, 'Segoe UI', Arial, sans-serif;
+    color: #23302a;
+    line-height: 1.55;
+    font-size: 15px;
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 28px 24px 60px;
+    background: #ffffff;
+  }
+  h1 {
+    font-size: 24px;
+    color: #1a3c34;
+    border-bottom: 3px solid #4a7c59;
+    padding-bottom: 10px;
+    margin-bottom: 4px;
+  }
+  h2 {
+    font-size: 18px;
+    color: #1a3c34;
+    margin-top: 30px;
+    border-left: 4px solid #4a7c59;
+    padding-left: 10px;
+  }
+  .subtitle {
+    color: #6b7770;
+    font-size: 14px;
+    margin-bottom: 22px;
+  }
+  .params-box {
+    background: #f4f8f5;
+    border: 1px solid #cfe0d2;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 14px 0;
+  }
+  .params-box ul { margin: 4px 0; padding-left: 20px; }
+  .params-box li { margin-bottom: 4px; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0 20px 0;
+    background: #ffffff;
+  }
+  th, td {
+    border: 1px solid #dbe4de;
+    padding: 10px 12px;
+    text-align: left;
+    font-size: 14px;
+  }
+  th {
+    background: #4a7c59;
+    color: #ffffff;
+    font-weight: 600;
+  }
+  tr:nth-child(even) td { background: #f6faf7; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  td.highlight { font-weight: 700; color: #1a3c34; }
+  .result-box {
+    background: #eaf3ec;
+    border: 2px solid #4a7c59;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 18px 0;
+  }
+  .result-grid {
+    display: flex;
+    gap: 14px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+  }
+  .result-card {
+    background: #ffffff;
+    border: 1px solid #cfe0d2;
+    border-radius: 8px;
+    padding: 12px 14px;
+    flex: 1 1 200px;
+  }
+  .result-card .h {
+    font-size: 13px;
+    color: #5c6b62;
+    margin-bottom: 4px;
+  }
+  .result-card .price {
+    font-size: 21px;
+    font-weight: 700;
+    color: #1a3c34;
+  }
+  .result-card .sub {
+    font-size: 12.5px;
+    color: #6b7770;
+    margin-top: 3px;
+  }
+  .note-box {
+    background: #fdf3e7;
+    border: 1px solid #e0b878;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 14px 0;
+    font-size: 14px;
+  }
+  .note-box strong { color: #8a5a1a; }
+  .info-box {
+    background: #eef4fb;
+    border: 1px solid #b9d2ea;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 14px 0;
+    font-size: 14px;
+  }
+  .info-box strong { color: #2a5a86; }
+  ol, ul { padding-left: 22px; }
+  li { margin-bottom: 5px; }
+  footer {
+    margin-top: 30px;
+    font-size: 12px;
+    color: #8b968f;
+    border-top: 1px solid #e5eae6;
+    padding-top: 10px;
+  }
+  @media (max-width: 560px) {
+    .result-grid { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<h1>Розрахунок щебеню на ділянку</h1>
+<div class="subtitle">Порівняння варіантів: товщина шару 3 см і 5 см, фракція 2-5 мм і 5-20 мм</div>
+
+<h2>1. Вихідні дані</h2>
+<div class="params-box">
+  <ul>
+    <li><strong>Площа ділянки:</strong> 22 м × 18 м = 396 м²</li>
+    <li><strong>Мембрана (геотекстиль):</strong> вже укладена на ділянці</li>
+    <li><strong>Ціна щебеню:</strong> 2100 грн за 1 м³ — <u>однакова для обох фракцій</u> (2-5 мм і 5-20 мм)</li>
+    <li><strong>Доставка:</strong> відкрите питання — залежить від вантажопідйомності машини й відстані, рахується окремо після узгодження з перевізником</li>
+  </ul>
+</div>
+
+<h2>2. Порівняльна таблиця — об'єм, вага, вартість</h2>
+<table>
+  <tr>
+    <th>Товщина шару</th>
+    <th>Фракція</th>
+    <th>Об'єм</th>
+    <th>Вага (орієнтовно)</th>
+    <th>Вартість матеріалу</th>
+  </tr>
+  <tr>
+    <td>3 см</td>
+    <td>2-5 мм</td>
+    <td class="num">11,88 м³</td>
+    <td class="num">≈ 17,2 т</td>
+    <td class="num highlight">24 948 грн</td>
+  </tr>
+  <tr>
+    <td>3 см</td>
+    <td>5-20 мм</td>
+    <td class="num">11,88 м³</td>
+    <td class="num">≈ 18,4 т</td>
+    <td class="num highlight">24 948 грн</td>
+  </tr>
+  <tr>
+    <td>5 см</td>
+    <td>2-5 мм</td>
+    <td class="num">19,8 м³</td>
+    <td class="num">≈ 28,7 т</td>
+    <td class="num highlight">41 580 грн</td>
+  </tr>
+  <tr>
+    <td>5 см</td>
+    <td>5-20 мм</td>
+    <td class="num">19,8 м³</td>
+    <td class="num">≈ 30,7 т</td>
+    <td class="num highlight">41 580 грн</td>
+  </tr>
+</table>
+
+<div class="info-box">
+  <strong>Чому вартість однакова для обох фракцій при одній товщині:</strong> ціна прив'язана до об'єму (грн/м³), а об'єм залежить тільки від площі й товщини шару, а не від розміру камінців. Різниця між фракціями — тільки у вазі (бо густина трохи інша), що впливає лише на кількість рейсів машини під час доставки.
+</div>
+
+<div class="result-box">
+  <div>Підсумкова вартість матеріалу (без доставки):</div>
+  <div class="result-grid">
+    <div class="result-card">
+      <div class="h">Шар 3 см</div>
+      <div class="price">24 948 грн</div>
+      <div class="sub">11,88 м³ × 2100 грн/м³</div>
+    </div>
+    <div class="result-card">
+      <div class="h">Шар 5 см</div>
+      <div class="price">41 580 грн</div>
+      <div class="sub">19,8 м³ × 2100 грн/м³</div>
+    </div>
+  </div>
+</div>
+
+<h2>3. Різниця між фракціями 2-5 мм і 5-20 мм</h2>
+<table>
+  <tr>
+    <th>Критерій</th>
+    <th>2-5 мм (дрібний/відсів)</th>
+    <th>5-20 мм (середній)</th>
+  </tr>
+  <tr>
+    <td>Вигляд поверхні</td>
+    <td>Рівна, "доглянута"</td>
+    <td>Виразна кам'яниста текстура</td>
+  </tr>
+  <tr>
+    <td>Комфорт ходьби</td>
+    <td>Комфортніше, як щільна стежка</td>
+    <td>Відчутне каміння під ногами</td>
+  </tr>
+  <tr>
+    <td>Дренаж (пропуск води)</td>
+    <td>Гірший, може замулюватись</td>
+    <td>Кращий, вода проходить вільно</td>
+  </tr>
+  <tr>
+    <td>Стійкість тонкого шару</td>
+    <td>Щільно заповнює простір, менше "гуляє"</td>
+    <td>При малій товщині може перекочуватись</td>
+  </tr>
+  <tr>
+    <td>Пил у сухому вигляді</td>
+    <td>Може пилити</td>
+    <td>Чистіше</td>
+  </tr>
+</table>
+
+<h2>4. 3 см чи 5 см — що важливо врахувати</h2>
+<div class="note-box">
+  <strong>Різниця у вартості між висотами:</strong> 16 632 грн (5 см дорожче за 3 см на цю суму).
+  <br><br>
+  Технологічно шар <strong>5 см надійніший</strong>: краще прикриває мембрану (тканина не просвічує і менше руйнується від УФ-променів), не "розгулюється" при ходьбі й тримає форму довше. Шар <strong>3 см</strong> — це фактично один рівень камінців: він дешевший, але тканина може місцями просвічувати, а сам щебінь легше зсувається при ходьбі чи дощі, особливо якщо немає бордюру по краю ділянки.
+</div>
+
+<h2>5. Технологічна послідовність робіт</h2>
+<ol>
+  <li><strong>Підготовка основи</strong> — прибрати великі камені й коріння, вирівняти ґрунт під мембраною.</li>
+  <li><strong>Геотекстиль</strong> — вже укладено; полотна мають перекривати одне одного на 10-15 см.</li>
+  <li><strong>Облямування ділянки</strong> (бордюр, дошка, стрічка) — щоб щебінь не розповзався за межі, особливо важливо при тонкому шарі 3 см.</li>
+  <li><strong>Засипка та розрівнювання</strong> — рівномірно по всій площі граблями чи правилом.</li>
+  <li><strong>Трамбування</strong> (за потреби) — якщо ділянкою будуть ходити чи їздити.</li>
+</ol>
+
+<h2>6. Підсумок</h2>
+<table>
+  <tr><th>Варіант</th><th>Об'єм</th><th>Вага</th><th>Вартість матеріалу</th></tr>
+  <tr><td>3 см, фракція 2-5 мм</td><td class="num">11,88 м³</td><td class="num">≈17,2 т</td><td class="num highlight">24 948 грн</td></tr>
+  <tr><td>3 см, фракція 5-20 мм</td><td class="num">11,88 м³</td><td class="num">≈18,4 т</td><td class="num highlight">24 948 грн</td></tr>
+  <tr><td>5 см, фракція 2-5 мм</td><td class="num">19,8 м³</td><td class="num">≈28,7 т</td><td class="num highlight">41 580 грн</td></tr>
+  <tr><td>5 см, фракція 5-20 мм</td><td class="num">19,8 м³</td><td class="num">≈30,7 т</td><td class="num highlight">41 580 грн</td></tr>
+</table>
+
+<footer>
+  Розрахунок орієнтовний. Вага дана для планування кількості рейсів машини — точна густина щебеню залежить від конкретної партії та вологості. Вартість доставки не входить у розрахунок і узгоджується окремо з перевізником залежно від вантажопідйомності машини та відстані до ділянки.
+</footer>
+
+</body>
+</html>
