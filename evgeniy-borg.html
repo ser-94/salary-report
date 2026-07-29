@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Звірка взаєморозрахунків — Євген Цемент</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600;700&display=swap');
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    padding: 28px 16px 70px;
+    background: #f2f1ee;
+    font-family: 'Inter', sans-serif;
+    color: #1a1c1e;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  .wrap { max-width: 720px; margin: 0 auto; }
+
+  /* ---------- шапка ---------- */
+  .head {
+    background: #17191c;
+    color: #fff;
+    border-radius: 20px;
+    padding: 26px 24px 24px;
+    margin-bottom: 22px;
+  }
+
+  .badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.18);
+    color: #d9b26a;
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 5px 11px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+  }
+
+  .head h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 27px;
+    line-height: 1.2;
+    margin: 0 0 12px;
+  }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 26px;
+    font-size: 13.5px;
+    color: #a7acb3;
+  }
+
+  .meta b { color: #e8e8e8; font-weight: 600; }
+
+  /* ---------- підсумковий блок ---------- */
+  .final {
+    background: #fff;
+    border: 1px solid #e4e2dd;
+    border-radius: 20px;
+    padding: 24px 24px 22px;
+    margin-bottom: 26px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    text-align: center;
+  }
+
+  .final-label {
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #8a8781;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .final-sum {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 46px;
+    font-weight: 700;
+    line-height: 1;
+    color: #a4562a;
+    letter-spacing: -0.02em;
+  }
+
+  .final-sum span { font-size: 22px; color: #b8b4ad; margin-left: 4px; }
+
+  .final-note {
+    font-size: 14px;
+    color: #55585c;
+    margin-top: 10px;
+    line-height: 1.5;
+  }
+
+  .bar {
+    height: 8px;
+    border-radius: 6px;
+    background: #ece9e3;
+    margin: 20px 0 10px;
+    overflow: hidden;
+    display: flex;
+  }
+
+  .bar i { display: block; height: 100%; background: #6f8f5f; width: 62.5%; }
+
+  .bar-legend {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12.5px;
+    color: #8a8781;
+  }
+
+  .bar-legend b { color: #3f4246; font-weight: 600; }
+
+  /* ---------- секції ---------- */
+  .section { margin-bottom: 24px; }
+
+  .sec-head {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    margin-bottom: 12px;
+  }
+
+  .sec-num {
+    width: 26px; height: 26px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    background: #17191c;
+    color: #d9b26a;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .sec-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 17px;
+  }
+
+  .card {
+    background: #fff;
+    border: 1px solid #e4e2dd;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+  }
+
+  .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    padding: 15px 18px;
+    border-bottom: 1px solid #f0eee9;
+  }
+
+  .row:last-child { border-bottom: none; }
+
+  .row-name { font-size: 14.5px; color: #34373a; line-height: 1.4; }
+  .row-name small { display: block; color: #93908a; font-size: 12.5px; margin-top: 2px; }
+
+  .row-sum {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    white-space: nowrap;
+    color: #17191c;
+  }
+
+  .row.total {
+    background: #faf9f6;
+    border-top: 1px solid #e4e2dd;
+  }
+
+  .row.total .row-name { font-weight: 600; color: #17191c; }
+
+  .plus { color: #4a7a3a; }
+  .minus { color: #a4562a; }
+  .neutral { color: #8a8781; }
+
+  .tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 6px;
+    margin-bottom: 6px;
+  }
+
+  .tag-tg { background: #e8f0fa; color: #35618f; }
+  .tag-pay { background: #eaf2e6; color: #4a7a3a; }
+
+  .note {
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: #6a6d70;
+    margin: 10px 2px 0;
+  }
+
+  /* ---------- фінальний акорд ---------- */
+  .result {
+    background: #17191c;
+    color: #fff;
+    border-radius: 18px;
+    padding: 22px 22px 20px;
+    margin-top: 30px;
+  }
+
+  .result-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: #d9b26a;
+    margin-bottom: 10px;
+  }
+
+  .result-line {
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+    font-size: 14.5px;
+    padding: 7px 0;
+    color: #cfd2d6;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .result-line:last-of-type { border-bottom: none; }
+  .result-line b { font-family: 'Space Grotesk', sans-serif; color: #fff; white-space: nowrap; }
+
+  .result-final {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255,255,255,0.18);
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .result-final b {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 26px;
+    color: #f0c274;
+  }
+
+  .foot {
+    margin-top: 24px;
+    text-align: center;
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: #93908a;
+  }
+
+  @media (max-width: 420px) {
+    .head h1 { font-size: 23px; }
+    .final-sum { font-size: 38px; }
+    .row { padding: 14px 15px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="head">
+    <div class="badge">Звірка взаєморозрахунків</div>
+    <h1>Євген Цемент</h1>
+    <div class="meta">
+      <div>Станом на: <b>16 червня 2026</b> (виправлено)</div>
+      <div>Період: <b>22.07.2025 — 16.06.2026</b></div>
+      <div>Джерела: <b>BOSS + Telegram</b></div>
+    </div>
+  </div>
+
+  <div class="final">
+    <div class="final-label">Залишок боргу на 29.07.2026</div>
+    <div class="final-sum">3 593,00<span>грн</span></div>
+    <div class="final-note">Євген винен компанії. Із 9 593,00 грн уже сплачено 6 000,00 грн.</div>
+    <div class="bar"><i></i></div>
+    <div class="bar-legend">
+      <div>Сплачено <b>6 000,00 грн</b></div>
+      <div>Залишок <b>3 593,00 грн</b></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-head">
+      <div class="sec-num">1</div>
+      <div class="sec-title">Офіційний баланс за даними BOSS</div>
+    </div>
+    <div class="card">
+      <div class="row">
+        <div class="row-name">Борг Євгена Цемента<small>як клієнта</small></div>
+        <div class="row-sum">115 029,00</div>
+      </div>
+      <div class="row">
+        <div class="row-name">Борг перед Євгеном Цементом<small>як постачальником</small></div>
+        <div class="row-sum">115 432,00</div>
+      </div>
+      <div class="row total">
+        <div class="row-name">Чисте сальдо за базою<small>наш борг перед Євгеном</small></div>
+        <div class="row-sum minus">−403,00</div>
+      </div>
+    </div>
+    <div class="note">Євген виступає одночасно і клієнтом, і постачальником для ТОВ «СТОНБРІДЖ», тому суми взаємно перекриваються.</div>
+  </div>
+
+  <div class="section">
+    <div class="sec-head">
+      <div class="sec-num">2</div>
+      <div class="sec-title">Незафіксовані відвантаження</div>
+    </div>
+    <div class="card">
+      <div class="row">
+        <div class="row-name"><span class="tag tag-tg">Telegram · 25.07.2025</span>56 мішків М500</div>
+        <div class="row-sum plus">+7 476,00</div>
+      </div>
+      <div class="row">
+        <div class="row-name"><span class="tag tag-tg">Telegram · 29.09.2025</span>20 мішків М400</div>
+        <div class="row-sum plus">+2 520,00</div>
+      </div>
+      <div class="row total">
+        <div class="row-name">Разом поза базою</div>
+        <div class="row-sum plus">+9 996,00</div>
+      </div>
+    </div>
+    <div class="note">Товар, який Євген брав самостійно за відсутності власника на складі. Підтверджено повідомленнями в Telegram, але у фінансову базу BOSS не потрапило.</div>
+  </div>
+
+  <div class="section">
+    <div class="sec-head">
+      <div class="sec-num">3</div>
+      <div class="sec-title">Оплати після звірки</div>
+    </div>
+    <div class="card">
+      <div class="row">
+        <div class="row-name"><span class="tag tag-pay">Оплата · 23.06.2026</span>Готівка</div>
+        <div class="row-sum minus">−3 000,00</div>
+      </div>
+      <div class="row">
+        <div class="row-name"><span class="tag tag-pay">Оплата · 01.07.2026</span>Готівка</div>
+        <div class="row-sum minus">−3 000,00</div>
+      </div>
+      <div class="row total">
+        <div class="row-name">Разом сплачено</div>
+        <div class="row-sum minus">−6 000,00</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="result">
+    <div class="result-title">Підсумковий розрахунок</div>
+    <div class="result-line"><span>Сальдо за програмою BOSS</span><b>−403,00</b></div>
+    <div class="result-line"><span>Telegram — 25.07.2025</span><b>+7 476,00</b></div>
+    <div class="result-line"><span>Telegram — 29.09.2025</span><b>+2 520,00</b></div>
+    <div class="result-line"><span>Сума до оплати на 16.06.2026</span><b>9 593,00</b></div>
+    <div class="result-line"><span>Оплачено 23.06 і 01.07.2026</span><b>−6 000,00</b></div>
+    <div class="result-final"><span>Разом до оплати</span><b>3 593,00 грн</b></div>
+  </div>
+
+  <div class="foot">
+    Документ підготовлено для внутрішньої звірки та обговорення взаєморозрахунків.<br>
+    Дані актуальні на 29.07.2026.
+  </div>
+
+</div>
+</body>
+</html>
