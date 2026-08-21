@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Чотири прилади для дослідження вебу</title>
+<style>
+  :root{
+    color-scheme: light only;
+    --ink:#14161f;
+    --paper:#ffffff;
+    --muted:#6b7280;
+    --line:#d7dae2;
+    --c1:#7b2ff7;
+    --c2:#0e9f6e;
+    --c3:#ef6c00;
+    --c4:#1257c9;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{background:#eceef3;color:var(--ink);
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;}
+
+  .sheet{
+    width:210mm;min-height:297mm;margin:8mm auto;background:var(--paper);
+    padding:9mm 9mm 7mm;box-shadow:0 2px 18px rgba(20,22,31,.18);
+    display:flex;flex-direction:column;
+  }
+
+  /* ---------- шапка ---------- */
+  header{border-bottom:2.5px solid var(--ink);padding-bottom:3.5mm;margin-bottom:4mm;
+    display:flex;align-items:flex-end;justify-content:space-between;gap:6mm;}
+  h1{font-family:Georgia,"Times New Roman",serif;font-size:23px;line-height:1.05;
+    letter-spacing:-.4px;font-weight:700;}
+  h1 em{font-style:italic;color:var(--c1);}
+  .sub{font-size:9.5px;color:var(--muted);margin-top:2mm;max-width:112mm;line-height:1.45;}
+  .compass{flex:0 0 auto;text-align:right;font-size:7.5px;color:var(--muted);
+    letter-spacing:1.2px;text-transform:uppercase;line-height:1.6;}
+
+  /* ---------- сітка ---------- */
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:4mm;flex:1;}
+
+  .card{border:1.4px solid var(--line);border-radius:2mm;padding:4mm 4mm 3.5mm;
+    position:relative;display:flex;flex-direction:column;background:#fff;}
+  .card::before{content:"";position:absolute;left:-1.4px;top:8mm;width:1.8mm;height:14mm;
+    border-radius:0 1mm 1mm 0;background:var(--accent);}
+
+  .top{display:flex;align-items:center;gap:2.6mm;}
+  .glyph{flex:0 0 auto;width:11mm;height:11mm;border-radius:1.4mm;
+    background:var(--accent);display:flex;align-items:center;justify-content:center;}
+  .glyph svg{width:7.4mm;height:7.4mm;display:block;}
+  .names{min-width:0;}
+  .klass{font-size:7.5px;letter-spacing:1.6px;text-transform:uppercase;
+    color:var(--accent);font-weight:700;}
+  .dom{font-family:Georgia,serif;font-size:15px;font-weight:700;letter-spacing:-.2px;
+    line-height:1.15;margin-top:.6mm;}
+  .num{position:absolute;top:3mm;right:4mm;font-family:Georgia,serif;font-size:20px;
+    color:var(--accent);opacity:.22;font-weight:700;line-height:1;}
+
+  .what{font-size:9.6px;line-height:1.5;margin-top:3mm;padding-bottom:2.6mm;
+    border-bottom:1px dashed var(--line);}
+  .what b{background:linear-gradient(transparent 62%,var(--wash) 62%);padding:0 1px;}
+
+  .steps{margin-top:2.6mm;display:flex;flex-direction:column;gap:1.5mm;}
+  .step{display:flex;gap:2mm;font-size:9.1px;line-height:1.42;}
+  .dot{flex:0 0 auto;width:3.6mm;height:3.6mm;border-radius:50%;background:var(--wash);
+    color:var(--accent);font-size:6.6px;font-weight:700;display:flex;
+    align-items:center;justify-content:center;margin-top:.4mm;}
+  kbd{font-family:Menlo,Consolas,monospace;font-size:8.2px;border:1px solid var(--line);
+    border-bottom-width:2px;border-radius:1mm;padding:.3mm 1.1mm;background:#f7f8fa;}
+
+  .qtitle{margin-top:auto;padding-top:3mm;font-size:7.4px;letter-spacing:1.3px;
+    text-transform:uppercase;color:var(--muted);font-weight:700;}
+  .queries{display:flex;flex-wrap:wrap;gap:1.4mm;margin-top:1.6mm;}
+  .q{font-family:Menlo,Consolas,monospace;font-size:8.4px;padding:.9mm 1.7mm;
+    border-radius:1mm;background:var(--wash);color:var(--ink);cursor:pointer;
+    border:1px solid transparent;transition:border-color .12s;}
+  .q:hover{border-color:var(--accent);}
+  .q.copied{background:var(--accent);color:#fff;}
+
+  .go{margin-top:3mm;display:inline-flex;align-items:center;gap:1.6mm;
+    align-self:flex-start;text-decoration:none;background:var(--accent);color:#fff;
+    font-size:9px;font-weight:700;padding:1.7mm 3mm;border-radius:1.2mm;}
+  .go span{font-size:11px;line-height:1;}
+
+  /* ---------- підвал ---------- */
+  footer{margin-top:4mm;border-top:2.5px solid var(--ink);padding-top:3mm;
+    display:grid;grid-template-columns:1fr 1fr 1fr;gap:4mm;}
+  .warn{font-size:8.6px;line-height:1.45;color:#3c4152;}
+  .warn b{display:block;font-size:7.4px;letter-spacing:1.2px;text-transform:uppercase;
+    color:var(--ink);margin-bottom:1mm;}
+  .warn b::before{content:"▲ ";color:var(--c3);}
+  .sig{grid-column:1/-1;margin-top:2mm;font-size:7.6px;color:var(--muted);
+    display:flex;justify-content:space-between;border-top:1px dashed var(--line);
+    padding-top:2mm;}
+
+  @media print{
+    @page{size:A4;margin:0;}
+    html,body{background:#fff;}
+    .sheet{margin:0;box-shadow:none;width:210mm;height:297mm;}
+    .q{cursor:default;}
+  }
+  @media (max-width:820px){
+    .sheet{width:auto;min-height:0;margin:0;padding:6mm;box-shadow:none;}
+    .grid{grid-template-columns:1fr;}
+    footer{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <header>
+    <div>
+      <h1>Чотири прилади для <em>іншого</em> вебу</h1>
+      <div class="sub">Це не пошуковики-конкуренти Google. Це чотири різні інструменти: словник,
+        антипошуковик, рулетка і склад матеріалів. Кожен відповідає на своє питання.</div>
+    </div>
+    <div class="compass">
+      Шпаргалка<br>для СЕРа<br>від Клавдія
+    </div>
+  </header>
+
+  <div class="grid">
+
+    <!-- 1 -->
+    <div class="card" style="--accent:var(--c1);--wash:#f1e9ff;">
+      <div class="num">01</div>
+      <div class="top">
+        <div class="glyph">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round">
+            <circle cx="5" cy="6" r="1.6" fill="#fff" stroke="none"/>
+            <circle cx="12" cy="4" r="1.1" fill="#fff" stroke="none"/>
+            <circle cx="18" cy="8" r="1.6" fill="#fff" stroke="none"/>
+            <circle cx="8" cy="13" r="1.3" fill="#fff" stroke="none"/>
+            <circle cx="15" cy="15" r="1.8" fill="#fff" stroke="none"/>
+            <circle cx="6" cy="19" r="1.1" fill="#fff" stroke="none"/>
+            <circle cx="19" cy="20" r="1.3" fill="#fff" stroke="none"/>
+            <path d="M5 6 L12 4 M12 4 L18 8 M8 13 L15 15 M6 19 L15 15 M18 8 L19 20"
+                  opacity=".55"/>
+          </svg>
+        </div>
+        <div class="names">
+          <div class="klass">Картограф</div>
+          <div class="dom">everynoise.com</div>
+        </div>
+      </div>
+
+      <div class="what">Карта <b>6000 назв музичних жанрів</b>. Сусідні слова = схоже
+        звучання. Вниз — щільніше й атмосферніше, вправо — електронніше.
+        Дає тобі <b>точне слово</b>, щоб шукати музику деінде.</div>
+
+      <div class="steps">
+        <div class="step"><div class="dot">1</div><div><kbd>Cmd</kbd>+<kbd>F</kbd> по сторінці — так шукають жанр, поля пошуку тут немає</div></div>
+        <div class="step"><div class="dot">2</div><div>Клік на назву — грає приклад звучання</div></div>
+        <div class="step"><div class="dot">3</div><div>Клік на стрілку <kbd>»</kbd> — карта виконавців жанру</div></div>
+        <div class="step"><div class="dot">4</div><div>Знайдену назву несеш у Bandcamp / Free Music Archive</div></div>
+      </div>
+
+      <div class="qtitle">Що шукати всередині сторінки</div>
+      <div class="queries">
+        <span class="q">dark ambient</span><span class="q">drone</span>
+        <span class="q">dungeon synth</span><span class="q">chillsynth</span>
+        <span class="q">space ambient</span><span class="q">phonk</span>
+      </div>
+      <a class="go" href="https://everynoise.com/" target="_blank" rel="noopener">Відкрити <span>→</span></a>
+    </div>
+
+    <!-- 2 -->
+    <div class="card" style="--accent:var(--c2);--wash:#e2f5ed;">
+      <div class="num">02</div>
+      <div class="top">
+        <div class="glyph">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round">
+            <circle cx="10.5" cy="10.5" r="6"/>
+            <path d="M15 15 L20.5 20.5"/>
+            <path d="M7 10.5 h7 M10.5 7 v7" opacity=".55"/>
+          </svg>
+        </div>
+        <div class="names">
+          <div class="klass">Антипошуковик</div>
+          <div class="dom">marginalia-search.com</div>
+        </div>
+      </div>
+
+      <div class="what">Ранжує <b>навпаки Google</b>: що менше реклами, трекерів і JavaScript —
+        то вище. Індексує особисті сайти й хобі-сторінки. Запити <b>англійською</b>.</div>
+
+      <div class="steps">
+        <div class="step"><div class="dot">1</div><div>Обери фільтр: Blogs (блоги) · Academia (академічні) · Vintage (старі) · Forums (форуми)</div></div>
+        <div class="step"><div class="dot">2</div><div>У Advanced Settings (розширені): Remove JS, Reduce Adtech (менше реклами)</div></div>
+        <div class="step"><div class="dot">3</div><div><b>Головне для тебе:</b> вбий у пошук просто домен → отримаєш список <b>схожих сайтів</b>. Так колекція росте сама</div></div>
+      </div>
+
+      <div class="qtitle">Готові запити · клікни, щоб скопіювати</div>
+      <div class="queries">
+        <span class="q">field recording technique</span>
+        <span class="q">obsidian vault structure</span>
+        <span class="q">launchd plist tutorial</span>
+        <span class="q">free ambient loops archive</span>
+      </div>
+      <a class="go" href="https://marginalia-search.com/" target="_blank" rel="noopener">Відкрити <span>→</span></a>
+    </div>
+
+    <!-- 3 -->
+    <div class="card" style="--accent:var(--c3);--wash:#ffeadb;">
+      <div class="num">03</div>
+      <div class="top">
+        <div class="glyph">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round">
+            <rect x="3.2" y="3.2" width="17.6" height="17.6" rx="4"/>
+            <circle cx="8.4" cy="8.4" r="1.5" fill="#fff" stroke="none"/>
+            <circle cx="15.6" cy="15.6" r="1.5" fill="#fff" stroke="none"/>
+            <circle cx="15.6" cy="8.4" r="1.5" fill="#fff" stroke="none"/>
+            <circle cx="8.4" cy="15.6" r="1.5" fill="#fff" stroke="none"/>
+            <circle cx="12" cy="12" r="1.5" fill="#fff" stroke="none"/>
+          </svg>
+        </div>
+        <div class="names">
+          <div class="klass">Рулетка</div>
+          <div class="dom">wiby.me</div>
+        </div>
+      </div>
+
+      <div class="what">Індекс старих легких сторінок, зібраний <b>людьми вручну</b>.
+        Індекс маленький — тому <b>запит має бути 1–2 слова</b>. Довга фраза дасть нуль,
+        і це не поломка.</div>
+
+      <div class="steps">
+        <div class="step"><div class="dot">1</div><div>Кнопка <b>surprise me…</b> — телепорт на випадкову сторінку. Тисни поспіль</div></div>
+        <div class="step"><div class="dot">2</div><div>Постав <kbd>wiby.me/surprise/</kbd> стартовою — кожне вікно нова знахідка</div></div>
+        <div class="step"><div class="dot">3</div><div>Старі технічні сторінки досі точні: фізика не змінилась, а SEO-статті 2025-го переписані роботом</div></div>
+      </div>
+
+      <div class="qtitle">Готові запити · клікни, щоб скопіювати</div>
+      <div class="queries">
+        <span class="q">field recording</span><span class="q">shortwave</span>
+        <span class="q">linux audio</span><span class="q">concrete</span>
+        <span class="q">moth</span><span class="q">solar</span>
+      </div>
+      <a class="go" href="https://wiby.me/" target="_blank" rel="noopener">Відкрити <span>→</span></a>
+    </div>
+
+    <!-- 4 -->
+    <div class="card" style="--accent:var(--c4);--wash:#e3ecfb;">
+      <div class="num">04</div>
+      <div class="top">
+        <div class="glyph">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3.5 5.5 A5 3 0 0 1 12 6.6 A5 3 0 0 1 20.5 5.5 V18 A5 3 0 0 0 12 19.1 A5 3 0 0 0 3.5 18 Z"/>
+            <path d="M12 6.6 V19.1" opacity=".6"/>
+          </svg>
+        </div>
+        <div class="names">
+          <div class="klass">Скарбник</div>
+          <div class="dom">publicdomainreview.org</div>
+        </div>
+      </div>
+
+      <div class="what">Провідник по <b>public domain</b> (суспільному надбанню) — творах,
+        на які скінчилось авторське право. Гравюри, мапи, старе кіно, аудіо:
+        <b>бери у своє відео без ліцензій</b>.</div>
+
+      <div class="steps">
+        <div class="step"><div class="dot">1</div><div>Розділи: Collections (колекції) · Films (фільми) · Audio (аудіо) · Essays (есеї)</div></div>
+        <div class="step"><div class="dot">2</div><div>Під кожним матеріалом — посилання на першоджерело: там качається скан у високій роздільності</div></div>
+        <div class="step"><div class="dot">3</div><div>Дивись підпис Rights (права): твір вільний, але музей іноді має свої умови на конкретний скан</div></div>
+      </div>
+
+      <div class="qtitle">Готові запити · клікни, щоб скопіювати</div>
+      <div class="queries">
+        <span class="q">botanical illustration</span><span class="q">astronomical atlas</span>
+        <span class="q">magic lantern</span><span class="q">sea monsters</span>
+        <span class="q">anatomy</span>
+      </div>
+      <a class="go" href="https://publicdomainreview.org/" target="_blank" rel="noopener">Відкрити <span>→</span></a>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="warn"><b>everynoise заморожений</b>
+      З 4 грудня 2023 сайт не оновлюється: автор втратив доступ до даних Spotify.
+      Карта жанрів працює, нові релізи щоп'ятниці — ні, частина прев'ю може мовчати.</div>
+    <div class="warn"><b>Мова запитів</b>
+      Marginalia і wiby українського контенту майже не мають. Пиши англійською,
+      інакше буде порожньо — і це не поломка сайту.</div>
+    <div class="warn"><b>Довжина запиту</b>
+      Google привчив писати фразами. Тут навпаки: wiby — 1–2 слова,
+      everynoise — взагалі не поле пошуку, а <kbd>Cmd</kbd>+<kbd>F</kbd> по сторінці.</div>
+    <div class="sig">
+      <span>Питання, на яке відповідає кожен: 01 — «як це звучання називається?» · 02 — «хто ще пише про це чесно?» · 03 — «покажи щось зовсім інше» · 04 — «звідки взяти картинку легально?»</span>
+      <span>ексклюзивчики · аркуш 1/1</span>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  function copy(text){
+    if(navigator.clipboard && window.isSecureContext){
+      return navigator.clipboard.writeText(text).catch(fallback.bind(null,text));
+    }
+    return fallback(text);
+  }
+  function fallback(text){
+    var ta=document.createElement('textarea');
+    ta.value=text; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select();
+    try{document.execCommand('copy');}catch(e){}
+    document.body.removeChild(ta);
+  }
+  document.querySelectorAll('.q').forEach(function(el){
+    el.addEventListener('click',function(){
+      copy(el.textContent.trim());
+      var old=el.textContent;
+      el.classList.add('copied'); el.textContent='скопійовано';
+      setTimeout(function(){el.classList.remove('copied'); el.textContent=old;},900);
+    });
+  });
+})();
+</script>
+</body>
+</html>
