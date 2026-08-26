@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Шпаргалка: Налаштування Baofeng</title>
+    <style>
+        :root {
+            --bg-color: #1e1e1e;
+            --text-color: #e0e0e0;
+            --accent-color: #ff9800;
+            --danger-color: #f44336;
+            --card-bg: #2d2d2d;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1, h2 {
+            color: var(--accent-color);
+            border-bottom: 1px solid #444;
+            padding-bottom: 10px;
+        }
+        h1 {
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            border-left: 5px solid var(--accent-color);
+        }
+        .danger-card {
+            border-left-color: var(--danger-color);
+        }
+        .danger-card h2 {
+            color: var(--danger-color);
+            border-bottom-color: var(--danger-color);
+        }
+        .key {
+            display: inline-block;
+            background-color: #444;
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-weight: bold;
+            margin: 0 4px;
+            box-shadow: inset 0 -2px 0 rgba(0,0,0,0.5);
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        .frequency {
+            font-size: 1.2em;
+            color: #4caf50;
+            font-weight: bold;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Шпаргалка Baofeng</h1>
+        
+        <div class="card">
+            <h2>1. Базові поняття</h2>
+            <ul>
+                <li><strong>VHF (136-174 МГц):</strong> Для відкритої місцевості, лісу, покатушок у болоті.</li>
+                <li><strong>UHF (400-520 МГц):</strong> Для міста, будівель, закритих приміщень.</li>
+                <li><strong>A / B:</strong> Два рядки на екрані. Рація передає сигнал ТІЛЬКИ з того рядка, біля якого стоїть маленький трикутник ▶.</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>2. Покрокове налаштування зв'язку</h2>
+            <ul>
+                <li><strong>Крок 1:</strong> Натисни оранжеву кнопку <span class="key">VFO/MR</span>, щоб перейти в режим частоти. (Справа на екрані НЕ МАЄ бути дрібних цифр номеру каналу).</li>
+                <li><strong>Крок 2:</strong> Натисни синю/чорну кнопку <span class="key">A/B</span>, щоб перемістити трикутник ▶ на верхній рядок.</li>
+                <li><strong>Крок 3:</strong> Набери на клавіатурі цивільну частоту. Наприклад: <span class="key">4</span> <span class="key">4</span> <span class="key">6</span> <span class="key">0</span> <span class="key">0</span> <span class="key">6</span>. На екрані з'явиться <span class="frequency">446.006</span>.</li>
+                <li><strong>Крок 4:</strong> Зроби ТЕ САМЕ на другій рації.</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>3. Як говорити в ефір</h2>
+            <ul>
+                <li>Натисни і ТРИМАЙ велику бокову кнопку <span class="key">PTT</span>.</li>
+                <li>Почекай 0.5 секунди (щоб не "з'їсти" перше слово).</li>
+                <li>Скажи повідомлення (наприклад: "Йобані вовки з'їли кабель").</li>
+                <li>Відпусти <span class="key">PTT</span>. Тільки після цього ти почуєш відповідь.</li>
+            </ul>
+        </div>
+
+        <div class="card danger-card">
+            <h2>⚠️ КРИТИЧНЕ ПОПЕРЕДЖЕННЯ</h2>
+            <p>Ніколи не передавай нічого в діапазонах <strong>136-148 МГц</strong> та <strong>148-174 МГц</strong>. Це частоти військових, поліції та екстрених служб. Засмічення цих частот призведе до серйозних проблем, і твій Гараж-бенд швидко накриють.</p>
+        </div>
+    </div>
+</body>
+</html>
