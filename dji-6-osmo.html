@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DJI PRO Шпаргалка</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fdfbf7; /* Дуже світлий, теплий фон сторінки */
+            color: #1c1917; 
+        }
+        .camera-screen-zone:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(2px);
+        }
+        .highlight-marker {
+            box-shadow: inset 0 -0.5em 0 rgba(253, 224, 71, 0.7); /* Ефект жовтого текстового маркера */
+        }
+        /* Згладжений скрол для переходів від екрану */
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 2rem;
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen p-4 md:p-8">
+
+    <header class="max-w-6xl mx-auto mb-10 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div>
+            <h1 class="text-3xl md:text-5xl font-extrabold uppercase tracking-tight text-stone-900">
+                DJI <span class="bg-yellow-400 px-2 py-1 rounded-md text-black ml-1 shadow-sm">PRO</span> Шпаргалка
+            </h1>
+            <p class="text-stone-600 mt-2 font-medium">Швидкий гід по налаштуваннях: що куди тикати і нахуя воно треба.</p>
+        </div>
+        <div class="flex gap-2">
+            <button onclick="filterContent('all')" class="px-4 py-2 bg-stone-800 text-white rounded-full text-sm font-bold shadow-md hover:bg-stone-700 transition">Всі</button>
+            <button onclick="filterContent('pro')" class="px-4 py-2 bg-yellow-100 text-yellow-800 border border-yellow-300 rounded-full text-sm font-bold shadow-sm hover:bg-yellow-200 transition">PRO</button>
+            <button onclick="filterContent('stab')" class="px-4 py-2 bg-emerald-100 text-emerald-800 border border-emerald-300 rounded-full text-sm font-bold shadow-sm hover:bg-emerald-200 transition">Стабілізація</button>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto space-y-16">
+        
+        <section>
+            <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+                <span class="bg-yellow-200 px-3 py-1 rounded-lg">📱 Навігація по екрану</span> (Клікай на зони!)
+            </h2>
+            
+            <!-- Екран камери -->
+            <div class="relative w-full max-w-3xl mx-auto aspect-video bg-slate-900 border-[12px] border-black rounded-[2rem] flex items-center justify-center overflow-hidden shadow-2xl">
+                <!-- Батарея -->
+                <div class="absolute top-4 right-6 bg-slate-800/80 px-3 py-1 rounded-full text-xs font-bold text-white z-20">100% 🔋</div>
+                
+                <!-- Зона: Свайп ЗВЕРХУ (Глобальні) -->
+                <div class="camera-screen-zone absolute top-0 w-full h-[25%] flex justify-center items-start pt-3 transition duration-300 cursor-pointer z-10">
+                    <div class="text-center">
+                        <i class="fa-solid fa-chevron-down text-slate-300 mb-1"></i>
+                        <p class="text-[10px] md:text-xs uppercase text-slate-200 font-bold bg-black/40 px-2 py-1 rounded-full">Глобальні налаштування</p>
+                    </div>
+                </div>
+                
+                <!-- Зона: Свайп ЗНИЗУ (Якість) -->
+                <div class="camera-screen-zone absolute bottom-0 w-full h-[25%] flex justify-center items-end pb-3 transition duration-300 cursor-pointer z-10" onclick="document.getElementById('res-fps').scrollIntoView()">
+                    <div class="text-center">
+                        <p class="text-[10px] md:text-xs uppercase text-orange-200 font-bold bg-black/40 px-2 py-1 rounded-full border border-orange-500/30">Свайп знизу: Якість / Режими</p>
+                        <i class="fa-solid fa-chevron-up text-orange-300 mt-1"></i>
+                    </div>
+                </div>
+                
+                <!-- Зона: Свайп ЗЛІВА НАПРАВО (PRO) -->
+                <div class="camera-screen-zone absolute left-0 h-full w-[30%] flex items-center justify-start pl-3 transition duration-300 cursor-pointer z-10" onclick="document.getElementById('pro-menu').scrollIntoView()">
+                    <div class="text-left flex flex-col items-center bg-black/40 py-4 px-2 rounded-2xl border-l-2 border-yellow-400">
+                        <span class="text-yellow-400 font-black text-sm mb-1 bg-yellow-400/20 px-2 rounded">PRO</span>
+                        <i class="fa-solid fa-chevron-right text-yellow-200 my-2"></i>
+                        <p class="text-[10px] md:text-xs uppercase text-yellow-100 font-bold writing-vertical-lr" style="writing-mode: vertical-lr; transform: rotate(180deg);">Експозиція, Колір, Діафрагма</p>
+                    </div>
+                </div>
+                
+                <!-- Зона: Свайп СПРАВА НАЛІВО (Стаб) -->
+                <div class="camera-screen-zone absolute right-0 h-full w-[30%] flex items-center justify-end pr-3 transition duration-300 cursor-pointer z-10" onclick="document.getElementById('stab-menu').scrollIntoView()">
+                    <div class="text-right flex flex-col items-center bg-black/40 py-4 px-2 rounded-2xl border-r-2 border-emerald-400">
+                        <i class="fa-solid fa-camera-rotate text-emerald-400 mb-1 text-sm bg-emerald-400/20 p-1.5 rounded-full"></i>
+                        <i class="fa-solid fa-chevron-left text-emerald-200 my-2"></i>
+                        <p class="text-[10px] md:text-xs uppercase text-emerald-100 font-bold" style="writing-mode: vertical-lr;">Стабілізація, Кут огляду</p>
+                    </div>
+                </div>
+
+                <!-- Центр екрану (приціл) -->
+                <div class="text-center z-0 relative">
+                    <div class="w-16 h-16 border-2 border-slate-600/50 rounded-lg flex items-center justify-center">
+                        <i class="fa-solid fa-plus text-slate-600/50"></i>
+                    </div>
+                </div>
+                
+                <!-- Зум -->
+                <div class="absolute bottom-6 right-6 bg-slate-800/80 w-10 h-10 flex items-center justify-center rounded-full border border-slate-600 text-white z-20 shadow-lg">
+                    <p class="text-xs font-bold">2x</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="pro-menu" class="filter-target pro bg-yellow-50/50 p-6 rounded-[2rem] border border-yellow-100">
+            <h2 class="text-2xl font-bold mb-6 flex items-center gap-3">
+                <span class="bg-yellow-300 px-3 py-1.5 rounded-xl shadow-sm text-black">PRO Ліве меню</span>
+                <span class="text-stone-500 text-base font-normal">Експозиція, Колір, Діафрагма</span>
+            </h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                
+                <!-- Exposure: Блакитний блок як на скріні -->
+                <div class="bg-blue-100 border-2 border-blue-200 rounded-2xl p-5 shadow-sm">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="bg-blue-500 text-white w-8 h-8 rounded-full flex items-center justify-center shadow-sm">
+                            <i class="fa-solid fa-sun"></i>
+                        </div>
+                        <h3 class="font-bold text-xl text-blue-950">Exposure (Експозиція)</h3>
+                    </div>
+                    
+                    <div class="space-y-3">
+                        <div class="bg-white/70 p-3 rounded-xl border border-blue-200/50">
+                            <strong class="text-blue-900 block mb-1">✅ Auto</strong>
+                            <p class="text-sm text-blue-800">Камера сама думає. Ідеально для 90% випадків. Нічого не трогай.</p>
+                        </div>
+                        
+                        <div class="bg-blue-200/50 p-3 rounded-xl border border-blue-300 border-dashed">
+                            <strong class="text-blue-950 block mb-1">⚠️ M (Manual)</strong>
+                            <p class="text-sm text-blue-900">
+                                Ручний режим (ISO, Shutter). Використовуй тільки якщо знаєш правило витримки 
+                                <span class="bg-blue-300 px-1 rounded font-mono text-xs">(shutter = 2x fps)</span> 
+                                і маєш ND фільтри.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Color & Quality: Зелений і Червоний блоки -->
+                <div class="bg-orange-50 border-2 border-orange-200 rounded-2xl p-5 shadow-sm">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="bg-orange-500 text-white w-8 h-8 rounded-full flex items-center justify-center shadow-sm">
+                            <i class="fa-solid fa-palette"></i>
+                        </div>
+                        <h3 class="font-bold text-xl text-orange-950">Колір (Color)</h3>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <!-- Звичайний колір -->
+                        <div class="bg-green-100 p-3 rounded-xl border border-green-300 text-green-900 shadow-sm">
+                            <strong class="block mb-1 flex items-center gap-2">
+                                <i class="fa-solid fa-leaf"></i> Normal (10-bit)
+                            </strong>
+                            <p class="text-sm">Соковиті, красиві кольори відразу. Зняв — закинув в Інсту.</p>
+                            
+                            <div class="mt-2 pt-2 border-t border-green-200 text-xs">
+                                <b>Quality Priority: <span class="bg-green-300 px-1 rounded text-green-950">ON</span></b><br>
+                                Алгоритми роблять картинку ще детальнішою.
+                            </div>
+                        </div>
+
+                        <!-- D-Log M: Червоний тривожний блок зі скріна -->
+                        <div class="bg-red-100 p-3 rounded-xl border-2 border-red-300 text-red-950 shadow-sm relative overflow-hidden">
+                            <div class="absolute -right-2 -top-2 text-red-200 opacity-30 text-5xl"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                            <strong class="block mb-1 relative z-10 flex items-center gap-2">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i> D-Log M (10-bit)
+                            </strong>
+                            <p class="text-sm relative z-10 mb-2">
+                                Сіре, блякле відео. <b class="bg-red-500 text-white px-1.5 py-0.5 rounded text-xs">ОБОВ'ЯЗКОВО</b> треба фарбувати на комп'ютері (накидати LUT).
+                            </p>
+                            <div class="bg-red-50 p-2 rounded text-xs border border-red-200 text-red-800 relative z-10">
+                                <b>Чому зникає Quality Priority?</b><br>
+                                У цьому режимі він автоматично вимикається, бо камера віддає "сирий" колір без штучного покращення.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Variable Aperture: Світло-синій/Бурштиновий -->
+                <div class="bg-cyan-50 border-2 border-cyan-200 rounded-2xl p-5 shadow-sm">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="bg-cyan-600 text-white w-8 h-8 rounded-full flex items-center justify-center shadow-sm">
+                            <i class="fa-solid fa-aperture"></i>
+                        </div>
+                        <h3 class="font-bold text-xl text-cyan-950">Діафрагма (Aperture)</h3>
+                    </div>
+                    
+                    <div class="bg-cyan-100 p-3 rounded-xl text-cyan-900 text-sm font-medium mb-4 shadow-inner border border-cyan-200">
+                        Це фізичне "око" об'єктива. Регулює, скільки світла потрапляє на матрицю.
+                    </div>
+                    
+                    <div class="space-y-2">
+                        <div class="flex gap-3 bg-white p-3 rounded-xl border border-cyan-200">
+                            <strong class="text-cyan-900 w-16 shrink-0 mt-0.5">Авто</strong> 
+                            <div class="text-sm text-stone-700">
+                                <span class="bg-cyan-100 text-cyan-800 font-bold px-1 rounded">F2.0 - F4.0</span><br>
+                                Камера сама прикриває око на яскравому сонці. Нехай стоїть для влогів.
+                            </div>
+                        </div>
+                        
+                        <div class="flex gap-3 bg-white p-3 rounded-xl border border-cyan-200">
+                            <strong class="text-cyan-900 w-16 shrink-0 mt-0.5">Fixed</strong> 
+                            <div class="text-sm text-stone-700">
+                                <span class="bg-stone-200 text-stone-800 font-bold px-1 rounded">F2.8</span><br>
+                                Золота середина. Картинка різка, фон трошки розмитий.
+                            </div>
+                        </div>
+                        
+                        <div class="flex gap-3 bg-amber-100 p-3 rounded-xl border-2 border-amber-300 shadow-sm">
+                            <strong class="text-amber-900 w-16 shrink-0 mt-0.5 leading-tight">Star<br>burst</strong> 
+                            <div class="text-sm text-amber-950">
+                                <span class="bg-amber-300 text-amber-900 font-bold px-1 rounded">F4.0</span><br>
+                                Максимально звужує отвір. <b>Ефект:</b> ліхтарі та вогники стають як зірочки. Ідеально для вечірньої зйомки міста!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="stab-menu" class="filter-target stab bg-emerald-50/50 p-6 rounded-[2rem] border border-emerald-100">
+            <h2 class="text-2xl font-bold mb-6 flex items-center gap-3">
+                <span class="bg-emerald-300 px-3 py-1.5 rounded-xl shadow-sm text-emerald-950">Праве меню</span>
+                <span class="text-stone-500 text-base font-normal">Стабілізація та Кут (FOV)</span>
+            </h2>
+            
+            <div class="bg-emerald-100 text-emerald-900 p-4 rounded-xl border border-emerald-200 mb-6 font-medium shadow-sm flex gap-3">
+                <i class="fa-solid fa-circle-info mt-1 text-emerald-600 text-xl"></i>
+                <p><b>Головне правило:</b> Чим сильніша стабілізація, тим менше камера "бачить" по краях (вона сильно наближає / кропає кадр, щоб мати запас пікселів для вирівнювання тряски).</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                <!-- RockSteady Blocks -->
+                <div class="space-y-4">
+                    <div class="bg-emerald-100 border-2 border-emerald-400 rounded-2xl p-5 shadow-sm relative overflow-hidden">
+                        <div class="absolute right-0 top-0 w-2 h-full bg-emerald-400"></div>
+                        <h3 class="font-bold text-xl text-emerald-950 mb-2">RockSteady</h3>
+                        <p class="text-sm text-emerald-800 mb-3">Плавна стабілізація. Ідеальна для бігу, влогів. Мало обрізає кадр.</p>
+                        
+                        <div class="bg-white/60 p-3 rounded-lg text-sm">
+                            <span class="text-stone-500 block text-xs mb-1">Доступні кути (FOV) справа:</span>
+                            <span class="bg-yellow-200 px-2 py-0.5 rounded font-bold text-stone-900">Standard</span>
+                            <span class="bg-yellow-300 px-2 py-0.5 rounded font-bold text-stone-900 ml-1">Wide</span>
+                            <span class="bg-yellow-200 px-2 py-0.5 rounded font-bold text-stone-900 ml-1">Ultra Wide</span>
+                            <p class="mt-2 text-emerald-900 text-xs"><b>Wide</b> — найкращий вибір! Захоплює багато фону, але не кривить обличчя.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-teal-100 border-2 border-teal-400 rounded-2xl p-5 shadow-sm relative overflow-hidden">
+                        <div class="absolute right-0 top-0 w-2 h-full bg-teal-400"></div>
+                        <h3 class="font-bold text-xl text-teal-950 mb-2">RockSteady+</h3>
+                        <p class="text-sm text-teal-800 mb-3">Як на рельсах. Дуже жорстка стабілізація, але сильніше наближає картинку (кроп).</p>
+                        
+                        <div class="bg-white/60 p-3 rounded-lg text-sm">
+                            <span class="text-stone-500 block text-xs mb-1">Доступні кути (FOV) справа:</span>
+                            <span class="bg-yellow-200 px-2 py-0.5 rounded font-bold text-stone-900">Standard</span>
+                            <span class="bg-yellow-200 px-2 py-0.5 rounded font-bold text-stone-900 ml-1">Wide</span>
+                            <span class="bg-yellow-200 px-2 py-0.5 rounded font-bold text-stone-900 ml-1">Ultra Wide</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Horizon Blocks -->
+                <div class="space-y-4">
+                    <div class="bg-purple-100 border-2 border-purple-400 rounded-2xl p-5 shadow-sm relative overflow-hidden h-full">
+                        <div class="absolute right-0 top-0 w-2 h-full bg-purple-400"></div>
+                        <h3 class="font-bold text-xl text-purple-950 mb-2 flex items-center gap-2">
+                            Horizon Steady / Balancing
+                        </h3>
+                        <p class="text-sm text-purple-900 mb-4">
+                            <b>Фіксація горизонту.</b> Як не крути камеру хоч догори дном — відео залишається ідеально рівним.
+                        </p>
+                        
+                        <div class="bg-red-100 border border-red-300 p-4 rounded-xl text-sm shadow-inner">
+                            <span class="text-red-800 block text-xs mb-2 font-bold uppercase"><i class="fa-solid fa-lock"></i> Увага, обмеження!</span>
+                            <p class="text-red-950 mb-3">Тут зникають широкі кути! Доступно тільки:</p>
+                            <div class="flex gap-2">
+                                <span class="bg-white text-red-900 border border-red-200 px-2 py-1 rounded font-bold">Standard</span>
+                                <span class="bg-white text-red-900 border border-red-200 px-2 py-1 rounded font-bold">De-Warp</span>
+                            </div>
+                            <p class="mt-3 text-red-900 text-xs border-t border-red-200 pt-2">
+                                Щоб крутити кадр і тримати горизонт рівним, камері потрібен величезний запас місця по краях матриці, тому вона автоматично наближає картинку. <b>Тут неможливо включити Wide.</b>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="res-fps" class="filter-target all bg-orange-50/50 p-6 rounded-[2rem] border border-orange-100">
+            <h2 class="text-2xl font-bold mb-6 flex items-center gap-3">
+                <span class="bg-orange-300 px-3 py-1.5 rounded-xl shadow-sm text-orange-950">Свайп знизу</span>
+                <span class="text-stone-500 text-base font-normal">Режими зйомки</span>
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <!-- Loop Recording (Video dashcam) -->
+                <div class="bg-rose-100 border-2 border-rose-300 rounded-2xl p-5 shadow-sm">
+                    <h3 class="font-bold text-xl text-rose-950 mb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-rotate"></i> Loop Recording
+                    </h3>
+                    <p class="text-sm font-bold text-rose-800 mb-2 uppercase tracking-wide text-xs">Це режим відеореєстратора!</p>
+                    <p class="text-sm text-rose-900 mb-3">
+                        Наприклад, ти вибрав "5 хвилин". Камера пише відео постійно, але на флешці залишає ТІЛЬКИ останні 5 хвилин. 
+                    </p>
+                    <div class="bg-rose-50 p-3 rounded-xl border border-rose-200 text-xs text-rose-950 shadow-inner">
+                        <b class="block mb-1">Нахуя це треба?</b>
+                        Рибалка, очікування трюку на скейті. Щоб не забити флешку годиною пустого матеріалу — включаєш Loop. Момент стався — зупинив запис. Маєш ідеальні останні хвилини без сміття.
+                    </div>
+                </div>
+
+                <!-- ProRes -->
+                <div class="bg-stone-200 border-2 border-stone-400 rounded-2xl p-5 shadow-sm">
+                    <h3 class="font-bold text-xl text-stone-900 mb-2">Video ProRes</h3>
+                    <p class="text-sm text-stone-700 mb-3">Студійний формат кіношного відео без стиснення.</p>
+                    <ul class="text-sm text-stone-800 space-y-2 mb-3">
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-green-600 mt-1"></i> <span>Найвища якість для кольорокорекції.</span>
+                        </li>
+                        <li class="flex items-start gap-2 bg-red-100 p-2 rounded border border-red-200 text-red-900">
+                            <i class="fa-solid fa-triangle-exclamation mt-1"></i> <span>Важить просто космічно. Флешка закінчиться за хвилини.</span>
+                        </li>
+                    </ul>
+                    <div class="text-xs bg-stone-50 border border-stone-300 p-2 rounded text-stone-600 text-center font-medium">
+                        Для звичайних влогів став стандартний режим <b>Video</b>.
+                    </div>
+                </div>
+
+                <!-- Portrait Mode -->
+                <div class="bg-indigo-100 border-2 border-indigo-300 rounded-2xl p-5 shadow-sm flex flex-col justify-center items-center text-center">
+                    <div class="bg-indigo-500 text-white w-12 h-12 rounded-2xl flex items-center justify-center shadow-md mb-4 rotate-12">
+                        <i class="fa-solid fa-mobile-screen text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-xl text-indigo-950 mb-2">Портретний режим</h3>
+                    <p class="text-sm text-indigo-900">
+                        Там де вибір роздільної здатності (4K, 60), є кнопка зміни орієнтації (Portrait / Landscape). 
+                    </p>
+                    <p class="text-xs bg-white/60 px-3 py-2 rounded-lg mt-3 text-indigo-800 border border-indigo-200">
+                        Ідеально для запису вертикального відео в TikTok / Reels без втрати якості на кропі.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // Скрипт для фільтрації блоків по верхніх кнопках
+        function filterContent(category) {
+            const allTargets = document.querySelectorAll('.filter-target');
+            
+            // Стилізація кнопок
+            const buttons = document.querySelectorAll('header button');
+            buttons.forEach(btn => {
+                btn.className = btn.className.replace('bg-stone-800 text-white shadow-md', 'bg-stone-100 text-stone-600 border border-stone-200 shadow-sm hover:bg-stone-200');
+                if(btn.innerText.trim() === 'PRO') {
+                    btn.className = "px-4 py-2 bg-white text-yellow-800 border border-yellow-200 rounded-full text-sm font-bold shadow-sm hover:bg-yellow-50 transition";
+                }
+                if(btn.innerText.trim() === 'Стабілізація') {
+                    btn.className = "px-4 py-2 bg-white text-emerald-800 border border-emerald-200 rounded-full text-sm font-bold shadow-sm hover:bg-emerald-50 transition";
+                }
+            });
+
+            // Активна кнопка
+            const activeBtn = event.target;
+            if(category === 'all') {
+                activeBtn.className = "px-4 py-2 bg-stone-800 text-white rounded-full text-sm font-bold shadow-md transition";
+            } else if(category === 'pro') {
+                activeBtn.className = "px-4 py-2 bg-yellow-200 text-yellow-900 border border-yellow-400 rounded-full text-sm font-bold shadow-md transition";
+            } else if(category === 'stab') {
+                activeBtn.className = "px-4 py-2 bg-emerald-200 text-emerald-900 border border-emerald-400 rounded-full text-sm font-bold shadow-md transition";
+            }
+
+            // Показуємо/ховаємо секції
+            allTargets.forEach(el => {
+                el.style.transition = "opacity 0.4s ease";
+                if (category === 'all') {
+                    el.style.opacity = '1';
+                    setTimeout(() => el.style.display = 'block', 400);
+                } else {
+                    if (el.classList.contains(category)) {
+                        el.style.display = 'block';
+                        setTimeout(() => el.style.opacity = '1', 10);
+                    } else {
+                        el.style.opacity = '0';
+                        setTimeout(() => el.style.display = 'none', 400);
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
